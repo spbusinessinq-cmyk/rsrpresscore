@@ -395,11 +395,76 @@
   pointer-events: none;
 }
 
+/* ─── Section Divider Architecture ──────────────────────── */
+.section-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(60, 110, 75, 0.14) 30%, rgba(60, 160, 90, 0.2) 50%, rgba(60, 110, 75, 0.14) 70%, transparent 100%);
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, rgba(60, 160, 90, 0.15), transparent);
+  filter: blur(3px);
+}
+
+/* ─── Section Entry Labels ───────────────────────────────── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--app-font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: hsl(var(--primary) / 0.45);
+  line-height: 1;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: hsl(var(--primary) / 0.35);
+  flex-shrink: 0;
+}
+
+/* ─── Tab System Upgrade ─────────────────────────────────── */
+.tab-bar {
+  background: rgba(6, 9, 7, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(60, 110, 75, 0.14);
+  border-bottom: 1px solid rgba(60, 110, 75, 0.1);
+}
+
+/* ─── Intake Panel ───────────────────────────────────────── */
+.intake-panel-header {
+  padding: 0.875rem 1.25rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(60, 110, 75, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 /* ─── Transitions ────────────────────────────────────────── */
 * {
   transition-property: background-color, border-color, color, opacity, box-shadow;
   transition-duration: 150ms;
   transition-timing-function: ease;
+}
+
+/* Prevent transition interference with animations */
+[style*="animation"] * {
+  transition: none !important;
 }
 
 /* ─── Elevation Utilities ───────────────────────────────── */

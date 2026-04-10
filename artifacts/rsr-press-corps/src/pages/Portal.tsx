@@ -88,14 +88,21 @@ export default function Portal() {
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
-        <Tabs defaultValue="bulletins" className="space-y-8">
-          <TabsList className="glass-panel font-mono rounded-none w-full justify-start h-auto flex-wrap p-1 gap-0.5">
-            <TabsTrigger value="bulletins" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Bulletins</TabsTrigger>
-            <TabsTrigger value="assignments" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Assignments</TabsTrigger>
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Schedule</TabsTrigger>
-            <TabsTrigger value="report" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">File Report</TabsTrigger>
-            <TabsTrigger value="comms" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Comms</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="bulletins" className="space-y-6">
+          <div className="glass-panel overflow-hidden">
+            <div className="panel-chrome border-b border-white/[0.05]">
+              <span className="status-dot-active" />
+              <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">RSR Press Corps // Correspondent Access</span>
+              <span className="ml-auto font-mono text-[9px] text-muted-foreground/20 uppercase tracking-widest">{user?.name}</span>
+            </div>
+            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-2 justify-start gap-1 w-full">
+              <TabsTrigger value="bulletins" className="data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent data-[state=active]:border-primary/20">Bulletins</TabsTrigger>
+              <TabsTrigger value="assignments" className="data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent data-[state=active]:border-primary/20">Field Ops</TabsTrigger>
+              <TabsTrigger value="schedule" className="data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent data-[state=active]:border-primary/20">Schedule</TabsTrigger>
+              <TabsTrigger value="report" className="data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent data-[state=active]:border-primary/20">File Report</TabsTrigger>
+              <TabsTrigger value="comms" className="data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent data-[state=active]:border-primary/20">Comms</TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="bulletins">
             <BulletinBoard />

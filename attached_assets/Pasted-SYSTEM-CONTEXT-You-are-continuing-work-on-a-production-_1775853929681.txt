@@ -1,0 +1,392 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+The current build is now much closer.
+The globe / signal / command atmosphere is finally working.
+
+But we are now entering the FINAL STRETCH.
+
+This is no longer a basic visual pass.
+This is now a:
+
+FINAL POLISH
+FINAL HARDENING
+FINAL DESIGN FINISH
+FINAL PRODUCTION READINESS
+
+pass.
+
+The system must now go from “strong prototype” to:
+
+A REAL, HIGH-END, LIVE INDEPENDENT PRESS INSTITUTION
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Take the current working RSR Press Corps system and push it into its final premium tier.
+
+I need this pass to focus on 5 things:
+
+1. VISUAL PERFECTION
+2. MOTION POLISH
+3. UX CLEANUP
+4. PRODUCTION HARDENING
+5. LAUNCH READINESS
+
+Do NOT backslide.
+Do NOT simplify.
+Do NOT remove the good new graphics.
+Do NOT introduce fake data.
+Do NOT respond with abstract design notes only.
+
+Actually refine the system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — TURN THE HERO INTO A TRUE SHOWPIECE
+━━━━━━━━━━━━━━━━━━━
+
+The hero is close, but now it needs its final cinematic finish.
+
+Upgrade it further:
+
+1. Make the globe / wireframe network look more expensive
+- better line weighting hierarchy
+- more elegant opacity control
+- clearer foreground/background layering
+- smoother arc composition
+- cleaner node placement
+- more refined pulse timing
+- improve subtle motion so it feels premium, not just “animated”
+
+2. Improve relationship between hero copy and hero graphic
+- the left copy block and right globe should feel intentionally composed as one unit
+- not like text on left + decorative thing on right
+
+3. Add subtle environmental lighting balance
+- faint bloom behind headline
+- slight dark framing around globe zone
+- controlled contrast between left and right halves
+
+4. Tighten hero panel details
+- CTA strip
+- metadata strip
+- status pill
+- correspondent login box
+All of these should feel like one intentional command interface.
+
+Goal:
+The hero should feel like the front door to a serious live system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — UPGRADE THE GLOBE + SIGNAL GRAPHICS TO “PREMIUM”
+━━━━━━━━━━━━━━━━━━━
+
+The new graphics are good, but now refine them hard.
+
+Required:
+
+1. Improve SVG cleanliness
+- line crispness
+- reduce clutter
+- better grouping of meridians / latitudes / arcs
+- cleaner node glow behavior
+- more intentional depth cues
+
+2. Add subtle dimensional illusion
+Without going full 3D, make the globe feel more volumetric through:
+- layered ring opacity
+- faint front/back line separation
+- slightly different brightness for foreground arcs vs background arcs
+- soft internal glow core
+
+3. Improve animation quality
+- smoother easing
+- longer, subtler loop timing
+- no twitchy motion
+- make pulse events sparse and intentional
+- everything should feel calm and expensive
+
+4. Build one or two alternate technical support graphics and place them strategically
+Examples:
+- a side signal lattice
+- a credential chip pattern
+- a tactical route mesh
+- a transmission diagram
+These should be reused where they strengthen sections.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — REMOVE ANY REMAINING “ROUGH EDGE” FEEL
+━━━━━━━━━━━━━━━━━━━
+
+Audit the whole public site and clean anything that still feels unfinished.
+
+Look for:
+- awkward spacing
+- overly dim text
+- inconsistent margins
+- weak alignment
+- sudden empty gaps
+- mismatched glass intensity
+- rough modal sizing
+- buttons with inconsistent height/weight
+- abrupt section transitions
+- lines or glows that feel too harsh
+- any spot that still feels “built in a hurry”
+
+This pass should make the product feel deliberate and finished.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — ELEVATE SECTION-TO-SECTION FLOW
+━━━━━━━━━━━━━━━━━━━
+
+Right now sections may still feel stacked.
+
+Refine transitions between sections so the whole page feels like one continuous premium system.
+
+Use:
+- tonal stepping
+- subtle divider architecture
+- restrained atmospheric bridge overlays
+- section entry labels
+- soft transition gradients
+- visual pacing
+
+Each section should feel like entering a different layer of the same institution.
+
+Not just:
+section
+section
+section
+section
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — MAKE THE COMMAND DASHBOARD FEEL ELITE
+━━━━━━━━━━━━━━━━━━━
+
+The command dashboard works and has background structure now.
+Push it further.
+
+Required:
+
+1. Stronger command identity in the header
+- better hierarchy
+- cleaner spacing
+- more premium chrome
+- stronger command feel
+
+2. Intake queue should feel more “real operations desk”
+- improve table container
+- stronger header strip
+- better empty state treatment
+- subtle support graphics
+- cleaner filter placement
+
+3. Empty state should feel intentional and high-status
+Current empty state must not feel like “nothing here.”
+It should feel like:
+queue clear
+system active
+awaiting intake
+
+4. Apply the same finish standard across:
+- bulletins tab
+- assignments tab
+- schedule tab
+- intel/reports tab
+
+Even empty tabs should feel like live infrastructure.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — MEMBER PORTAL MUST MATCH THE SAME TIER
+━━━━━━━━━━━━━━━━━━━
+
+Do not let the member portal feel like the weaker sibling.
+
+Bring it up to the same polish standard as:
+- public site
+- command dashboard
+
+This includes:
+- same quality of glass
+- same quality of support graphics
+- same level of spacing discipline
+- same premium headers
+- same command-grade empty states
+- same visual seriousness
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — UX / INTERACTION POLISH
+━━━━━━━━━━━━━━━━━━━
+
+Now do a full interaction quality pass.
+
+Audit:
+
+- hover states
+- click states
+- modal opens/closes
+- tab changes
+- tier expansion interaction
+- role-specific apply flows
+- login transitions
+- dashboard tab interactions
+- filter interactions
+- button focus states
+- mobile/scroll behavior
+
+Everything should feel:
+- fast
+- clean
+- intentional
+- premium
+
+No jank.
+No clumsy transitions.
+No awkward motion.
+No inconsistent interaction behavior.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — AUTH / ACCESS VERIFICATION
+━━━━━━━━━━━━━━━━━━━
+
+Before calling this ready, verify the actual access system works.
+
+Test and confirm:
+
+1. Operator login works
+2. Operator session persists correctly
+3. Protected /command route works correctly
+4. Member login flow works correctly
+5. Protected /portal route works correctly
+6. Public user cannot access protected pages
+7. Request Access submission still works
+8. Tier-specific apply flow still works
+9. Bootstrap operator account still works
+
+Do not just assume.
+Actually verify.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — FORM / INTAKE QUALITY PASS
+━━━━━━━━━━━━━━━━━━━
+
+The intake form must now be production-clean.
+
+Refine:
+- spacing between fields
+- input contrast
+- label clarity
+- checkbox alignment
+- text area treatment
+- submit button state
+- success / error feedback
+- modal scroll behavior
+- mobile usability
+
+The intake form should feel like:
+credential submission terminal
+not a generic form
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — FINAL BRAND HARDENING
+━━━━━━━━━━━━━━━━━━━
+
+Refine all branding moments.
+
+Make sure:
+- RSR PRESS CORPS is always the dominant entity
+- Red State Rhetoric acts as parent brand, not visual clutter
+- wording stays serious
+- no softened language sneaks back in
+- labels are consistent site-wide
+- access / credential / operator / correspondent terms are used cleanly
+
+This must feel like a disciplined institution.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — LAUNCH READINESS PASS
+━━━━━━━━━━━━━━━━━━━
+
+Now prepare the build to be launch-ready.
+
+Required:
+
+1. Ensure no broken buttons
+2. Ensure no placeholder routes
+3. Ensure no mock data
+4. Ensure no console noise if avoidable
+5. Ensure protected routes behave correctly
+6. Ensure top navigation behaves cleanly
+7. Ensure empty states render correctly
+8. Ensure forms submit correctly
+9. Ensure login/logout flows behave correctly
+10. Ensure visual system is consistent across public, command, and portal
+
+If anything is still shaky, fix it now.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 12 — DEPLOYMENT READINESS
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the project for live deployment.
+
+Do the following:
+
+1. Confirm environment variables needed
+2. Confirm auth/bootstrap setup path
+3. Confirm database migrations/state if applicable
+4. Confirm build runs clean
+5. Confirm no dev-only seed content leaks into production
+6. Confirm asset loading is correct
+7. Confirm animation performance is acceptable
+8. Confirm responsive layout is acceptable at key breakpoints
+
+Then provide a short deployment checklist.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 13 — FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the system should feel like:
+
+- a live independent press command institution
+- a premium secure reporting network
+- a modern field correspondent infrastructure
+- a controlled access media apparatus
+- a polished black-glass operations platform with serious visual authority
+
+It should not feel like:
+- a prototype
+- a template
+- a flashy toy
+- a generic dark site
+- a half-finished dashboard
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as the final polish + final hardening + launch readiness pass.
+
+Preserve:
+- the globe
+- the signal graphics
+- the working auth
+- the role logic
+- the corrected branding
+- the no-mock-data rule
+
+Upgrade:
+- finish quality
+- motion quality
+- visual cohesion
+- command/dashboard depth
+- portal quality
+- production readiness
+
+Then verify what actually works and prepare it for live deployment.
+Execute.

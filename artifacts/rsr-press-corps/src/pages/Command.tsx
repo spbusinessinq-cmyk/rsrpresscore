@@ -94,14 +94,21 @@ export default function Command() {
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-8">
-        <Tabs defaultValue="applications" className="space-y-8">
-          <TabsList className="glass-panel font-mono rounded-none flex-wrap h-auto p-1 justify-start gap-0.5">
-            <TabsTrigger value="applications" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Users className="w-3 h-3 mr-1.5"/> Intake</TabsTrigger>
-            <TabsTrigger value="bulletins" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Radio className="w-3 h-3 mr-1.5"/> Bulletins</TabsTrigger>
-            <TabsTrigger value="assignments" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><CrosshairIcon className="w-3 h-3 mr-1.5"/> Assignments</TabsTrigger>
-            <TabsTrigger value="schedule" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Calendar className="w-3 h-3 mr-1.5"/> Schedule</TabsTrigger>
-            <TabsTrigger value="reports" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><FileText className="w-3 h-3 mr-1.5"/> Intel</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="applications" className="space-y-6">
+          <div className="glass-panel overflow-hidden">
+            <div className="panel-chrome border-b border-white/[0.05]">
+              <span className="status-dot-active" />
+              <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">RSR Command // Operations Center</span>
+              <span className="ml-auto font-mono text-[9px] text-muted-foreground/20 uppercase tracking-widest">All Systems Nominal</span>
+            </div>
+            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-2 justify-start gap-1 w-full">
+              <TabsTrigger value="applications" className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none border border-transparent data-[state=active]:border-primary/20 flex items-center gap-1.5"><Users className="w-3 h-3"/> Intake</TabsTrigger>
+              <TabsTrigger value="bulletins" className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none border border-transparent data-[state=active]:border-primary/20 flex items-center gap-1.5"><Radio className="w-3 h-3"/> Bulletins</TabsTrigger>
+              <TabsTrigger value="assignments" className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none border border-transparent data-[state=active]:border-primary/20 flex items-center gap-1.5"><CrosshairIcon className="w-3 h-3"/> Assignments</TabsTrigger>
+              <TabsTrigger value="schedule" className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none border border-transparent data-[state=active]:border-primary/20 flex items-center gap-1.5"><Calendar className="w-3 h-3"/> Schedule</TabsTrigger>
+              <TabsTrigger value="reports" className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none border border-transparent data-[state=active]:border-primary/20 flex items-center gap-1.5"><FileText className="w-3 h-3"/> Intel</TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="applications">
             <ApplicationsPanel />
@@ -126,7 +133,7 @@ export default function Command() {
 
 function CrosshairIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinelinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <circle cx="12" cy="12" r="10" />
       <line x1="22" x2="18" y1="12" y2="12" />
       <line x1="6" x2="2" y1="12" y2="12" />
@@ -153,25 +160,34 @@ function ApplicationsPanel() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-mono text-xl font-bold uppercase tracking-widest">Network Intake Queue</h2>
-        <Select value={statusFilter || "all"} onValueChange={(v) => setStatusFilter(v === "all" ? undefined : v)}>
-          <SelectTrigger className="w-[180px] font-mono text-xs bg-black/50 tactical-border h-8">
-            <SelectValue placeholder="Filter Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">ALL STATUSES</SelectItem>
-            <SelectItem value="pending">PENDING</SelectItem>
-            <SelectItem value="under_review">UNDER REVIEW</SelectItem>
-            <SelectItem value="accepted">ACCEPTED</SelectItem>
-            <SelectItem value="rejected">REJECTED</SelectItem>
-            <SelectItem value="hold">HOLD</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
+    <div className="space-y-0">
+      {/* Panel header chrome */}
       <div className="glass-panel overflow-hidden">
+        <div className="intake-panel-header">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-primary/60 flex-shrink-0" />
+            <div>
+              <div className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/85">Network Intake Queue</div>
+              <div className="font-mono text-[9px] text-muted-foreground/35 uppercase tracking-widest mt-0.5">
+                {applications?.length ? `${applications.length} record${applications.length !== 1 ? 's' : ''} ${statusFilter ? `— ${statusFilter.replace('_', ' ')}` : '— all statuses'}` : 'awaiting submissions'}
+              </div>
+            </div>
+          </div>
+          <Select value={statusFilter || "all"} onValueChange={(v) => setStatusFilter(v === "all" ? undefined : v)}>
+            <SelectTrigger className="w-[160px] font-mono text-[10px] bg-black/50 border-white/10 h-8 uppercase tracking-wider rounded-none">
+              <SelectValue placeholder="Filter Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="under_review">Under Review</SelectItem>
+              <SelectItem value="accepted">Accepted</SelectItem>
+              <SelectItem value="rejected">Rejected</SelectItem>
+              <SelectItem value="hold">Hold</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         <Table>
           <TableHeader className="bg-black/50 font-mono">
             <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
