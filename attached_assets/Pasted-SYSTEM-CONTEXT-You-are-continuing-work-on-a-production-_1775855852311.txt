@@ -1,0 +1,331 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+Do NOT switch into final deployment-only mode yet.
+
+The current build is close, but there are still major visual issues in the hero and support graphics that must be corrected before deployment hardening.
+
+Current problem:
+- the hero is close, but the right-side technical visual lost some of its impact
+- animation quality/regression happened
+- a weird visible box/frame around the globe/signal graphic is hurting the look
+- the visual support system still needs more life, motion, and integration
+- the product is close to launch tier, but not visually finished yet
+
+This next pass must combine:
+
+1. HERO VISUAL CORRECTION
+2. ANIMATION EXPANSION + POLISH
+3. GRAPHIC INTEGRATION FIXES
+4. FINAL VISUAL HARDENING
+5. PRESERVATION OF ALL WORKING AUTH / ROUTES / DATA RULES
+
+Do NOT strip working logic.
+Do NOT remove auth.
+Do NOT break the role logic.
+Do NOT reintroduce fake data.
+Do NOT overdo cyberpunk effects.
+
+This is a high-end correction pass.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Take the current working RSR Press Corps build and fix the remaining visual weak points before deployment hardening.
+
+The result should feel like:
+
+- a live secure press network
+- a premium field-command interface
+- a serious independent media institution
+- a visually advanced, animated, layered system
+
+It should NOT feel like:
+- a flat dark page
+- a boxed-in SVG demo
+- a half-integrated hero graphic
+- a static concept
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL ISSUE #1 — REMOVE THE WEIRD BOX AROUND THE GLOBE
+━━━━━━━━━━━━━━━━━━━
+
+The framed box around the globe / signal graphic is hurting the hero.
+
+Fix this now.
+
+Requirements:
+
+1. Remove any awkward visible hard container/frame around the globe visual that makes it feel boxed off
+2. The globe/signal system should feel integrated into the hero environment, not trapped inside a rectangle
+3. If some structural framing is needed, make it extremely subtle:
+   - faint corner marks
+   - soft technical overlay
+   - atmospheric edge hints
+   - partial chrome accents only
+4. Do NOT let the right-side visual feel like a card dropped into the hero
+
+Goal:
+The graphic should feel embedded into the system, not placed inside a weird box.
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL ISSUE #2 — BRING BACK / IMPROVE THE ANIMATION FEEL
+━━━━━━━━━━━━━━━━━━━
+
+The animation needs to feel better, not flatter.
+
+Fix any regression where transitions or structural updates reduced motion quality.
+
+Upgrade animation across the hero visual system:
+
+1. Globe motion
+- smooth slow rotation illusion
+- subtle orbit movement
+- refined ring drift
+- intentional signal pulse timing
+- no twitchy or harsh movement
+
+2. Arc / node activity
+- occasional transmission pulse traveling along arcs
+- sparse node flicker
+- light scanning behavior
+- gentle living-system motion
+
+3. Background support motion
+- subtle ambient drift in overlays
+- soft scanline or signal sweep
+- tiny floating marker activity
+- restrained panel shimmer where appropriate
+
+Motion must feel:
+- expensive
+- calm
+- precise
+- cinematic
+- technical
+
+NOT:
+- busy
+- gamer-ish
+- distracting
+- cheap
+
+Respect reduced motion preferences.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — HERO VISUAL INTEGRATION REDESIGN
+━━━━━━━━━━━━━━━━━━━
+
+Without changing the core composition too much, refine the hero so the left copy and right technical graphic feel like one system.
+
+Required:
+
+1. Improve integration between text area and globe area
+- shared atmospheric layer
+- common lighting logic
+- subtle connective lines / metadata bridges
+- left-to-right compositional balance
+
+2. Make the globe visual feel anchored in the world of the page
+- not floating randomly
+- not boxed awkwardly
+- not detached from the copy
+
+3. Refine the CTA strip and supporting login/meta blocks
+- make them feel like command controls tied to the hero system
+- improve layout rhythm
+- improve motion/hover polish
+
+4. Preserve the strong direction:
+- left = institutional message
+- right = live network visual
+
+But make them feel fused, not separate.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — PUSH THE GLOBE / SIGNAL GRAPHIC MUCH FURTHER
+━━━━━━━━━━━━━━━━━━━
+
+The globe is good. Now make it elite.
+
+Required improvements:
+
+1. Better visual hierarchy inside the globe
+- some lines lighter, some dimmer
+- foreground arcs distinct from background arcs
+- cleaner node sizing
+- more intentional focal point near the center
+
+2. Stronger depth illusion
+- layered opacity falloff
+- subtle front/back separation
+- slight internal atmospheric glow
+- cleaner ring hierarchy
+
+3. Better signal intelligence feel
+Add restrained motion/details like:
+- traveling pulse on one or two arcs
+- small intermittent node activation
+- subtle ring sweep
+- faint targeting/crosshair response
+- quiet data flicker
+
+4. Remove clutter
+Anything messy, overdrawn, or visually muddy should be cleaned up.
+
+The graphic should feel premium, not just complicated.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — ADD MORE ANIMATED TECH SUPPORT ELEMENTS
+━━━━━━━━━━━━━━━━━━━
+
+I want more life in the interface.
+
+Add additional subtle animated support graphics in key places.
+
+Examples:
+- small floating tactical markers
+- faint transmission lines
+- moving node lattice accents
+- low-opacity signal path overlays
+- micro radar sweeps
+- data tick movement
+- tiny blinking status points
+- animated section-side network traces
+
+Use these in:
+- hero background
+- tier section
+- credentials section
+- login page
+- command dashboard header/background
+- member portal header/background
+
+Do NOT overpopulate the page.
+Add enough so the site feels alive and expensive.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — MAKE THE DASHBOARDS FEEL MORE ALIVE TOO
+━━━━━━━━━━━━━━━━━━━
+
+The command dashboard and portal cannot feel static compared to the homepage.
+
+Keep them serious, but add subtle animated infrastructure there too:
+
+- faint moving grid energy
+- tiny status pulses
+- subtle panel-edge light drift
+- quiet command-surface activity
+- active session visual reinforcement
+
+Empty states should still feel like live systems on standby.
+
+Do NOT add fake data.
+Do NOT clutter the dashboards.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — FINAL GLASS + DEPTH REFINEMENT
+━━━━━━━━━━━━━━━━━━━
+
+Refine the glass system again now that more animation is being added.
+
+Make sure:
+- panels do not feel too opaque
+- glass layers feel premium
+- modals have depth
+- CTA strips feel integrated
+- hero support elements do not flatten the page
+- command panels feel dense and expensive
+- no random harsh borders are fighting the design
+
+If any heavy border, box, or container is visually hurting the premium feel, refine it.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — KEEP ALL WORKING FUNCTIONALITY INTACT
+━━━━━━━━━━━━━━━━━━━
+
+While doing this pass, do NOT break:
+
+- operator login
+- member login
+- protected /command
+- protected /portal
+- Request Access modal
+- role-specific tier application behavior
+- no-mock-data rule
+- empty states
+- session persistence
+- intake flow
+
+This pass is visual + motion + polish, not a logic rewrite.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — INCLUDE DEPLOYMENT SANITY CHECKS AFTER THE VISUAL FIX
+━━━━━━━━━━━━━━━━━━━
+
+After the visual corrections are done, do a light production sanity check.
+
+Verify:
+
+1. auth still works
+2. protected routes still work
+3. animations do not break layout
+4. hero still performs well
+5. no console/runtime errors introduced
+6. build still succeeds
+7. no fake data leaked in
+
+Do NOT shift into full deployment mode yet.
+Just verify the visual pass did not destabilize the system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the site should feel like:
+
+- a premium live press command network
+- a serious independent media institution
+- a visually rich black-glass operations platform
+- a connected global correspondent system
+- a secure field reporting interface with subtle continuous activity
+
+Most importantly:
+the hero should feel alive, integrated, and expensive.
+
+The globe should feel embedded into the environment.
+Not boxed in.
+Not flattened.
+Not static.
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as a major visual correction + animation expansion pass.
+
+Fix:
+- weird globe box/frame
+- motion regression
+- weak integration
+- remaining flatness
+
+Add:
+- more subtle animated support graphics
+- more life
+- more premium signal behavior
+- more integrated hero composition
+
+Preserve:
+- working auth
+- working routes
+- no fake data
+- correct branding
+- role-specific flows
+
+Then verify that the visual system is stronger and the platform is still stable.
+Execute.

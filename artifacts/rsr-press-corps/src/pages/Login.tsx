@@ -79,20 +79,32 @@ export default function Login() {
         <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* Left — Globe / Visual identity */}
-          <div className="hidden lg:flex flex-col items-center justify-center relative">
-            <div className="relative">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(150_55%_33%_/_0.1)_0%,_transparent_65%)] blur-2xl pointer-events-none" />
-              <WireGlobeGraphic size={400} opacity={0.6} className="relative z-10" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_0%_50%,_hsl(220_16%_6%)_0%,_transparent_55%)] pointer-events-none z-20" />
-            </div>
+          <div className="hidden lg:flex flex-col items-center justify-center relative min-h-[460px]">
+            {/* Wide atmospheric bloom — no inner box */}
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                inset: '-40%',
+                background: 'radial-gradient(ellipse at 55% 50%, hsl(150 55% 30% / 0.12) 0%, transparent 58%)',
+                filter: 'blur(40px)',
+              }}
+            />
 
-            <div className="mt-8 text-center space-y-2">
-              <div className="font-mono text-[10px] text-primary/40 uppercase tracking-[0.3em]">RSR Press Corps</div>
-              <div className="font-mono text-[10px] text-muted-foreground/25 uppercase tracking-widest">Secure Access Node // Auth Gate</div>
+            {/* Globe — free-floating */}
+            <WireGlobeGraphic size={380} opacity={0.65} className="relative z-10" />
+
+            {/* Edge fades — no hard box */}
+            <div className="absolute inset-y-0 right-0 w-[30%] bg-[linear-gradient(270deg,_hsl(220_16%_6%_/_0.7)_0%,_transparent_100%)] pointer-events-none z-20" />
+            <div className="absolute inset-x-0 top-0 h-[25%] bg-[linear-gradient(180deg,_hsl(220_16%_6%_/_0.65)_0%,_transparent_100%)] pointer-events-none z-20" />
+            <div className="absolute inset-x-0 bottom-0 h-[35%] bg-[linear-gradient(0deg,_hsl(220_16%_6%)_0%,_transparent_100%)] pointer-events-none z-20" />
+
+            <div className="mt-6 text-center space-y-2 relative z-30">
+              <div className="font-mono text-[10px] text-primary/38 uppercase tracking-[0.3em]">RSR Press Corps</div>
+              <div className="font-mono text-[10px] text-muted-foreground/22 uppercase tracking-widest">Secure Access Node // Auth Gate</div>
               <div className="flex items-center justify-center gap-3 mt-3">
-                <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/20" />
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/18" />
                 <span className="status-dot-active" />
-                <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/20" />
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/18" />
               </div>
             </div>
           </div>
