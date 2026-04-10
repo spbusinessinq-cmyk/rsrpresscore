@@ -1,22 +1,34 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 0.2.0
+  description: RSR Press Corps API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: applications
+    description: Application intake and review
+  - name: bulletins
+    description: Internal bulletin board
+  - name: assignments
+    description: Field assignments and tasking
+  - name: schedule
+    description: Schedule management
+  - name: messages
+    description: Internal communications
+  - name: reports
+    description: Report submissions
+  - name: auth
+    description: Authentication
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +36,454 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /apply:
+    post:
+      operationId: submitApplication
+      tags: [applications]
+      summary: Submit a press corps application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateApplicationBody"
+      responses:
+        "201":
+          description: Application received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Application"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /applications:
+    get:
+      operationId: listApplications
+      tags: [applications]
+      summary: List all applications (operator only)
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Application"
+
+  /applications/{id}:
+    get:
+      operationId: getApplication
+      tags: [applications]
+      summary: Get a single application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Application detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Application"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /applications/{id}/status:
+    patch:
+      operationId: updateApplicationStatus
+      tags: [applications]
+      summary: Update application status (operator only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateApplicationStatusBody"
+      responses:
+        "200":
+          description: Updated application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Application"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /applications/{id}/notes:
+    patch:
+      operationId: updateApplicationNotes
+      tags: [applications]
+      summary: Update operator notes on an application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateApplicationNotesBody"
+      responses:
+        "200":
+          description: Updated application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Application"
+
+  /bulletins:
+    get:
+      operationId: listBulletins
+      tags: [bulletins]
+      summary: List all bulletins
+      responses:
+        "200":
+          description: List of bulletins
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Bulletin"
+    post:
+      operationId: createBulletin
+      tags: [bulletins]
+      summary: Create a bulletin (operator only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBulletinBody"
+      responses:
+        "201":
+          description: Created bulletin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bulletin"
+
+  /bulletins/{id}:
+    put:
+      operationId: updateBulletin
+      tags: [bulletins]
+      summary: Update a bulletin (operator only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBulletinBody"
+      responses:
+        "200":
+          description: Updated bulletin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bulletin"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteBulletin
+      tags: [bulletins]
+      summary: Delete a bulletin (operator only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /assignments:
+    get:
+      operationId: listAssignments
+      tags: [assignments]
+      summary: List assignments
+      parameters:
+        - name: visibility
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+    post:
+      operationId: createAssignment
+      tags: [assignments]
+      summary: Create an assignment (operator only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssignmentBody"
+      responses:
+        "201":
+          description: Created assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+
+  /assignments/{id}:
+    patch:
+      operationId: updateAssignment
+      tags: [assignments]
+      summary: Update an assignment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAssignmentBody"
+      responses:
+        "200":
+          description: Updated assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteAssignment
+      tags: [assignments]
+      summary: Delete an assignment (operator only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /schedule:
+    get:
+      operationId: listScheduleItems
+      tags: [schedule]
+      summary: List schedule items
+      responses:
+        "200":
+          description: List of schedule items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ScheduleItem"
+    post:
+      operationId: createScheduleItem
+      tags: [schedule]
+      summary: Create a schedule item (operator only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateScheduleItemBody"
+      responses:
+        "201":
+          description: Created schedule item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScheduleItem"
+
+  /schedule/{id}:
+    delete:
+      operationId: deleteScheduleItem
+      tags: [schedule]
+      summary: Delete a schedule item (operator only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /messages:
+    get:
+      operationId: listMessages
+      tags: [messages]
+      summary: List internal messages
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+    post:
+      operationId: sendMessage
+      tags: [messages]
+      summary: Send an internal message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMessageBody"
+      responses:
+        "201":
+          description: Sent message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /reports:
+    get:
+      operationId: listReports
+      tags: [reports]
+      summary: List submitted reports (operator only)
+      responses:
+        "200":
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Report"
+    post:
+      operationId: submitReport
+      tags: [reports]
+      summary: Submit a field report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportBody"
+      responses:
+        "201":
+          description: Report submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Log in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Log out
+      responses:
+        "200":
+          description: Logged out
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current session user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +494,398 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        city:
+          type: string
+        state:
+          type: string
+        areasOfOperation:
+          type: string
+        experienceLevel:
+          type: string
+        workTypes:
+          type: array
+          items:
+            type: string
+        intent:
+          type: string
+        links:
+          type: ["string", "null"]
+        status:
+          type: string
+        notes:
+          type: ["string", "null"]
+        accessCode:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - city
+        - state
+        - areasOfOperation
+        - experienceLevel
+        - workTypes
+        - intent
+        - status
+        - createdAt
+        - updatedAt
+
+    CreateApplicationBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        city:
+          type: string
+        state:
+          type: string
+        areasOfOperation:
+          type: string
+        experienceLevel:
+          type: string
+        workTypes:
+          type: array
+          items:
+            type: string
+        intent:
+          type: string
+        links:
+          type: ["string", "null"]
+      required:
+        - name
+        - email
+        - city
+        - state
+        - areasOfOperation
+        - experienceLevel
+        - workTypes
+        - intent
+
+    UpdateApplicationStatusBody:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    UpdateApplicationNotesBody:
+      type: object
+      properties:
+        notes:
+          type: string
+      required:
+        - notes
+
+    Bulletin:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        priority:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - body
+        - priority
+        - author
+        - createdAt
+        - updatedAt
+
+    CreateBulletinBody:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        priority:
+          type: string
+        author:
+          type: string
+      required:
+        - title
+        - body
+        - priority
+        - author
+
+    Assignment:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        location:
+          type: string
+        eventTime:
+          type: ["string", "null"]
+          format: date-time
+        priority:
+          type: string
+        summary:
+          type: string
+        status:
+          type: string
+        visibility:
+          type: string
+        claimedBy:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - location
+        - priority
+        - summary
+        - status
+        - visibility
+        - createdAt
+        - updatedAt
+
+    CreateAssignmentBody:
+      type: object
+      properties:
+        title:
+          type: string
+        location:
+          type: string
+        eventTime:
+          type: ["string", "null"]
+          format: date-time
+        priority:
+          type: string
+        summary:
+          type: string
+        status:
+          type: string
+        visibility:
+          type: string
+      required:
+        - title
+        - location
+        - priority
+        - summary
+        - status
+        - visibility
+
+    UpdateAssignmentBody:
+      type: object
+      properties:
+        title:
+          type: string
+        location:
+          type: string
+        eventTime:
+          type: ["string", "null"]
+          format: date-time
+        priority:
+          type: string
+        summary:
+          type: string
+        status:
+          type: string
+        visibility:
+          type: string
+        claimedBy:
+          type: ["string", "null"]
+
+    ScheduleItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        location:
+          type: ["string", "null"]
+        eventTime:
+          type: string
+          format: date-time
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - eventTime
+        - createdAt
+
+    CreateScheduleItemBody:
+      type: object
+      properties:
+        title:
+          type: string
+        location:
+          type: ["string", "null"]
+        eventTime:
+          type: string
+          format: date-time
+        notes:
+          type: ["string", "null"]
+      required:
+        - title
+        - eventTime
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        senderName:
+          type: string
+        senderEmail:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - senderName
+        - senderEmail
+        - body
+        - createdAt
+
+    CreateMessageBody:
+      type: object
+      properties:
+        senderName:
+          type: string
+        senderEmail:
+          type: string
+        body:
+          type: string
+      required:
+        - senderName
+        - senderEmail
+        - body
+
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        sourceLinks:
+          type: ["string", "null"]
+        mediaLink:
+          type: ["string", "null"]
+        authorName:
+          type: string
+        authorEmail:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - body
+        - authorName
+        - authorEmail
+        - createdAt
+
+    CreateReportBody:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        sourceLinks:
+          type: ["string", "null"]
+        mediaLink:
+          type: ["string", "null"]
+        authorName:
+          type: string
+        authorEmail:
+          type: string
+      required:
+        - title
+        - body
+        - authorName
+        - authorEmail
+
+    AuthUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        tier:
+          type: ["string", "null"]
+      required:
+        - id
+        - email
+        - name
+        - role
+
+    LoginBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password

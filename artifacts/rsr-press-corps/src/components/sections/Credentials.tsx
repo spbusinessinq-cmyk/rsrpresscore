@@ -14,7 +14,7 @@ export const Credentials = () => {
           >
             <h2 className="font-mono text-primary text-sm uppercase tracking-widest mb-2">Verification</h2>
             <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-6">Field Credentials</h3>
-            <p className="font-mono text-secondary-foreground leading-relaxed mb-8">
+            <p className="font-mono text-secondary-foreground leading-[1.5] mb-8">
               Every verified operator is issued cryptographic credentials validating their status within the RSR Press Corps. Digital ID cards provide instant verification, while physical press badges are available for high-tier deployed assets requiring hard-pass access in contested zones.
             </p>
             <ul className="space-y-4 font-mono text-sm text-secondary-foreground">
@@ -36,7 +36,7 @@ export const Credentials = () => {
             className="flex justify-center lg:justify-end"
           >
             {/* ID Card Mockup */}
-            <div className="w-[400px] aspect-[1.58] bg-card tactical-border rounded-lg relative overflow-hidden flex flex-col p-6 shadow-2xl">
+            <div className="w-[400px] aspect-[1.58] bg-card tactical-border rounded-none relative overflow-hidden flex flex-col p-6">
               <div className="absolute top-0 left-0 w-full h-2 bg-primary" />
               <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer" />
               <div className="flex justify-between items-start mb-6 z-10">
@@ -44,12 +44,12 @@ export const Credentials = () => {
                   <h4 className="font-bold text-xl uppercase tracking-tighter">RSR Press Corps</h4>
                   <p className="text-xs text-primary font-mono uppercase tracking-widest">Field Operator</p>
                 </div>
-                <div className="w-12 h-12 bg-black/50 border border-primary/30 p-1 flex items-center justify-center">
+                <div className="w-12 h-12 bg-black/50 border border-primary/30 p-1 flex items-center justify-center rounded-none">
                   <QrCode className="w-full h-full text-primary/70" />
                 </div>
               </div>
               <div className="flex gap-6 z-10 mt-auto">
-                <div className="w-24 h-32 bg-black/50 border border-primary/30 relative overflow-hidden">
+                <div className="w-24 h-32 bg-black/50 border border-primary/30 relative overflow-hidden rounded-none">
                   <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop')] bg-cover bg-center opacity-60 mix-blend-luminosity grayscale" />
                 </div>
                 <div className="font-mono text-xs space-y-2 flex-1">

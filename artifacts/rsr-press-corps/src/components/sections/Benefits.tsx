@@ -25,12 +25,12 @@ export const Benefits = () => {
               transition={{ delay: i * 0.1 }}
               className="flex gap-6 p-6 items-start"
             >
-              <div className="w-12 h-12 shrink-0 border border-primary/30 bg-primary/10 flex items-center justify-center tactical-glow">
+              <div className="w-12 h-12 shrink-0 border border-primary/30 bg-primary/10 flex items-center justify-center rounded-none">
                 <benefit.icon className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h4 className="font-mono text-xl font-bold uppercase mb-2">{benefit.title}</h4>
-                <p className="text-secondary-foreground font-mono leading-relaxed">{benefit.desc}</p>
+                <p className="text-secondary-foreground font-mono leading-[1.5]">{benefit.desc}</p>
               </div>
             </motion.div>
           ))}

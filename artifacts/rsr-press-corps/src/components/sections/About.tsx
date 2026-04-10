@@ -16,11 +16,11 @@ export const About = () => {
               <h2 className="font-mono text-primary text-sm uppercase tracking-widest mb-2">Platform Overview</h2>
               <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Not a Newsroom. <br/>An Infrastructure.</h3>
             </div>
-            <p className="font-mono text-secondary-foreground leading-relaxed">
+            <p className="font-mono text-secondary-foreground leading-[1.5]">
               Traditional media operates on gatekeeping and centralized control. RSR Press Corps is designed for the decentralized reality of modern conflict and narrative warfare.
             </p>
-            <p className="font-mono text-secondary-foreground leading-relaxed">
-              We provide the clearance, the tasking, and the distribution pipeline for independent field operators, creators, citizen reporters, and analysts who bypass legacy filters to deliver raw, actionable intelligence.
+            <p className="font-mono text-secondary-foreground leading-[1.5]">
+              We provide the clearance, the tasking, and the distribution pipeline for independent field operators, correspondents, citizen reporters, and analysts who bypass legacy filters to deliver raw, actionable intelligence.
             </p>
           </motion.div>
           <motion.div
@@ -31,13 +31,13 @@ export const About = () => {
           >
             {[
               { icon: Shield, title: "Credentialing", desc: "Verifiable identity for field operations." },
-              { icon: Radar, title: "Live Tasking", desc: "Real-time priorities and open bounties." },
+              { icon: Radar, title: "Live Tasking", desc: "Real-time priorities and open assignments." },
               { icon: Globe, title: "Distribution", desc: "Direct pipeline to RSR's main network." }
             ].map((feature, i) => (
-              <div key={i} className={`p-6 tactical-border bg-card/30 backdrop-blur-sm ${i === 2 ? 'sm:col-span-2' : ''}`}>
+              <div key={i} className={`p-6 tactical-border bg-card/30 backdrop-blur-sm rounded-none ${i === 2 ? 'sm:col-span-2' : ''}`}>
                 <feature.icon className="w-6 h-6 text-primary mb-4" />
                 <h4 className="font-mono font-bold uppercase mb-2">{feature.title}</h4>
-                <p className="text-sm text-secondary-foreground font-mono">{feature.desc}</p>
+                <p className="text-sm text-secondary-foreground font-mono leading-[1.5]">{feature.desc}</p>
               </div>
             ))}
           </motion.div>

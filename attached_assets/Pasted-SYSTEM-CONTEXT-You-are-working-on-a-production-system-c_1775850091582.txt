@@ -1,0 +1,663 @@
+SYSTEM CONTEXT:
+
+You are working on a production system called:
+
+RSR PRESS CORPS
+
+This is a real independent media arm inside the RSR ecosystem.
+
+It is NOT just a landing page.
+It is NOT just a visual homepage.
+It must become a functioning two-sided system:
+
+1. PUBLIC SITE
+2. INTERNAL PORTAL
+
+The public site recruits and explains.
+The internal portal operates the network.
+
+Current state:
+- the public-facing page exists
+- visually it is decent
+- but it feels too soft and too conceptual
+- buttons are not truly operational
+- there is no real intake pipeline
+- there is no internal dashboard
+- there is no accepted-member side
+- there is no bulletin, chat, or scheduling system
+
+Your job is to HARDEN and EXPAND this into a real working infrastructure.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Transform RSR Press Corps into a serious operational platform with:
+
+1. hardened visual tone
+2. real working buttons
+3. real application flow
+4. operator review dashboard
+5. member-only portal after approval
+6. bulletin / scheduling / communication system
+7. clean role-based access
+
+Do NOT overdesign.
+Do NOT rebuild from scratch.
+Build on the current structure.
+
+━━━━━━━━━━━━━━━━━━━
+CORE PRODUCT STRUCTURE
+━━━━━━━━━━━━━━━━━━━
+
+This system must now have 3 layers:
+
+LAYER 1 — PUBLIC SITE
+- homepage
+- explanation of Press Corps
+- operations preview
+- apply / request access
+- credential overview
+
+LAYER 2 — OPERATOR / COMMAND DASHBOARD
+- Chase-side dashboard
+- view incoming applications
+- review, approve, reject, hold
+- post bulletins
+- create assignments
+- manage schedule
+- send notices
+- manage accepted members
+
+LAYER 3 — MEMBER PORTAL
+- unlocked only after approval
+- accepted contributors/operators log in
+- see bulletin board
+- see assignments
+- see schedule
+- submit reports
+- access private member area
+
+━━━━━━━━━━━━━━━━━━━
+DO NOT
+━━━━━━━━━━━━━━━━━━━
+
+- DO NOT redesign the whole website
+- DO NOT turn this into a generic SaaS template
+- DO NOT use playful or startup language
+- DO NOT make fake buttons
+- DO NOT leave flows incomplete
+- DO NOT use dummy console logs where real logic is possible
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — VISUAL HARDENING
+━━━━━━━━━━━━━━━━━━━
+
+Keep the overall layout and structure, but harden the interface.
+
+Make the UI feel:
+
+- more institutional
+- more official
+- more press / command oriented
+- less soft
+- less gaming / startup
+- less “futuristic concept page”
+
+Required visual changes:
+
+1. reduce glow everywhere
+2. sharpen borders and card edges
+3. reduce oversized spacing and empty softness
+4. tighten body text line-height slightly
+5. use green only for:
+   - verified
+   - active
+   - accepted
+   - system-ready states
+6. increase seriousness of typography
+7. make cards feel like functional panels, not promo boxes
+
+Goal:
+This should feel like a hardened media operations system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — MAKE ALL EXISTING BUTTONS REAL
+━━━━━━━━━━━━━━━━━━━
+
+Implement real behavior for current buttons:
+
+1. JOIN THE NETWORK
+→ scroll to application section OR open application modal
+
+2. VIEW OPERATIONS
+→ scroll to operations section
+
+3. REQUEST ACCESS
+→ open application modal
+
+4. ENTER THE CORPS
+→ if logged out: open application/login modal
+→ if approved member: route to member portal
+→ if operator/admin: route to command dashboard
+
+5. VIEW FULL BOARD
+→ route to /operations or expand operations board
+
+No dead buttons.
+No placeholders.
+No fake navigation.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — APPLICATION INTAKE SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+Build a real intake system.
+
+Create:
+
+ApplicationModal.tsx
+
+Required fields:
+
+- Full Name
+- Email
+- Phone (optional)
+- City
+- State
+- Areas of Operation
+- Experience Level
+  - None
+  - Beginner
+  - Experienced
+  - Professional
+- Work Type (multi-select)
+  - Reporting
+  - Interviews
+  - Camera / Video
+  - Writing
+  - Research
+  - Investigations
+  - Event Coverage
+- Short Intent Statement
+- Links / Portfolio (optional)
+
+Submit action:
+POST /api/apply
+
+Payload:
+{
+  id,
+  name,
+  email,
+  phone,
+  city,
+  state,
+  areasOfOperation,
+  experienceLevel,
+  workTypes,
+  intent,
+  links,
+  status,
+  createdAt
+}
+
+Set default status:
+- pending
+
+Application statuses:
+- pending
+- under_review
+- accepted
+- rejected
+- hold
+
+Validate required fields before submit.
+
+On success:
+- show serious confirmation state
+- no cheesy success message
+- message example:
+  "Application received. Review status pending."
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — PERSISTENT DATA LAYER
+━━━━━━━━━━━━━━━━━━━
+
+Do NOT leave this as a fake front-end-only flow.
+
+Implement real persistence.
+
+Preferred order:
+
+OPTION A — Supabase
+Use Supabase for:
+- applications
+- users
+- bulletins
+- assignments
+- schedules
+- chat messages
+
+OPTION B — local JSON / filesystem temp store
+Only if Supabase is not available immediately.
+
+But structure the app as if it will be persistent and real.
+
+Create clear data models.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — OPERATOR / COMMAND DASHBOARD
+━━━━━━━━━━━━━━━━━━━
+
+Build a private admin/operator dashboard for Chase.
+
+Route:
+- /command
+or
+- /dashboard
+
+This is the operator side of Press Corps.
+
+Required sections:
+
+1. APPLICATIONS PANEL
+Show all applications in a table or serious card list.
+
+Fields:
+- applicant name
+- location
+- experience
+- work type
+- date submitted
+- status
+
+Actions per application:
+- view full application
+- mark under review
+- accept
+- reject
+- put on hold
+
+2. APPLICATION DETAIL VIEW
+Open modal or detail panel showing full submission.
+
+3. OPERATOR NOTES
+Allow admin notes on applicants.
+
+4. STATUS UPDATE ACTIONS
+When application status changes, update persistent data.
+
+5. ACCEPT ACTION
+When accepted:
+- create member record
+- generate approved access state
+- prepare member portal access
+- optional: trigger acceptance email
+
+This dashboard must feel like a real review station, not a CRM toy.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — MEMBER ACCESS SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+When someone is accepted, they gain access to a second side of the site.
+
+This must be implemented.
+
+Create protected member area route:
+
+- /portal
+or
+- /member
+
+Only approved users can access it.
+
+User states:
+- public visitor
+- pending applicant
+- accepted member
+- operator/admin
+
+Behavior:
+
+PUBLIC VISITOR
+- can view public site
+- can apply
+- cannot enter protected portal
+
+PENDING APPLICANT
+- can log in if auth exists
+- sees waiting state / pending review
+- cannot access full portal tools
+
+ACCEPTED MEMBER
+- can access member portal
+- can view bulletins
+- can view assignments
+- can view schedule
+- can submit reports
+
+OPERATOR / ADMIN
+- can access full command dashboard
+- can also view member portal if needed
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — MEMBER PORTAL
+━━━━━━━━━━━━━━━━━━━
+
+Build the private portal for accepted users.
+
+Route:
+- /portal
+
+This is NOT the operator dashboard.
+This is the accepted contributor/operator side.
+
+Required sections:
+
+1. BULLETIN BOARD
+A clean internal update feed.
+
+Each bulletin contains:
+- title
+- body
+- priority
+- date
+- author
+
+Priority levels:
+- standard
+- important
+- urgent
+
+2. ASSIGNMENTS / TASKINGS
+List current operations or requests.
+
+Each assignment contains:
+- id
+- title
+- location
+- due time / event time
+- priority
+- summary
+- status
+
+Possible statuses:
+- open
+- claimed
+- completed
+
+3. SCHEDULE
+Calendar-style or list-style schedule for:
+- upcoming events
+- meetings
+- planned coverage windows
+- editorial calls
+
+4. REPORT SUBMISSION
+Accepted members can submit:
+- text report
+- notes
+- source links
+- optional media link
+
+5. MEMBER STATUS PANEL
+Simple profile block showing:
+- name
+- clearance / tier
+- approval state
+- assigned role
+
+This portal should feel like secure press infrastructure.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — BULLETIN SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+Build a working bulletin board.
+
+Admin can:
+- create bulletin
+- edit bulletin
+- delete bulletin
+
+Members can:
+- read bulletins
+- filter by priority if possible
+
+This is internal communications.
+Keep the tone serious and operational.
+
+Examples:
+- Credential protocol updates
+- Upcoming event coverage notices
+- Press access windows
+- Internal standards reminders
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — SCHEDULING SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+Build a schedule system.
+
+Admin can:
+- create schedule items
+- assign date/time
+- add title
+- add location
+- add notes
+
+Members can:
+- view schedule
+- see upcoming coverage windows
+- know when reporting calls / event coverage happens
+
+Simple clean implementation is fine:
+- list view first
+- calendar optional second
+
+But it must be real and persistent.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — CHAT OR COMMS SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+Implement a basic internal communications layer.
+
+Preferred version:
+Simple internal message board / chat feed inside the member portal.
+
+Minimum acceptable version:
+- one shared internal room
+- timestamped messages
+- sender name
+- basic send input
+- persistent storage
+
+If real-time is easy with Supabase realtime, use it.
+If not, use simple persisted message refresh.
+
+Keep it clean and serious.
+Do NOT make it feel like Discord.
+
+This is an operations communications layer.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — NOTIFICATION SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+When important things happen, the operator must be notified.
+
+Implement notification flow for:
+
+1. new application submitted
+2. new report submitted
+3. assignment claimed
+4. urgent bulletin event if needed
+
+Preferred order:
+
+OPTION A — email notification
+Use Resend or Nodemailer
+
+OPTION B — webhook
+Discord webhook or other operator webhook
+
+OPTION C — fallback logging only if nothing else works
+
+Attempt A or B first.
+
+Notification target:
+Use an env variable or config placeholder for operator destination.
+
+Examples:
+- OPERATOR_EMAIL
+- DISCORD_WEBHOOK_URL
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 12 — OPERATIONS BOARD UPGRADE
+━━━━━━━━━━━━━━━━━━━
+
+The current Active Operations section is too static.
+
+Upgrade it into structured, reusable data.
+
+Each operation must contain:
+
+- id
+- priority
+- title
+- location
+- eventTime
+- status
+- summary
+- visibility
+
+Visibility:
+- public_preview
+- members_only
+
+Public site:
+- show limited preview rows
+
+Member portal:
+- show fuller assignment/tasking view
+
+Admin dashboard:
+- full control over operations
+
+Rows should be clickable and meaningful.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 13 — COPY HARDENING
+━━━━━━━━━━━━━━━━━━━
+
+Tighten the language across the whole site.
+
+Replace soft wording.
+
+Use words like:
+- operators
+- contributors
+- correspondents
+- credentialed access
+- field reporting
+- assignments
+- bulletin
+- intake
+- review
+- deployment
+- verification
+- press infrastructure
+
+Avoid words like:
+- creators
+- community vibes
+- empowerment
+- storytelling platform
+- collaborative creator network
+
+This is an independent press institution.
+
+Tone:
+- direct
+- cold
+- clean
+- modern
+- controlled
+- operational
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 14 — AUTH / ACCESS LOGIC
+━━━━━━━━━━━━━━━━━━━
+
+Implement simple auth/access logic in a clean way.
+
+At minimum:
+
+- public users can browse and apply
+- operator can log into command dashboard
+- accepted members can log into portal
+- non-approved users are blocked from protected areas
+
+If Supabase auth is available, use it.
+If not, scaffold the access structure cleanly for later auth completion.
+
+Do not leave routes wide open.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 15 — FINAL REQUIRED ROUTES
+━━━━━━━━━━━━━━━━━━━
+
+By the end of this pass, the project should support these routes:
+
+PUBLIC
+- /
+- /operations (optional if used)
+
+OPERATOR
+- /command or /dashboard
+
+MEMBER
+- /portal or /member
+
+MODALS / PANELS
+- application modal
+- application detail view
+- bulletin create/edit
+- assignment detail
+- report submit
+
+━━━━━━━━━━━━━━━━━━━
+FINAL STATE REQUIRED
+━━━━━━━━━━━━━━━━━━━
+
+At the end of this pass:
+
+- the UI is more serious
+- the site feels less childish and less soft
+- the buttons work
+- applications can be submitted
+- applications persist
+- Chase can review them in a dashboard
+- accepted people can enter a private member side
+- there is a bulletin system
+- there is a schedule
+- there is a basic communications layer
+- there is a real operations structure
+- there is a real internal infrastructure forming
+
+This should feel like:
+
+A REAL INDEPENDENT PRESS ORGANIZATION WITH A PUBLIC FRONT AND A CONTROLLED INTERNAL NETWORK
+
+Not a concept page.
+Not a design exercise.
+Not a fake system.
+
+Build carefully.
+Preserve the strong layout.
+Harden the tone.
+Make it operational.
+Execute.
