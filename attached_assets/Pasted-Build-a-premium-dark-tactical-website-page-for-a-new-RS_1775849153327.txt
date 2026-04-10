@@ -1,0 +1,223 @@
+Build a premium, dark, tactical website page for a new RSR system called:
+
+RSR PRESS CORPS
+
+This is NOT a generic journalism club page.
+This is a modern independent media command hub for Red State Rhetoric.
+
+━━━━━━━━━━━━━━━━━━━
+CORE IDEA
+━━━━━━━━━━━━━━━━━━━
+
+RSR Press Corps is the public-facing media and field reporting arm of the RSR ecosystem.
+
+It should feel like:
+- a press office
+- a field operations terminal
+- an independent media network
+- a gateway into the RSR reporting system
+
+It must NOT feel like:
+- a nonprofit journalism school
+- a college press club
+- a boring association site
+- a generic membership portal
+
+This needs to feel sharp, serious, modern, and operational.
+
+━━━━━━━━━━━━━━━━━━━
+STYLE / DESIGN DIRECTION
+━━━━━━━━━━━━━━━━━━━
+
+Use the visual language that fits the RSR intel / command aesthetic:
+
+- matte black / charcoal background
+- subtle steel-gray panels
+- deep dark green glow accents
+- thin tactical lines / grid / scanline textures
+- premium command-center energy
+- clean, bold typography
+- glassy or layered panels where appropriate
+- serious, high-end, cinematic feel
+- no cartoonish cyberpunk
+- no cheesy newsroom look
+- no bright playful colors
+- no bubbly UI
+
+This page should feel like:
+“independent press infrastructure for a live intelligence-media operation”
+
+━━━━━━━━━━━━━━━━━━━
+PAGE NAME
+━━━━━━━━━━━━━━━━━━━
+
+RSR PRESS CORPS
+
+Optional subtitle:
+Independent Field Reporting. Real-Time Analysis. Public Media Access.
+
+━━━━━━━━━━━━━━━━━━━
+MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Create a full landing page / homepage for RSR Press Corps.
+
+Make it feel like a real institution with:
+- membership
+- field credentials
+- press access
+- contributor pipeline
+- event coverage structure
+- live assignments
+
+━━━━━━━━━━━━━━━━━━━
+PAGE STRUCTURE
+━━━━━━━━━━━━━━━━━━━
+
+1. HERO SECTION
+- large title: RSR PRESS CORPS
+- strong subtitle
+- short mission statement
+- 2 or 3 CTA buttons:
+  - Join the Network
+  - Apply for Press Access
+  - View Active Operations
+
+Hero should feel powerful and elite.
+
+Possible hero copy:
+“Independent field reporting for the modern information environment.”
+or
+“We are building the next-generation press network outside the legacy gatekeepers.”
+
+2. WHAT IT IS SECTION
+Explain what RSR Press Corps is.
+
+It should say that this is:
+- an independent media network
+- for field operators, creators, citizen reporters, and analysts
+- built for live coverage, public interviews, original reporting, and direct-to-audience journalism
+
+Write this section with confident institutional language.
+
+3. ACCESS / TIER SECTION
+Create a clean tier system with tactical cards.
+
+Use tiers like:
+- Observer
+- Contributor
+- Field Operator
+- Verified Press
+- Command
+
+Each tier should have:
+- short description
+- role / function
+- visual distinction
+
+Make it feel like a real advancement structure, not cheesy gamification.
+
+4. FIELD CREDENTIALS SECTION
+Create a section that explains:
+- digital RSR press credentials
+- operator IDs
+- field badges
+- future printable press cards
+- verification / assignment system
+
+This section should look really strong visually.
+
+5. ACTIVE OPERATIONS SECTION
+This is one of the most important sections.
+
+Create a live-style operations board that shows:
+- current reporting priorities
+- open events to cover
+- active regions / beats
+- assignment queue
+- recent field drops
+
+This can use demo data, but it must feel real and alive.
+
+Think:
+“current field tasking board”
+
+6. HOW TO JOIN SECTION
+Simple step-by-step:
+- apply
+- get reviewed
+- receive role / credential
+- begin contributing
+
+Make this feel clean and actionable.
+
+7. BENEFITS / NETWORK VALUE SECTION
+Explain what people get:
+- access to the network
+- field reporting opportunities
+- publishing pipeline
+- recognition / rank
+- direct involvement in independent reporting
+
+8. FINAL CTA SECTION
+Big close:
+“Enter the Corps”
+or
+“Apply for Access”
+
+Strong button and serious closing statement.
+
+━━━━━━━━━━━━━━━━━━━
+FUNCTIONAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+- Must be a fully built front end
+- responsive for desktop and mobile
+- use clean reusable components
+- no dead UI
+- buttons should at least route or open modals / placeholders realistically
+- create believable demo data where needed
+- no fake “AI is scanning” nonsense
+- no misleading claims
+
+━━━━━━━━━━━━━━━━━━━
+TECH STACK
+━━━━━━━━━━━━━━━━━━━
+
+Use:
+- React
+- Tailwind CSS
+- clean component structure
+
+Optional:
+- framer-motion for subtle motion
+- lucide-react icons if helpful
+
+━━━━━━━━━━━━━━━━━━━
+COPY TONE
+━━━━━━━━━━━━━━━━━━━
+
+Write all copy in the RSR tone:
+- direct
+- institutional
+- serious
+- operational
+- modern
+- independent
+- no fluffy startup language
+- no cheesy activist wording
+- no corporate nonsense
+
+━━━━━━━━━━━━━━━━━━━
+EXTRA NOTES
+━━━━━━━━━━━━━━━━━━━
+
+This page should make people feel like:
+RSR is no longer just a content page.
+It is becoming a real-world media network.
+
+The final result should feel expensive, dangerous, and credible.
+
+Do not give me a mockup description.
+Do not give me partial code.
+Build the actual page.
