@@ -1,0 +1,481 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+This is a real operational media network inside the RSR ecosystem.
+
+The previous pass is NOT complete.
+
+There are major issues that must now be corrected.
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL PROBLEMS TO FIX
+━━━━━━━━━━━━━━━━━━━
+
+1. NO MOCK / DEMO / SEEDED DATA
+The system must not ship with fake bulletins, fake assignments, fake schedules, or placeholder operational content.
+Remove all seeded fake content from the production experience.
+
+2. HEADER BRANDING IS WRONG / TOO WEAK
+The top of the site must clearly and correctly read:
+
+RSR PRESS CORPS
+
+Not:
+- RSR Corps
+- Corps
+- shortened branding
+- weak badge-only branding
+
+The header must look more official, more serious, and more complete.
+
+3. NO CLEAR LOGIN ENTRY
+There must be a visible and intentional login entry point in the top navigation.
+
+4. TIER CARDS ARE BROKEN IN BEHAVIOR
+Right now clicking Observer / Contributor / Field Operator pulls up the exact same panel.
+That is wrong.
+
+Each role must either:
+- open a distinct panel with role-specific information
+OR
+- set a role-specific state in the application flow
+
+But they must NOT all trigger the same generic modal with no differentiation.
+
+5. ADMIN / OPERATOR ACCESS FLOW IS NOT GOOD ENOUGH
+I need a GOD-TIER operator login and a real command-side access flow.
+Do not just dump credentials in a summary.
+Build the access experience properly.
+
+6. ALL BUTTONS MUST ACTUALLY WORK
+Not “mostly work.”
+Not “route somewhere vague.”
+Every major button and click target must produce intentional behavior.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Correct the current build and harden it into a more complete and professional system.
+
+This pass is about:
+
+- removing fake data
+- fixing branding
+- adding a proper login entry point
+- creating distinct role logic
+- creating a real operator/admin access path
+- ensuring all interactions work intentionally
+- making the whole platform feel more official
+
+Do NOT give me another summary pretending things are complete.
+Actually fix the issues.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — REMOVE ALL MOCK / DEMO DATA
+━━━━━━━━━━━━━━━━━━━
+
+Remove all seeded or fake records from the live product experience.
+
+This includes:
+- demo bulletins
+- fake assignments
+- fake schedule entries
+- fake reports
+- fake accepted members
+- fake applications unless clearly isolated for local dev only
+
+Rules:
+
+1. Production UI should start empty if there is no real data
+2. Use proper empty states
+3. Empty states must look intentional and serious
+
+Example empty states:
+- "No active bulletins."
+- "No assignments posted."
+- "No upcoming schedule items."
+- "No pending applications."
+
+Do NOT fill the UI with fake content just to make it look alive.
+
+If dev seed utilities exist, keep them isolated from production rendering.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — FIX HEADER / TOP BAR
+━━━━━━━━━━━━━━━━━━━
+
+Rebuild the top header so it feels more official.
+
+Required:
+
+1. Header text must read exactly:
+RSR PRESS CORPS
+
+2. Improve hierarchy:
+- small insignia / mark on left is fine
+- full text branding must be visible
+- “PRESS CORPS” should not feel secondary or hidden
+
+3. Add a proper right-side navigation cluster:
+- LOGIN
+- REQUEST ACCESS
+
+Optional:
+- OPERATIONS
+- ABOUT
+if already clean
+
+Tone:
+- serious
+- official
+- institutional
+- modern
+
+Do NOT make it flashy.
+Do NOT make it look like a startup navbar.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — ADD A REAL LOGIN ENTRY
+━━━━━━━━━━━━━━━━━━━
+
+There must be a visible login entry in the top navigation.
+
+Required behavior:
+
+TOP NAV BUTTON:
+LOGIN
+
+On click:
+Open a serious access modal or route to /login
+
+Login screen must clearly separate:
+
+1. OPERATOR / COMMAND LOGIN
+2. MEMBER LOGIN
+
+This can be:
+- tabbed
+- split-panel
+- role selector
+
+But it must be obvious.
+
+Do NOT force all users through one vague login form.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — GOD-TIER OPERATOR ACCESS
+━━━━━━━━━━━━━━━━━━━
+
+Build a stronger operator/admin access path.
+
+Operator login must feel high-authority and intentional.
+
+Requirements:
+
+1. Create a proper Operator / Command login mode
+2. Route successful operator login to:
+- /command
+or
+- /dashboard
+
+3. Operator session must persist
+4. Protect command routes from public access
+
+Operator experience should feel like:
+- command clearance
+- administrative control
+- high-level press network management
+
+Not like a generic app admin login.
+
+Important:
+Do NOT hardcode weak visible credentials into the UI.
+Use environment variables, secure config, or persisted auth records.
+
+If a bootstrap admin account must exist for setup, document it clearly and isolate it.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — MEMBER LOGIN FLOW
+━━━━━━━━━━━━━━━━━━━
+
+Member login must be distinct from operator login.
+
+Accepted users should log in through:
+- email + password
+or
+- email + issued access credential/code
+
+But make the experience clean and intentional.
+
+Pending applicants must NOT be treated the same as accepted members.
+
+User states must be enforced:
+
+PUBLIC
+- can browse
+- can apply
+- cannot access portal
+
+PENDING
+- can possibly log in to see pending status if implemented
+- cannot access full member portal
+
+ACCEPTED MEMBER
+- can access /portal
+
+OPERATOR
+- can access /command
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — FIX OPERATIONAL TIER CARD BEHAVIOR
+━━━━━━━━━━━━━━━━━━━
+
+This is a major correction.
+
+Right now:
+Observer / Contributor / Field Operator all open the same intake panel.
+
+That is not acceptable.
+
+Each tier card must have distinct behavior.
+
+Implement one of these clean solutions:
+
+OPTION A — ROLE-SPECIFIC APPLICATION MODAL
+When a tier card is clicked:
+- open application modal
+- auto-select that role/tier
+- change headline + intro copy
+- change hidden/default application field
+- optionally tailor visible fields
+
+Example:
+Observer
+→ modal title: OBSERVER INTAKE
+→ focus on monitoring, local eyes, event awareness
+
+Contributor
+→ modal title: CONTRIBUTOR INTAKE
+→ focus on writing, submissions, media contribution
+
+Field Operator
+→ modal title: FIELD OPERATOR INTAKE
+→ focus on active coverage, deployment, event presence
+
+Verified Press
+→ modal title: VERIFIED PRESS REVIEW
+→ focus on credential validation, track record, access need
+
+Command
+→ do NOT open standard public intake
+→ instead show:
+  "Command roles are not publicly open for intake."
+or route to a restricted notice
+
+OPTION B — ROLE DETAIL PANEL + APPLY ACTION
+Clicking a card opens a distinct role detail panel first.
+Then user chooses apply.
+
+Either approach is acceptable.
+
+But the current “all cards do the same thing” must be fixed.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — APPLICATION FORM IMPROVEMENTS
+━━━━━━━━━━━━━━━━━━━
+
+The intake form is close, but tighten it further.
+
+Required upgrades:
+
+1. Add a field for desired role / applying tier
+This should auto-fill when coming from a tier card.
+
+2. Add role-specific intro copy at top of modal
+
+3. Preserve serious tone:
+- “Submit Credentials” is okay
+- “Apply for Access” also acceptable
+- no cheesy copy
+
+4. Ensure submit button works with real validation and persistence
+
+5. After submit:
+show clean status:
+"Application received. Review pending."
+
+No fake congratulations language.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — PUBLIC BUTTON AUDIT
+━━━━━━━━━━━━━━━━━━━
+
+Audit every public interaction and make sure it works intentionally.
+
+This includes at minimum:
+- REQUEST ACCESS
+- LOGIN
+- ENTER THE CORPS
+- VIEW OPERATIONS
+- all tier cards
+- any CTA buttons
+- any bulletin/assignment preview links
+- any close / cancel / back buttons in modals
+
+Rules:
+- no dead clicks
+- no duplicate unintended behavior
+- no vague placeholder routing
+- no hidden broken actions
+
+If an action is not ready, remove it.
+Do NOT leave fake affordances.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — EMPTY STATE DESIGN
+━━━━━━━━━━━━━━━━━━━
+
+Because mock data is being removed, the UI must support elegant empty states.
+
+Create hardened empty states for:
+
+- bulletins
+- assignments
+- schedule
+- reports
+- applications
+
+Style:
+- restrained
+- institutional
+- operational
+- not sad / playful / generic
+
+Examples:
+- NO ACTIVE BULLETINS
+- NO OPEN ASSIGNMENTS
+- SCHEDULE CLEAR
+- NO REPORTS FILED
+- NO PENDING APPLICATIONS
+
+Optional short subtext is fine.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — COMMAND DASHBOARD CLEANUP
+━━━━━━━━━━━━━━━━━━━
+
+The command dashboard must remain, but clean it up.
+
+Required:
+- only real data
+- proper empty states
+- application review still works
+- accept / reject / hold / under review still works
+- notes still work
+- session protection still works
+
+If accepted members are generated from applications, ensure that flow is real and visible.
+
+When accepting an applicant:
+- create member access record
+- assign role/tier
+- generate usable login credential flow
+- do not leave this vague
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — MEMBER ACCESS ISSUANCE
+━━━━━━━━━━━━━━━━━━━
+
+When an application is accepted, there must be a real next step.
+
+Implement a clean issuance flow.
+
+At minimum:
+1. accepted applicant gets a generated member record
+2. member can log in
+3. member lands in /portal
+4. their role/tier is attached to profile state
+
+If password creation is not yet implemented, then:
+- generate a one-time issued access code
+- store it properly
+- surface it clearly in command dashboard for operator handling
+
+But do not leave acceptance as an incomplete status flip only.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 12 — UI TONE HARDENING ROUND 2
+━━━━━━━━━━━━━━━━━━━
+
+Push the visual tone harder toward:
+
+- institutional press infrastructure
+- secure command system
+- modern credentialed network
+- serious field media apparatus
+
+Reduce any remaining softness.
+
+Specifically:
+- reduce soft glow behind cards
+- reduce “dreamy” gradients
+- tighten card contrast
+- improve text hierarchy
+- make modals feel more official and less consumer-app
+- make credential / login experiences feel more controlled
+
+Do NOT overdecorate.
+Do NOT add gimmicks.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 13 — FINAL REQUIRED EXPERIENCE
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the system should behave like this:
+
+PUBLIC USER:
+- lands on serious RSR PRESS CORPS homepage
+- sees correct branding
+- can click tier cards and get distinct role-specific intake behavior
+- can click REQUEST ACCESS and open general intake
+- can click LOGIN and choose operator or member login
+
+OPERATOR:
+- logs in through proper command login
+- reaches protected /command dashboard
+- sees only real data or proper empty states
+- reviews applications
+- changes statuses
+- issues member access on acceptance
+
+MEMBER:
+- logs in through member login
+- reaches protected /portal
+- sees bulletin / assignments / schedule when real data exists
+- otherwise sees proper empty states
+
+━━━━━━━━━━━━━━━━━━━
+DO NOT RETURN WITH
+━━━━━━━━━━━━━━━━━━━
+
+- fake completion language
+- mock data pretending to be real
+- summaries claiming “everything works” unless these exact issues are fixed
+- the same generic modal reused for every tier
+- weak branding like “RSR Corps”
+
+━━━━━━━━━━━━━━━━━━━
+FINAL INSTRUCTION
+━━━━━━━━━━━━━━━━━━━
+
+Actually correct the current implementation.
+
+Preserve what is strong.
+Fix what is wrong.
+Make the experience more official, more functional, and more real.
+
+Execute this as a true correction pass.

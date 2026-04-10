@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,6 +35,7 @@ import {
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Application } from "@workspace/api-client-react/src/generated/api.schemas";
+import { EmptyState } from "@/components/EmptyState";
 
 export default function Command() {
   const { user, isLoading, role, refetch } = useAuth();
@@ -169,7 +171,9 @@ function ApplicationsPanel() {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow><TableCell colSpan={5} className="text-center py-8 font-mono text-muted-foreground">Loading records...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={5} className="text-center py-8 font-mono text-muted-foreground text-xs uppercase tracking-widest">Loading records...</TableCell></TableRow>
+            ) : !applications?.length ? (
+              <TableRow><TableCell colSpan={5} className="py-0"><EmptyState label="No Pending Applications" subtext="Intake queue is clear" /></TableCell></TableRow>
             ) : applications?.map((app) => (
               <TableRow 
                 key={app.id} 
@@ -373,7 +377,8 @@ function BulletinManagement() {
       </div>
 
       <div className="lg:col-span-2 space-y-4">
-        {isLoading ? <div className="font-mono text-xs animate-pulse text-muted-foreground">Fetching records...</div> : 
+        {isLoading ? <div className="font-mono text-xs animate-pulse text-muted-foreground uppercase tracking-widest">Fetching records...</div> :
+          !bulletins?.length ? <EmptyState label="No Active Bulletins" subtext="No bulletins have been transmitted" /> :
           bulletins?.map(b => (
             <Card key={b.id} className="bg-card/30 tactical-border">
               <div className="p-4 flex justify-between items-start">
@@ -504,7 +509,8 @@ function AssignmentManagement() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading ? <TableRow><TableCell colSpan={4} className="text-center font-mono text-muted-foreground py-8">Fetching...</TableCell></TableRow> : 
+            {isLoading ? <TableRow><TableCell colSpan={4} className="text-center font-mono text-muted-foreground py-8 text-xs uppercase tracking-widest">Fetching...</TableCell></TableRow> :
+              !assignments?.length ? <TableRow><TableCell colSpan={4} className="py-0"><EmptyState label="No Open Assignments" subtext="No taskings have been issued" /></TableCell></TableRow> :
               assignments?.map(a => (
                 <TableRow key={a.id} className="border-b border-white/5 font-sans">
                   <TableCell>
@@ -585,7 +591,8 @@ function ScheduleManagement() {
       </Card>
 
       <div className="space-y-2">
-        {isLoading ? <div className="font-mono text-xs">Loading...</div> : 
+        {isLoading ? <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground animate-pulse">Loading...</div> :
+          !schedule?.length ? <EmptyState label="Schedule Clear" subtext="No events logged" /> :
           schedule?.map(s => (
             <div key={s.id} className="p-3 bg-black/40 border border-white/5 flex justify-between items-center group">
               <div>
@@ -619,7 +626,8 @@ function ReportsPanel() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading ? <TableRow><TableCell colSpan={3} className="text-center font-mono text-muted-foreground py-8">Fetching...</TableCell></TableRow> :
+          {isLoading ? <TableRow><TableCell colSpan={3} className="text-center font-mono text-muted-foreground py-8 text-xs uppercase tracking-widest">Fetching...</TableCell></TableRow> :
+            !reports?.length ? <TableRow><TableCell colSpan={3} className="py-0"><EmptyState label="No Reports Filed" subtext="No field reports have been submitted" /></TableCell></TableRow> :
             reports?.map(r => (
               <TableRow key={r.id} onClick={()=>setSelectedReport(r)} className="cursor-pointer border-b border-white/5 font-sans hover:bg-white/5 transition-colors">
                 <TableCell className="font-medium font-mono uppercase">{r.title}</TableCell>

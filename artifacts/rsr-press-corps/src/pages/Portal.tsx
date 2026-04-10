@@ -23,6 +23,7 @@ import {
   useSubmitReport
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { EmptyState } from "@/components/EmptyState";
 
 export default function Portal() {
   const { user, isLoading, role, refetch } = useAuth();
@@ -119,7 +120,9 @@ function BulletinBoard() {
       <h2 className="font-mono text-xl font-bold uppercase mb-6 text-primary flex items-center gap-2">
         <Radio className="w-5 h-5" /> Command Bulletins
       </h2>
-      {bulletins?.map((b) => (
+      {!bulletins?.length ? (
+        <EmptyState label="No Active Bulletins" subtext="No transmissions from command" />
+      ) : bulletins?.map((b) => (
         <Card key={b.id} className="bg-card/30 tactical-border">
           <CardHeader className="pb-3 border-b border-white/5">
             <div className="flex items-start justify-between">
@@ -145,7 +148,6 @@ function BulletinBoard() {
           </CardContent>
         </Card>
       ))}
-      {bulletins?.length === 0 && <div className="text-center p-8 font-mono text-muted-foreground border border-dashed border-white/10">No active bulletins.</div>}
     </div>
   );
 }
@@ -177,6 +179,9 @@ function ActiveAssignments({ userName }: { userName: string }) {
       <h2 className="font-mono text-xl font-bold uppercase mb-6 text-primary flex items-center gap-2">
         <Shield className="w-5 h-5" /> Field Operations
       </h2>
+      {!active?.length ? (
+        <EmptyState label="No Open Assignments" subtext="No active field taskings at this time" />
+      ) : null}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {active?.map((a) => (
           <Card key={a.id} className={`tactical-border ${a.status === 'claimed' ? 'bg-secondary/30 opacity-75' : 'bg-card/50'}`}>
@@ -225,6 +230,9 @@ function Schedule() {
   return (
     <div className="space-y-4 max-w-3xl">
       <h2 className="font-mono text-xl font-bold uppercase mb-6 text-primary">Master Schedule</h2>
+      {!schedule?.length ? (
+        <EmptyState label="Schedule Clear" subtext="No upcoming events or coverage windows" />
+      ) : (
       <div className="border-l border-primary/30 pl-4 space-y-6">
         {schedule?.map(item => (
           <div key={item.id} className="relative">
@@ -236,6 +244,7 @@ function Schedule() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
