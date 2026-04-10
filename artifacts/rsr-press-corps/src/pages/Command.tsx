@@ -66,28 +66,38 @@ export default function Command() {
   return (
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-x-hidden">
       <div className="scanline" />
-      <header className="sticky top-0 z-50 border-b border-primary/20 bg-background/90 backdrop-blur-md">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(6,9,7,0.95)] backdrop-blur-xl">
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="container mx-auto px-4 h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary/20 border border-primary flex items-center justify-center tactical-glow">
-              <Shield className="w-5 h-5 text-primary" />
+            <div className="w-8 h-8 glass-panel border-primary/40 flex items-center justify-center tactical-glow-sm">
+              <Shield className="w-3.5 h-3.5 text-primary" />
             </div>
-            <span className="font-mono font-bold tracking-tight">RSR <span className="text-primary">COMMAND</span></span>
+            <div className="flex flex-col leading-none">
+              <span className="font-mono text-[9px] text-primary/50 uppercase tracking-[0.3em]">RSR Press Corps</span>
+              <span className="font-mono font-bold text-sm uppercase tracking-[0.15em]"><span className="text-primary">Command</span> Dashboard</span>
+            </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="font-mono text-xs uppercase hover:text-primary">
-            <LogOut className="w-4 h-4 mr-2" /> Terminate Session
-          </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="status-dot-active" />
+              <span className="font-mono text-[9px] text-primary/50 uppercase tracking-widest hidden md:block">Session Active</span>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50 hover:text-muted-foreground/80 h-8">
+              <LogOut className="w-3 h-3 mr-2" /> Terminate
+            </Button>
+          </div>
         </div>
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-8">
         <Tabs defaultValue="applications" className="space-y-8">
-          <TabsList className="bg-card/50 tactical-border font-mono rounded-none flex-wrap h-auto p-1 justify-start">
-            <TabsTrigger value="applications" className="rounded-none uppercase text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"><Users className="w-3 h-3 mr-2"/> Intake</TabsTrigger>
-            <TabsTrigger value="bulletins" className="rounded-none uppercase text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"><Radio className="w-3 h-3 mr-2"/> Bulletins</TabsTrigger>
-            <TabsTrigger value="assignments" className="rounded-none uppercase text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"><CrosshairIcon className="w-3 h-3 mr-2"/> Assignments</TabsTrigger>
-            <TabsTrigger value="schedule" className="rounded-none uppercase text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"><Calendar className="w-3 h-3 mr-2"/> Schedule</TabsTrigger>
-            <TabsTrigger value="reports" className="rounded-none uppercase text-xs data-[state=active]:bg-primary/20 data-[state=active]:text-primary"><FileText className="w-3 h-3 mr-2"/> Intel</TabsTrigger>
+          <TabsList className="glass-panel font-mono rounded-none flex-wrap h-auto p-1 justify-start gap-0.5">
+            <TabsTrigger value="applications" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Users className="w-3 h-3 mr-1.5"/> Intake</TabsTrigger>
+            <TabsTrigger value="bulletins" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Radio className="w-3 h-3 mr-1.5"/> Bulletins</TabsTrigger>
+            <TabsTrigger value="assignments" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><CrosshairIcon className="w-3 h-3 mr-1.5"/> Assignments</TabsTrigger>
+            <TabsTrigger value="schedule" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><Calendar className="w-3 h-3 mr-1.5"/> Schedule</TabsTrigger>
+            <TabsTrigger value="reports" className="rounded-none uppercase text-[10px] tracking-widest data-[state=active]:bg-primary/15 data-[state=active]:text-primary data-[state=active]:border-b data-[state=active]:border-b-primary/50"><FileText className="w-3 h-3 mr-1.5"/> Intel</TabsTrigger>
           </TabsList>
 
           <TabsContent value="applications">
@@ -158,15 +168,15 @@ function ApplicationsPanel() {
         </Select>
       </div>
 
-      <Card className="bg-card/30 tactical-border overflow-hidden">
+      <div className="glass-panel overflow-hidden">
         <Table>
           <TableHeader className="bg-black/50 font-mono">
-            <TableRow className="border-b border-white/5 hover:bg-transparent">
-              <TableHead className="text-primary text-xs uppercase">Operator</TableHead>
-              <TableHead className="text-primary text-xs uppercase">Location</TableHead>
-              <TableHead className="text-primary text-xs uppercase">Exp.</TableHead>
-              <TableHead className="text-primary text-xs uppercase">Received</TableHead>
-              <TableHead className="text-primary text-xs uppercase">Status</TableHead>
+            <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
+              <TableHead className="text-primary/70 text-[10px] uppercase tracking-widest">Operator</TableHead>
+              <TableHead className="text-primary/70 text-[10px] uppercase tracking-widest">Location</TableHead>
+              <TableHead className="text-primary/70 text-[10px] uppercase tracking-widest">Exp.</TableHead>
+              <TableHead className="text-primary/70 text-[10px] uppercase tracking-widest">Received</TableHead>
+              <TableHead className="text-primary/70 text-[10px] uppercase tracking-widest">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -189,7 +199,7 @@ function ApplicationsPanel() {
             ))}
           </TableBody>
         </Table>
-      </Card>
+      </div>
 
       {selectedApp && (
         <ApplicationDetailModal 

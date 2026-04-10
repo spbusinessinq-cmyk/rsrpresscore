@@ -61,19 +61,25 @@ export default function Portal() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative">
       <div className="scanline" />
       
-      <header className="sticky top-0 z-50 border-b border-primary/20 bg-background/90 backdrop-blur-md">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(6,9,7,0.95)] backdrop-blur-xl">
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/18 to-transparent" />
+        <div className="container mx-auto px-4 h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-primary" />
-            <span className="font-mono font-bold tracking-tight">RSR PRESS CORPS // <span className="text-primary">MEMBER PORTAL</span></span>
+            <div className="w-8 h-8 glass-panel border-primary/30 flex items-center justify-center">
+              <Shield className="w-3.5 h-3.5 text-primary" />
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="font-mono text-[9px] text-primary/50 uppercase tracking-[0.3em]">RSR Press Corps</span>
+              <span className="font-mono font-bold text-sm uppercase tracking-[0.15em]"><span className="text-primary">Member</span> Portal</span>
+            </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2">
-              <span className="font-mono text-xs text-secondary-foreground uppercase">OP: {user?.name}</span>
-              <Badge variant="outline" className="font-mono text-[10px] bg-primary/10 text-primary border-primary/50">VERIFIED</Badge>
+            <div className="hidden md:flex items-center gap-3 px-3 py-1.5 glass-panel">
+              <span className="status-dot-active" />
+              <span className="font-mono text-[9px] text-muted-foreground/60 uppercase tracking-wider">OP: {user?.name}</span>
             </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout} className="text-muted-foreground hover:text-primary" data-testid="btn-logout">
-              <LogOut className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={handleLogout} className="text-muted-foreground/40 hover:text-muted-foreground/70 h-8 w-8" data-testid="btn-logout">
+              <LogOut className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -81,12 +87,12 @@ export default function Portal() {
 
       <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
         <Tabs defaultValue="bulletins" className="space-y-8">
-          <TabsList className="bg-card/50 tactical-border font-mono border-b border-x-0 border-t-0 rounded-none w-full justify-start h-auto flex-wrap">
-            <TabsTrigger value="bulletins" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-xs py-3 px-6">Bulletins</TabsTrigger>
-            <TabsTrigger value="assignments" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-xs py-3 px-6">Assignments</TabsTrigger>
-            <TabsTrigger value="schedule" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-xs py-3 px-6">Schedule</TabsTrigger>
-            <TabsTrigger value="report" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-xs py-3 px-6">File Report</TabsTrigger>
-            <TabsTrigger value="comms" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-xs py-3 px-6">Comms</TabsTrigger>
+          <TabsList className="glass-panel font-mono rounded-none w-full justify-start h-auto flex-wrap p-1 gap-0.5">
+            <TabsTrigger value="bulletins" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Bulletins</TabsTrigger>
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Assignments</TabsTrigger>
+            <TabsTrigger value="schedule" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Schedule</TabsTrigger>
+            <TabsTrigger value="report" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">File Report</TabsTrigger>
+            <TabsTrigger value="comms" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary rounded-none uppercase tracking-widest text-[10px] py-2.5 px-5">Comms</TabsTrigger>
           </TabsList>
 
           <TabsContent value="bulletins">
@@ -123,8 +129,8 @@ function BulletinBoard() {
       {!bulletins?.length ? (
         <EmptyState label="No Active Bulletins" subtext="No transmissions from command" />
       ) : bulletins?.map((b) => (
-        <Card key={b.id} className="bg-card/30 tactical-border">
-          <CardHeader className="pb-3 border-b border-white/5">
+        <div key={b.id} className="glass-panel overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.05]">
             <div className="flex items-start justify-between">
               <div>
                 <CardTitle className="font-mono uppercase tracking-widest text-lg">{b.title}</CardTitle>
@@ -134,19 +140,19 @@ function BulletinBoard() {
               </div>
               <Badge 
                 variant="outline" 
-                className={`font-mono text-[10px] uppercase
-                  ${b.priority === 'urgent' ? 'bg-destructive/20 text-destructive border-destructive/50' : 
-                    b.priority === 'important' ? 'bg-amber-500/20 text-amber-500 border-amber-500/50' : 
-                    'bg-secondary text-secondary-foreground'}`}
+                className={`font-mono text-[10px] uppercase rounded-none
+                  ${b.priority === 'urgent' ? 'bg-destructive/15 text-destructive border-destructive/40' : 
+                    b.priority === 'important' ? 'bg-amber-500/15 text-amber-500 border-amber-500/40' : 
+                    'bg-primary/10 text-primary border-primary/30'}`}
               >
                 {b.priority}
               </Badge>
             </div>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <p className="font-sans text-sm text-secondary-foreground whitespace-pre-wrap leading-relaxed">{b.body}</p>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="px-5 py-4">
+            <p className="font-sans text-sm text-secondary-foreground/80 whitespace-pre-wrap leading-relaxed">{b.body}</p>
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -279,7 +285,7 @@ function ReportForm({ user }: { user: { name: string, email: string } }) {
       <h2 className="font-mono text-xl font-bold uppercase mb-6 text-primary flex items-center gap-2">
         <FileText className="w-5 h-5" /> File Intelligence Report
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-6 bg-card/30 p-6 tactical-border">
+      <form onSubmit={handleSubmit} className="space-y-6 glass-panel p-6">
         <div className="space-y-2">
           <Label className="font-mono text-xs text-primary uppercase">Report Classification / Title</Label>
           <Input required value={title} onChange={(e) => setTitle(e.target.value)} className="font-mono bg-black/50 tactical-border" />

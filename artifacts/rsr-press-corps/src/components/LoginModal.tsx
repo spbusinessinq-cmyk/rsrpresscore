@@ -63,47 +63,59 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) { reset(); onClose(); } }}>
-      <DialogContent className="sm:max-w-[480px] border border-primary/20 bg-background p-0 overflow-hidden rounded-none gap-0">
+      <DialogContent className="sm:max-w-[460px] glass-elevated rounded-none p-0 overflow-hidden gap-0 border-primary/18">
         <DialogTitle className="sr-only">Network Access — RSR Press Corps</DialogTitle>
-        <div className="flex border-b border-white/5">
+
+        {/* Modal chrome header */}
+        <div className="panel-chrome border-b border-white/[0.06]">
+          <div className="w-2 h-2 border border-primary/40 bg-primary/8" />
+          <span className="font-mono text-[10px] text-primary/50 uppercase tracking-[0.22em]">RSR Press Corps</span>
+          <span className="ml-auto font-mono text-[10px] text-muted-foreground/30 uppercase tracking-widest">Secure Auth</span>
+        </div>
+
+        {/* Mode tabs */}
+        <div className="flex border-b border-white/[0.06]">
           <button
             onClick={() => switchMode("member")}
-            className={`flex-1 flex items-center justify-center gap-2 py-4 font-mono text-xs uppercase tracking-widest transition-colors border-r border-white/5
-              ${mode === "member" ? "bg-primary/10 text-primary border-b-2 border-b-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-all border-r border-white/[0.06]
+              ${mode === "member"
+                ? "bg-primary/8 text-primary border-b-2 border-b-primary/60"
+                : "text-muted-foreground/50 hover:text-muted-foreground/80 hover:bg-white/[0.02]"}`}
           >
             <Users className="w-3 h-3" />
-            Member Access
+            Member
           </button>
           <button
             onClick={() => switchMode("operator")}
-            className={`flex-1 flex items-center justify-center gap-2 py-4 font-mono text-xs uppercase tracking-widest transition-colors
-              ${mode === "operator" ? "bg-primary/10 text-primary border-b-2 border-b-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-all
+              ${mode === "operator"
+                ? "bg-primary/8 text-primary border-b-2 border-b-primary/60"
+                : "text-muted-foreground/50 hover:text-muted-foreground/80 hover:bg-white/[0.02]"}`}
           >
             <Lock className="w-3 h-3" />
-            Command Access
+            Command
           </button>
         </div>
 
-        <div className="p-8">
-          <div className="flex items-center gap-3 mb-8">
-            <div className={`w-10 h-10 flex items-center justify-center border ${mode === "operator" ? "bg-primary/20 border-primary/60" : "bg-white/5 border-white/20"}`}>
-              <Shield className={`w-5 h-5 ${mode === "operator" ? "text-primary" : "text-muted-foreground"}`} />
+        <div className="p-7">
+          {/* Identity block */}
+          <div className="flex items-center gap-3.5 mb-7 pb-5 border-b border-white/5">
+            <div className={`w-9 h-9 flex items-center justify-center border transition-all ${mode === "operator" ? "bg-primary/15 border-primary/50 tactical-glow-sm" : "bg-white/5 border-white/12"}`}>
+              <Shield className={`w-4 h-4 transition-colors ${mode === "operator" ? "text-primary" : "text-muted-foreground/40"}`} />
             </div>
             <div>
-              <div className="font-mono font-bold uppercase tracking-widest text-sm">
+              <div className="font-mono font-bold uppercase tracking-widest text-sm leading-none mb-1">
                 {mode === "operator" ? "Command Authentication" : "Network Access"}
               </div>
-              <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
-                {mode === "operator"
-                  ? "Operator clearance required"
-                  : "Enter issued credentials"}
+              <div className="font-mono text-[9px] text-muted-foreground/40 uppercase tracking-widest">
+                {mode === "operator" ? "Operator clearance required" : "Enter issued credentials"}
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <Label className="font-mono text-[10px] uppercase tracking-widest text-primary">
+              <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/70">
                 {mode === "operator" ? "Operator ID" : "Email Address"}
               </Label>
               <Input
@@ -113,14 +125,14 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                 required
                 autoComplete="email"
                 placeholder={mode === "operator" ? "command@rsrpresscorps.com" : "correspondent@secure.net"}
-                className="font-mono bg-black/60 tactical-border h-11 text-sm placeholder:text-white/20"
+                className="font-mono bg-black/60 h-10 text-sm placeholder:text-white/18 border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
                 data-testid="input-login-email"
               />
             </div>
 
             <div className="space-y-1.5">
-              <Label className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                {mode === "operator" ? "Command Passcode" : "Access Code / Password"}
+              <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/70">
+                {mode === "operator" ? "Command Passcode" : "Access Code"}
               </Label>
               <Input
                 type="password"
@@ -129,34 +141,38 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                 required
                 autoComplete={mode === "operator" ? "current-password" : "off"}
                 placeholder="••••••••"
-                className="font-mono bg-black/60 tactical-border h-11 text-sm"
+                className="font-mono bg-black/60 h-10 text-sm border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
                 data-testid="input-login-password"
               />
             </div>
 
             {mode === "member" && (
-              <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed">
-                Access codes are issued upon application acceptance. Contact command if you have not received yours.
-              </p>
+              <div className="px-3 py-2.5 bg-black/30 border border-white/[0.06]">
+                <p className="font-mono text-[9px] text-muted-foreground/40 leading-relaxed uppercase tracking-wider">
+                  Access codes are issued upon application acceptance. Contact command if you have not received yours.
+                </p>
+              </div>
             )}
 
-            <Button
-              type="submit"
-              className={`w-full h-11 font-mono uppercase tracking-widest font-bold text-xs mt-2
-                ${mode === "operator"
-                  ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                  : "bg-white/10 hover:bg-white/15 text-foreground border border-white/20"}`}
-              disabled={loginMutation.isPending}
-              data-testid="btn-login-submit"
-            >
-              {loginMutation.isPending ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : mode === "operator" ? (
-                "Authenticate — Command"
-              ) : (
-                "Authenticate — Member"
-              )}
-            </Button>
+            <div className="pt-1">
+              <Button
+                type="submit"
+                className={`w-full h-10 font-mono uppercase tracking-widest font-bold text-[10px] rounded-none transition-all
+                  ${mode === "operator"
+                    ? "bg-primary hover:bg-primary/90 text-primary-foreground btn-primary-depth"
+                    : "bg-white/8 hover:bg-white/12 text-foreground/80 border border-white/12 hover:border-white/20"}`}
+                disabled={loginMutation.isPending}
+                data-testid="btn-login-submit"
+              >
+                {loginMutation.isPending ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : mode === "operator" ? (
+                  "Authenticate — Command"
+                ) : (
+                  "Authenticate — Member"
+                )}
+              </Button>
+            </div>
           </form>
         </div>
       </DialogContent>

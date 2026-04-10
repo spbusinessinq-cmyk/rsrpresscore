@@ -1,0 +1,425 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+The current build is functionally improved, but it still feels visually too flat, too empty, and too soft.
+
+The system now works better structurally, but the interface still lacks:
+
+- depth
+- visual layering
+- glassy panel treatment
+- atmospheric weight
+- section separation
+- command-grade density
+- premium institutional finish
+
+Right now it still feels like a clean template with dark colors, not a hardened press infrastructure.
+
+This pass is a VISUAL DEPTH + SURFACE HARDENING pass.
+
+Do NOT undo the functional improvements.
+Do NOT remove the cleaner structure.
+Do NOT reintroduce fake data.
+
+You are now upgrading the visual system so the product feels more alive, more premium, more dimensional, and more serious.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Take the current working RSR Press Corps build and push it into a stronger visual tier.
+
+The goal is:
+
+- more glass
+- more depth
+- more layering
+- more command-center atmosphere
+- more premium field-operations feel
+- less flat darkness
+- less empty dead space
+- less generic section stacking
+
+This should feel like:
+
+A LIVE INSTITUTIONAL PRESS NETWORK INTERFACE
+
+Not:
+- a blank dark landing page
+- a simple template
+- a flat black site with green text
+
+━━━━━━━━━━━━━━━━━━━
+DO NOT
+━━━━━━━━━━━━━━━━━━━
+
+- DO NOT redesign the information architecture
+- DO NOT break the working routes
+- DO NOT remove real functionality
+- DO NOT add fake content
+- DO NOT overdo neon or cyberpunk effects
+- DO NOT make it glossy like consumer SaaS
+- DO NOT turn it into a gaming UI
+
+This is a serious media command aesthetic.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — ADD REAL DEPTH TO THE VISUAL SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+The whole site needs more dimensional layering.
+
+Implement:
+
+1. Multi-layer background treatment
+- retain dark base
+- add subtle vertical grid / scan structure
+- add faint large-scale gradient falloff in sections
+- add restrained atmospheric bloom behind key hero/content zones
+- background should feel alive but controlled
+
+2. Section depth separation
+Each major section should feel like it exists on its own plane.
+
+Use:
+- subtle background tone shifts
+- soft panel overlays
+- faint inset borders
+- slight blur where appropriate
+- restrained shadow separation
+
+3. Panel elevation
+Cards and major containers should not sit flat on the page.
+
+Use:
+- low-opacity glass fills
+- backdrop blur where supported
+- fine border lines
+- very subtle inner highlights
+- restrained outer shadow for lift
+
+Goal:
+The eye should feel layers, not just blocks.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — GLASS HARDENING
+━━━━━━━━━━━━━━━━━━━
+
+The interface needs more glassy depth, but in a hardened institutional way.
+
+Apply a more refined glass system to:
+
+- hero stat/pill elements
+- tier cards
+- modal windows
+- login modal
+- dashboard panels
+- bulletin / assignment containers
+- schedule panels
+- empty state containers
+
+Required glass treatment style:
+
+- dark translucent surfaces
+- slightly cool tint
+- subtle blur
+- thin steel/emerald border
+- faint internal top-edge highlight
+- restrained corner radius
+- soft depth shadow
+
+Do NOT make them bright.
+Do NOT make them bubbly.
+Do NOT make them look like iOS cards.
+
+Think:
+secure glass console
+not friendly product card
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — FIX EMPTY VISUAL FEEL
+━━━━━━━━━━━━━━━━━━━
+
+The site still feels too empty even with proper empty states.
+
+Solve this WITHOUT fake data.
+
+Do this by improving the visual composition around empty areas:
+
+1. Give empty state panels stronger framing
+- glass panel containers
+- subtle border structure
+- section labels
+- small icon or insignia
+- operational microcopy
+
+2. Add support UI around empty states
+Examples:
+- section headers with status indicators
+- panel chrome
+- “system clear” / “awaiting intake” / “no active dispatches” labels
+- faint row grid guides
+- command-line style meta labels
+
+3. Improve whitespace usage
+Do NOT leave giant dead gaps.
+Break large spaces with:
+- panel scaffolding
+- secondary subgrids
+- status rails
+- divider lines
+- ambient overlay structure
+
+The page should feel intentionally staged even when data is empty.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — HERO SECTION DEPTH UPGRADE
+━━━━━━━━━━━━━━━━━━━
+
+The hero is still too flat.
+
+Upgrade the hero without changing the copy hierarchy too much.
+
+Required:
+
+1. Add stronger visual layering behind the headline
+- faint radial shadow/bloom
+- subtle panel ghosting
+- depth field in background
+
+2. Better CTA grouping
+The button row should feel like part of a command strip, not floating buttons.
+
+3. Add supporting interface detail around hero
+Examples:
+- small system labels
+- status strip
+- subtle left/right structural rules
+- optional micro metadata
+- restrained panel anchor behind copy block
+
+4. Make the hero feel like the front door of a real institution
+
+Do NOT clutter it.
+Do NOT add fluff.
+Just give it depth and authority.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — HEADER POLISH
+━━━━━━━━━━━━━━━━━━━
+
+Header is improved, but still needs premium finish.
+
+Upgrade the top bar with:
+
+- slightly more refined glass / translucency
+- clearer separation line
+- stronger logo lockup spacing
+- more premium nav spacing
+- better active / hover states
+- subtle backdrop treatment so it feels attached to the interface
+
+The header should feel like command chrome.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — ACCESS TIERS SECTION MUST FEEL HIGH-END
+━━━━━━━━━━━━━━━━━━━
+
+The tier cards need stronger visual treatment.
+
+Each tier card should feel like:
+
+- a real credential class
+- an operational access level
+- a hardened system object
+
+Improve:
+- card depth
+- icon treatment
+- tier label placement
+- title/subtext hierarchy
+- hover / expanded state
+- expanded panel transition
+
+When expanded:
+- deeper glass panel
+- smoother reveal
+- richer internal spacing
+- clearer distinction between one tier and another
+
+The cards should not feel like ordinary feature cards.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — MODALS NEED MORE AUTHORITY
+━━━━━━━━━━━━━━━━━━━
+
+Current modals are cleaner, but still too plain.
+
+Upgrade all modals:
+
+- application modal
+- login modal
+- tier detail/expanded panels if modal-based
+- any command detail view
+
+Required treatment:
+- darker glass surface
+- clearer header bar
+- stronger title hierarchy
+- more distinct body sections
+- subtle panel segmentation inside modal
+- improved spacing rhythm
+- better close button styling
+- stronger footer/action row
+
+The intake modal should feel like a real credential submission terminal.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — COMMAND / PORTAL VISUAL TREATMENT
+━━━━━━━━━━━━━━━━━━━
+
+Even if data is empty, internal areas must feel alive and premium.
+
+Improve command dashboard and member portal surfaces:
+
+- glass panel shells
+- stronger section framing
+- better toolbar treatment
+- more structured empty states
+- clearer dashboard lanes
+- tighter data table/card design
+- more visual depth in forms and lists
+
+Do NOT add fake records.
+Make empty dashboards feel like real systems awaiting live activity.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — MICRO-DETAIL PASS
+━━━━━━━━━━━━━━━━━━━
+
+Add restrained micro-detail throughout the product.
+
+Possible examples:
+- tiny uppercase system labels
+- subtle section index markers
+- thin rule lines
+- status dots
+- access-level chips
+- operational metadata rows
+- hover light shifts
+- inner line accents
+- dark gradient sheens on major panels
+
+This pass should make the product feel custom-built, not stock.
+
+Keep it disciplined.
+No visual noise.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — TYPOGRAPHY + CONTRAST TUNING
+━━━━━━━━━━━━━━━━━━━
+
+Type is improved, but the interface still needs sharper hierarchy.
+
+Tune:
+
+- stronger headline contrast
+- better body opacity contrast
+- more distinct section label color
+- clearer small text hierarchy
+- more disciplined spacing in paragraph blocks
+- tighter visual relationship between heading, label, and subcopy
+
+The typography should feel like:
+institutional terminal + editorial authority
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — BUTTON DEPTH UPGRADE
+━━━━━━━━━━━━━━━━━━━
+
+Buttons work now, but still feel visually plain.
+
+Upgrade all important buttons:
+
+- REQUEST ACCESS
+- LOGIN
+- VIEW OPERATIONS
+- APPLY FOR ACCESS
+- role-specific buttons
+- command actions
+
+Needed:
+- more depth
+- stronger active/hover state
+- subtle inset / shadow / border treatment
+- better weight in primary buttons
+- clearer secondary button style
+
+Buttons should feel pressurized and intentional, not generic.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 12 — ADD CONTROLLED ATMOSPHERE
+━━━━━━━━━━━━━━━━━━━
+
+The whole site should have more atmosphere.
+
+Add subtle cinematic ambience:
+- faint bloom in key zones
+- restrained vignette at large section boundaries
+- gentle gradient fades
+- softened background structure
+- slight environmental tonal variation across the site
+
+This must remain subtle.
+It should be felt, not noticed.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 13 — FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the site should feel like:
+
+- a secure press operations network
+- a premium independent media institution
+- a serious modern reporting command system
+- a dimensional, layered, high-end dark interface
+- a product with visual depth and real presence
+
+It should NOT feel like:
+- flat
+- empty
+- template-like
+- overly minimal
+- childish
+- soft
+- startup SaaS
+- neon gamer UI
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as a visual hardening + depth pass only.
+
+Preserve:
+- working auth
+- working routes
+- working button logic
+- real empty states
+- no mock data
+
+Upgrade:
+- depth
+- glass
+- atmosphere
+- layering
+- panel quality
+- section richness
+- high-end finish
+
+Do not return with vague summary language.
+Actually push the UI into a visibly stronger tier.
+Execute.
