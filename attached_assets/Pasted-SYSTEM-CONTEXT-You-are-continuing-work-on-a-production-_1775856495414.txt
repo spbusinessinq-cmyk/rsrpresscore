@@ -1,0 +1,399 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+The last pass improved the hero significantly:
+- the globe box/frame issue was corrected
+- animation quality improved
+- the globe now feels more integrated
+- auth and protected routes remain stable
+
+That work was good.
+
+But the platform still needs MORE.
+
+Not more clutter.
+Not random flashy effects.
+Not noisy cyberpunk decoration.
+
+It needs more:
+
+- systems density
+- command detail
+- interactive richness
+- premium support structure
+- visual authority
+- section identity
+- live-network atmosphere
+
+The current experience is strong, but still too sparse in key areas.
+The world needs to feel deeper and more operational.
+
+This pass is a:
+
+SYSTEMS DENSITY + COMMAND THEATER + PREMIUM DETAIL
+
+pass.
+
+Do NOT break working logic.
+Do NOT remove auth.
+Do NOT add mock data.
+Do NOT flatten the hero again.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Push RSR Press Corps from “strong and polished” into “visually unforgettable and institutionally convincing.”
+
+The goal is to make the entire site feel like:
+
+A LIVE GLOBAL FIELD REPORTING NETWORK
+WITH REAL COMMAND SURFACES
+REAL SIGNAL INFRASTRUCTURE
+AND REAL ACCESS SYSTEMS
+
+Right now the design has direction.
+Now it needs density and authority.
+
+━━━━━━━━━━━━━━━━━━━
+DO NOT
+━━━━━━━━━━━━━━━━━━━
+
+- DO NOT turn this into sci-fi noise
+- DO NOT overfill every area
+- DO NOT make the motion busy
+- DO NOT add fake records or fake live data
+- DO NOT replace serious tone with spectacle
+- DO NOT damage the clean structure that already works
+
+This is disciplined enhancement.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — HERO COMMAND THEATER PASS
+━━━━━━━━━━━━━━━━━━━
+
+The hero needs more operational richness around the core composition.
+
+Keep the strong left-copy / right-globe structure, but add more command-surface detail around it.
+
+Add carefully chosen support elements such as:
+
+1. Hero-side micro panels / readouts
+Examples:
+- small “network region” indicator
+- signal status strip
+- access clearance chip
+- node count / network state micro readout
+- operational routing labels
+
+2. Subtle framing logic
+- thin structural guide lines
+- technical separators
+- faint compositional rails
+- embedded system labels
+
+3. More interactive richness in CTA area
+- CTA strip should feel like a control panel
+- Correspondent Login block should feel more intentional and integrated
+- button cluster should feel like part of a live command interface
+
+4. Hero lower metadata band refinement
+- stronger label treatment
+- more polished separators
+- more layered opacity hierarchy
+
+IMPORTANT:
+These additions must feel premium and embedded.
+Do NOT create a junky dashboard in the hero.
+Do NOT clutter reading flow.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — MAKE THE GLOBE FEEL CONNECTED TO THE WHOLE PAGE
+━━━━━━━━━━━━━━━━━━━
+
+Right now the globe may still feel like “the hero graphic.”
+
+Push it into a site-wide visual language.
+
+Do this by extending its design DNA into the rest of the page:
+
+- repeat similar arc language in section accents
+- reuse node motifs in other sections
+- reuse subtle meridian/lat-long visual references
+- bring globe-inspired support graphics into credentials / tiers / login / dashboard areas
+- create visual continuity between hero and downstream sections
+
+The user should feel:
+this whole site belongs to the same networked system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — ADD MORE HIGH-END SUPPORT GRAPHICS
+━━━━━━━━━━━━━━━━━━━
+
+Build and deploy 3 to 5 additional support visual components.
+
+Possible components:
+
+- TacticalBracketSet
+- SignalRouteMesh
+- CredentialChipPattern
+- TransmissionLadder
+- AccessNodeDiagram
+- RegionScanBars
+- GridAnchorMarkers
+- OrbitDataRibbon
+
+Use them strategically in:
+- tier section
+- credentials section
+- “how to join” / access process section
+- login modal/page
+- command dashboard header zones
+- portal header zones
+- footer / closing section
+
+These should make the site feel custom-built and expensive.
+
+Do NOT just dump graphics everywhere.
+Use restraint and hierarchy.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — ADD MORE PREMIUM MOTION LAYERS
+━━━━━━━━━━━━━━━━━━━
+
+The animation is better now, but the site still needs more “living system” energy.
+
+Add subtle motion beyond the globe itself.
+
+Possible motion layers:
+- small scanning sweeps in section backgrounds
+- slow blinking access markers
+- intermittent route-line activation
+- gentle grid shimmer in key areas
+- very subtle movement in support graphics
+- section header indicator pulses
+- light UI response in chrome bars / status strips
+
+Rules:
+- motion must remain slow and premium
+- no constant flashing
+- no chaos
+- no cheap particle spam
+- respect reduced motion
+
+The page should feel alive in multiple layers.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — SECTION IDENTITY PASS
+━━━━━━━━━━━━━━━━━━━
+
+Every major section needs stronger identity.
+
+Right now sections may still rely too much on text + cards.
+
+Give each major section its own subtle visual identity while staying within the same system language.
+
+Examples:
+
+ACCESS TIERS
+- access-level graphic motif
+- credential ladder treatment
+- role-class markers
+
+CREDENTIALS
+- verification pattern
+- encoded texture
+- scan-frame language
+- identity strip details
+
+PROCESS / HOW TO JOIN
+- route/path visualization
+- pipeline flow accents
+- intake progression markers
+
+OPERATIONS
+- assignment board structure
+- dispatch-style overlays
+- route/target language
+
+CLOSING CTA
+- final signal beacon feel
+- larger atmospheric reinforcement
+- stronger call-to-entry atmosphere
+
+Each section should feel purpose-built, not like repeated layout blocks.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — COMMAND DASHBOARD MUST FEEL MORE “TOP TIER”
+━━━━━━━━━━━━━━━━━━━
+
+The dashboard is improved, but push it further into elite territory.
+
+Requirements:
+
+1. Add more command chrome
+- stronger top utility framing
+- more polished tab environment
+- clearer system-state reinforcement
+- subtler but richer command identity
+
+2. Make the intake table area feel more serious
+- refined table spacing
+- better row-state logic
+- stronger empty-state presence
+- more visual support around filters
+
+3. Add low-opacity technical support detail in background
+- faint region mesh
+- intake grid pattern
+- command-surface overlays
+- structural targeting markers
+
+4. Improve the “queue clear” feel
+Empty should feel powerful, not absent.
+
+Think:
+SYSTEM ACTIVE
+QUEUE CLEAR
+AWAITING INTAKE
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — MEMBER PORTAL UPGRADE
+━━━━━━━━━━━━━━━━━━━
+
+Bring the member portal up another level too.
+
+Add:
+- more access-node identity
+- correspondent-status graphics
+- subtle member-side command texture
+- richer empty states
+- more polished report submission surface
+- better visual separation between sections/tabs
+
+It should feel like a real correspondent terminal.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — MICRO-INTERACTION PASS
+━━━━━━━━━━━━━━━━━━━
+
+Add more quality to the interactions.
+
+Audit and enhance:
+- hover states on cards
+- hover states on CTA strip
+- nav hover transitions
+- tab-switch motion
+- modal reveal motion
+- tier expansion motion
+- button press states
+- status indicator changes
+- dropdown/filter motion
+
+Everything should feel:
+- tighter
+- more responsive
+- more expensive
+- more intentional
+
+No sloppy motion.
+No default-feeling UI behavior.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — DEPTH / CONTRAST / READABILITY TUNING
+━━━━━━━━━━━━━━━━━━━
+
+With more graphics and motion being added, rebalance the visual system.
+
+Make sure:
+- text remains readable
+- graphics do not overpower content
+- glow remains controlled
+- contrast is strong where needed
+- body copy doesn’t get lost
+- important UI controls stay obvious
+
+This is critical.
+The site must feel richer, not muddier.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — ADD “SIGNAL MOMENTS”
+━━━━━━━━━━━━━━━━━━━
+
+Introduce a few memorable moments where the system feels especially alive.
+
+Examples:
+- a route line briefly activating
+- a globe node pulse syncing with a metadata strip
+- a dashboard status indicator doing a subtle timed signal
+- a section badge briefly receiving a sweep line
+- a very soft beacon pulse in the closing CTA area
+
+These should be rare, tasteful, and cinematic.
+
+The goal is to create moments the eye catches subconsciously.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — PRESERVE FUNCTIONAL STABILITY
+━━━━━━━━━━━━━━━━━━━
+
+While doing all of this, preserve and re-verify:
+
+- operator login
+- member login
+- bootstrap operator access
+- protected /command
+- protected /portal
+- role-specific intake flow
+- request access modal
+- no fake data
+- clean empty states
+- build stability
+- no new console/runtime errors
+
+Do NOT sacrifice system stability for visuals.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 12 — FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the experience should feel like:
+
+- a premium global correspondent network
+- a live independent press command institution
+- a secure access-controlled media infrastructure
+- a black-glass signal-rich operations platform
+- a site with depth, movement, authority, and memorable system presence
+
+It should feel like:
+there is a real machine behind this.
+
+Not just:
+good typography and a globe.
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as a major systems-density and premium-detail pass.
+
+Add:
+- more command-surface richness
+- more support graphics
+- more subtle motion layers
+- more section identity
+- more site-wide visual continuity
+- more elite dashboard / portal treatment
+
+Preserve:
+- working auth
+- working routes
+- no fake data
+- correct branding
+- the improved hero integration
+
+Then verify that the visual world is deeper, richer, and still stable.
+Execute.

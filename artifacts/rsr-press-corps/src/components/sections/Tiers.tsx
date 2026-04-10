@@ -8,6 +8,7 @@ const TIERS = [
   {
     id: "Observer",
     label: "T-1",
+    clearance: "Lvl 01",
     icon: Activity,
     desc: "Basic network access. Monitor active drops and intelligence from the field.",
     detail: "Observer status grants read-level access to the public operations board. Observers document local events, monitor regional activity, and contribute raw intelligence without direct editorial authority.",
@@ -17,6 +18,7 @@ const TIERS = [
   {
     id: "Contributor",
     label: "T-2",
+    clearance: "Lvl 02",
     icon: Database,
     desc: "Submit field reports, written analysis, and regional intelligence to the network.",
     detail: "Contributors are the editorial backbone. They submit structured field reports, written analysis, sourced media, and verified intelligence. Writing ability and basic research skills are required.",
@@ -26,6 +28,7 @@ const TIERS = [
   {
     id: "Field Operator",
     label: "T-3",
+    clearance: "Lvl 03",
     icon: Crosshair,
     desc: "Deployed asset. Verified identity. Direct tasking board access for active coverage.",
     detail: "Field Operators are deployed on active assignments. They receive direct tasking, attend designated events, and submit real-time reports under command directives. Identity verification is mandatory.",
@@ -35,6 +38,7 @@ const TIERS = [
   {
     id: "Verified Press",
     label: "T-4",
+    clearance: "Lvl 04",
     icon: Shield,
     desc: "Full RSR credentials. Priority access. Established media track record required.",
     detail: "Verified Press status is for established journalists, independent media operators, and credentialed press with a documented track record. Credentials are reviewed against public record and prior publication history.",
@@ -44,6 +48,7 @@ const TIERS = [
   {
     id: "Command",
     label: "CMD",
+    clearance: "Restricted",
     icon: Command,
     desc: "Network administration, operation tasking, and asset coordination.",
     detail: "Command roles are not available through public intake. Command positions are appointed internally and require direct authorization from the network operator.",
@@ -61,13 +66,48 @@ export const Tiers = () => {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,_hsl(150_55%_33%_/_0.06)_0%,_transparent_70%)] pointer-events-none" />
 
+      {/* Background scan bars */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[15, 35, 55, 72, 88].map((pct, i) => (
+          <div
+            key={i}
+            className="absolute left-0 right-0 h-px"
+            style={{
+              top: `${pct}%`,
+              background: `linear-gradient(90deg, transparent, hsl(150 55% 40% / ${0.04 + i * 0.01}), transparent)`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="container mx-auto px-4 relative z-10">
-        <div className="mb-14">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="status-dot" />
-            <span className="cmd-label-primary">Access Levels</span>
+        {/* Section header with tier ladder */}
+        <div className="mb-14 flex items-end gap-8">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="status-dot" />
+              <span className="cmd-label-primary">Access Levels</span>
+              <span className="font-mono text-[8px] text-muted-foreground/20 uppercase tracking-widest ml-auto">
+                {TIERS.filter(t => t.canApply).length} tiers open
+              </span>
+            </div>
+            <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Operational Tiers</h3>
           </div>
-          <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Operational Tiers</h3>
+
+          {/* Tier access ladder — decorative */}
+          <div className="hidden lg:flex flex-col gap-1 pb-1 flex-shrink-0">
+            {["CMD", "T-4", "T-3", "T-2", "T-1"].map((lbl, i) => (
+              <div key={lbl} className="flex items-center gap-1.5">
+                <div
+                  className="h-4 border border-primary/20 bg-primary/5 flex items-center justify-center"
+                  style={{ width: `${32 + (4 - i) * 8}px` }}
+                >
+                  <span className="font-mono text-[7px] text-primary/40 uppercase tracking-wider">{lbl}</span>
+                </div>
+                <div className={`w-1.5 h-1.5 rounded-full ${i === 0 ? 'bg-primary/60' : 'bg-primary/20'}`} />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -84,22 +124,25 @@ export const Tiers = () => {
                     ? "border-primary/35 bg-primary/[0.04]"
                     : "hover:border-primary/22 hover:bg-white/[0.015]"}`}
               >
-                {/* Top accent line (active) */}
+                {/* Top accent line */}
                 <div className={`absolute top-0 left-0 right-0 h-px transition-all ${expanded === tier.id ? "bg-gradient-to-r from-primary/60 via-primary/30 to-transparent" : "bg-gradient-to-r from-primary/15 via-transparent to-transparent"}`} />
 
-                <div className="flex items-start justify-between mb-5">
-                  <div className={`w-9 h-9 border flex items-center justify-center transition-all ${expanded === tier.id ? "border-primary/50 bg-primary/12" : "border-white/10 bg-white/[0.03] group-hover:border-primary/25 group-hover:bg-primary/6"}`}>
+                {/* Clearance label — top right */}
+                <div className="absolute top-4 right-4 font-mono text-[7px] text-muted-foreground/18 uppercase tracking-widest">{tier.clearance}</div>
+
+                <div className="flex items-start gap-4 mb-5">
+                  <div className={`w-9 h-9 border flex items-center justify-center transition-all flex-shrink-0 ${expanded === tier.id ? "border-primary/50 bg-primary/12" : "border-white/10 bg-white/[0.03] group-hover:border-primary/25 group-hover:bg-primary/6"}`}>
                     <tier.icon className={`w-4 h-4 transition-colors ${expanded === tier.id ? "text-primary" : "text-muted-foreground/50 group-hover:text-primary/70"}`} />
                   </div>
-                  <span className={`font-mono text-[9px] font-bold tracking-widest transition-colors ${expanded === tier.id ? "text-primary/70" : "text-muted-foreground/30 group-hover:text-primary/40"}`}>{tier.label}</span>
+                  <span className={`font-mono text-[10px] font-bold tracking-widest self-center transition-colors ${expanded === tier.id ? "text-primary/70" : "text-muted-foreground/30 group-hover:text-primary/40"}`}>{tier.label}</span>
                 </div>
 
                 <h4 className={`font-mono text-base font-bold uppercase tracking-wide mb-2 transition-colors ${expanded === tier.id ? "text-primary" : "group-hover:text-foreground/95"}`}>
                   {tier.id}
                 </h4>
-                <p className="text-xs text-secondary-foreground/65 font-sans leading-relaxed">{tier.desc}</p>
+                <p className="text-xs text-secondary-foreground/60 font-sans leading-relaxed">{tier.desc}</p>
 
-                <div className={`flex items-center gap-1.5 mt-4 font-mono text-[9px] uppercase tracking-widest transition-colors ${expanded === tier.id ? "text-primary/60" : "text-muted-foreground/30 group-hover:text-primary/40"}`}>
+                <div className={`flex items-center gap-1.5 mt-4 font-mono text-[9px] uppercase tracking-widest transition-colors ${expanded === tier.id ? "text-primary/60" : "text-muted-foreground/28 group-hover:text-primary/40"}`}>
                   {expanded === tier.id ? <X className="w-2.5 h-2.5" /> : <ChevronRight className="w-2.5 h-2.5" />}
                   {expanded === tier.id ? "Collapse" : "View Details"}
                 </div>
@@ -115,22 +158,22 @@ export const Tiers = () => {
                     className="overflow-hidden"
                   >
                     <div className="border border-t-0 border-primary/20 bg-black/50 backdrop-blur-sm">
-                      {/* Detail chrome header */}
                       <div className="panel-chrome border-b border-white/[0.05]">
                         <span className="status-dot-active" />
                         <span className="font-mono text-[9px] text-primary/50 uppercase tracking-widest">{tier.id} — Tier Detail</span>
+                        <span className="ml-auto font-mono text-[8px] text-muted-foreground/25 uppercase tracking-widest">{tier.clearance}</span>
                       </div>
 
                       <div className="p-5 space-y-5">
-                        <p className="font-sans text-xs text-secondary-foreground/75 leading-relaxed">{tier.detail}</p>
+                        <p className="font-sans text-xs text-secondary-foreground/72 leading-relaxed">{tier.detail}</p>
 
                         {tier.requirements.length > 0 && (
                           <div className="bg-black/25 p-4 border border-white/[0.05]">
-                            <div className="font-mono text-[9px] text-primary/60 uppercase tracking-widest mb-3">Requirements</div>
+                            <div className="font-mono text-[9px] text-primary/55 uppercase tracking-widest mb-3">Requirements</div>
                             <ul className="space-y-2">
                               {tier.requirements.map((req) => (
-                                <li key={req} className="flex items-start gap-2.5 font-sans text-xs text-secondary-foreground/65">
-                                  <span className="text-primary/50 mt-0.5 shrink-0 font-mono text-[10px]">—</span>
+                                <li key={req} className="flex items-start gap-2.5 font-sans text-xs text-secondary-foreground/62">
+                                  <span className="text-primary/45 mt-0.5 shrink-0 font-mono text-[10px]">—</span>
                                   {req}
                                 </li>
                               ))}
@@ -151,7 +194,7 @@ export const Tiers = () => {
                             }
                           />
                         ) : (
-                          <div className="px-4 py-3 border border-white/8 bg-black/30 font-mono text-[9px] text-muted-foreground/40 uppercase tracking-widest">
+                          <div className="px-4 py-3 border border-white/8 bg-black/30 font-mono text-[9px] text-muted-foreground/38 uppercase tracking-widest">
                             Command intake is not publicly open
                           </div>
                         )}
