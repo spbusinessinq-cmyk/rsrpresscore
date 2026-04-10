@@ -6,6 +6,15 @@ const router: IRouter = Router();
 
 const OPERATOR_EMAIL = process.env.OPERATOR_EMAIL ?? "admin@rsrpresscorps.com";
 const OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD ?? "rsr-command-2024";
+const BOOTSTRAP_EMAIL = process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "";
+const BOOTSTRAP_PASSWORD = process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "";
+
+function isOperator(email: string, password: string): boolean {
+  const normalizedEmail = email.toLowerCase();
+  if (normalizedEmail === OPERATOR_EMAIL.toLowerCase() && password === OPERATOR_PASSWORD) return true;
+  if (BOOTSTRAP_EMAIL && normalizedEmail === BOOTSTRAP_EMAIL.toLowerCase() && password === BOOTSTRAP_PASSWORD) return true;
+  return false;
+}
 
 router.post("/auth/login", async (req, res): Promise<void> => {
   const { email, password } = req.body;
@@ -15,13 +24,10 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  if (
-    email.toLowerCase() === OPERATOR_EMAIL.toLowerCase() &&
-    password === OPERATOR_PASSWORD
-  ) {
+  if (isOperator(email, password)) {
     req.session.user = {
       id: 0,
-      email: OPERATOR_EMAIL,
+      email: email.toLowerCase(),
       name: "Command",
       role: "operator",
       tier: "command",

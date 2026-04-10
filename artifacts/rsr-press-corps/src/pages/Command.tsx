@@ -36,6 +36,8 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import type { Application } from "@workspace/api-client-react/src/generated/api.schemas";
 import { EmptyState } from "@/components/EmptyState";
+import { SignalGridOverlay } from "@/components/graphics/SignalGridOverlay";
+import { NetworkNodeField } from "@/components/graphics/NetworkNodeField";
 
 export default function Command() {
   const { user, isLoading, role, refetch } = useAuth();
@@ -66,6 +68,7 @@ export default function Command() {
   return (
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-x-hidden">
       <div className="scanline" />
+      <SignalGridOverlay opacity={0.3} />
       <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(6,9,7,0.95)] backdrop-blur-xl">
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 h-[60px] flex items-center justify-between">

@@ -24,6 +24,7 @@ import {
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { EmptyState } from "@/components/EmptyState";
+import { SignalGridOverlay } from "@/components/graphics/SignalGridOverlay";
 
 export default function Portal() {
   const { user, isLoading, role, refetch } = useAuth();
@@ -60,7 +61,8 @@ export default function Portal() {
   return (
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative">
       <div className="scanline" />
-      
+      <SignalGridOverlay opacity={0.3} />
+
       <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(6,9,7,0.95)] backdrop-blur-xl">
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/18 to-transparent" />
         <div className="container mx-auto px-4 h-[60px] flex items-center justify-between">

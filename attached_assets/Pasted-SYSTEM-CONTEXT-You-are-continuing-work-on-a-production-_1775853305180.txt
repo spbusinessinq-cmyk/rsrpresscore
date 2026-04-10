@@ -1,0 +1,354 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+The current system is improved, but the latest pass is still too focused on CSS explanation and not enough on actual VISUAL IMPACT.
+
+I now need a stronger “sell the vision” pass.
+
+The site must feel more advanced, more technological, more alive, and more impressive while still staying serious and institutional.
+
+This does NOT mean childish effects.
+This does NOT mean cyberpunk overload.
+This means:
+
+- global network visuals
+- signal infrastructure feel
+- press-command atmosphere
+- premium tech depth
+- restrained motion
+- stronger visual worldbuilding
+
+The platform should feel like a real modern field-media command institution.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Push the UI from “good dark site” into a more visually convincing, high-end operational experience.
+
+I want:
+
+1. stronger visual identity
+2. more tech-world atmosphere
+3. globe / wireframe / signal-network visuals
+4. layered command graphics
+5. more “this is a real system” energy
+6. working bootstrap operator login for me
+
+Do NOT break the current functionality.
+Do NOT remove auth.
+Do NOT add mock data.
+Do NOT turn this into a sci-fi toy.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — ADD A REAL TECH / NETWORK VISUAL LANGUAGE
+━━━━━━━━━━━━━━━━━━━
+
+The site needs visual support graphics and interface assets that make the system feel more advanced.
+
+Add restrained visual elements like:
+
+- wireframe globe
+- world/signal grid overlays
+- subtle connection arcs
+- latitude/longitude mapping lines
+- node clusters
+- command-map style mesh lines
+- tactical panel graphics
+- faint signal sweep elements
+- shield / credential / transmission iconography
+- ambient network overlays
+
+These should appear as:
+- hero background support art
+- section-side graphics
+- faded overlays inside panels
+- background motif elements
+- closing section support visual
+
+IMPORTANT:
+These elements must be subtle, premium, and integrated.
+Do NOT make them loud.
+Do NOT make them cartoonish.
+Do NOT clutter the interface.
+
+Think:
+global press infrastructure
+signal network
+field command intelligence
+independent media operations grid
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — HERO NEEDS A SIGNATURE VISUAL
+━━━━━━━━━━━━━━━━━━━
+
+The hero needs one standout visual element that sells the world immediately.
+
+Add a signature support visual on the right side or behind the hero zone.
+
+Preferred direction:
+- semi-transparent wireframe globe
+- connected node mesh
+- faint orbit lines
+- subtle signal arcs
+- layered geographic network effect
+
+This should feel like:
+RSR Press Corps is plugged into a live field-reporting network.
+
+Do NOT use cheesy stock imagery.
+Do NOT use a generic illustration.
+Build it in CSS / SVG / canvas / layered divs if possible.
+
+Hero should now have:
+- left side = copy / CTA / structure
+- right side = restrained technical visual system
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — ADD SVG / CSS TECH GRAPHICS
+━━━━━━━━━━━━━━━━━━━
+
+Build reusable decorative visual components.
+
+Create components such as:
+
+- WireGlobeGraphic
+- SignalGridOverlay
+- NetworkNodeField
+- CommandPanelLines
+- CredentialPattern
+- TransmissionArcGraphic
+
+These can be lightweight SVG or CSS-based graphics.
+
+Use them across the site in a disciplined way.
+
+Examples:
+- hero background
+- behind access tiers
+- behind credential section
+- portal/dashboard headers
+- login modal background accent
+- empty state side graphics
+
+Goal:
+The site must stop feeling like empty dark rectangles.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — MAKE THE LOGIN FEEL ELITE
+━━━━━━━━━━━━━━━━━━━
+
+The login experience needs more authority and visual weight.
+
+Upgrade the login modal/page so it feels like:
+
+SECURE ACCESS NODE
+RSR PRESS CORPS AUTH GATE
+COMMAND / MEMBER ENTRY TERMINAL
+
+Requirements:
+- stronger split between Member Access and Command Access
+- better panel styling
+- more technical support graphics in the login area
+- subtle shield / signal / credential visual language
+- stronger chrome header
+- more premium empty space handling
+
+Do NOT make it look like a generic web app login.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — BOOTSTRAP OPERATOR LOGIN FOR SETUP
+━━━━━━━━━━━━━━━━━━━
+
+Create a bootstrap operator account for initial setup using:
+
+Email:
+spbusinessinq@gmail.com
+
+Temporary bootstrap password:
+4451
+
+IMPORTANT:
+This must be treated as a bootstrap setup credential only.
+
+Implementation rules:
+
+1. Do NOT hardcode this directly into visible UI copy
+2. Store it through the real auth / seed / bootstrap path
+3. If using database seeding, create the operator/admin record there
+4. Mark this clearly in internal setup notes as a bootstrap account
+5. If possible, force password change later or make it easy to replace immediately
+
+Operator role:
+- admin
+- command access
+- full dashboard privileges
+
+Use this only to ensure I can log in and access /command.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — TOP NAV / LOGIN ENTRY POLISH
+━━━━━━━━━━━━━━━━━━━
+
+Now that login matters more, make the top-right access zone feel stronger.
+
+Required:
+- LOGIN button must feel more premium and visible
+- REQUEST ACCESS remains strong primary CTA
+- hover/active states must feel sharp and expensive
+- access buttons should feel like part of a secure system, not regular nav links
+
+Add subtle icon treatment if clean.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — DASHBOARD / PORTAL NEED SUPPORT VISUALS TOO
+━━━━━━━━━━━━━━━━━━━
+
+Do not leave the command dashboard and member portal visually plain.
+
+Add restrained technical support art to internal surfaces too:
+
+- faint topology lines in headers
+- section-side signal mesh
+- dashboard background structure
+- subtle panel insignia
+- low-opacity credential patterns
+- internal command framing lines
+- secure-terminal atmosphere
+
+Even empty dashboards should feel like live infrastructure.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — IMPROVE CREDENTIAL / ACCESS WORLD
+━━━━━━━━━━━━━━━━━━━
+
+The credentials section should feel more impressive.
+
+Upgrade this area with:
+- better credential card styling
+- watermark layer
+- faint encoded pattern / verification motif
+- scan frame lines
+- subtle QR/ID styling
+- security texture
+- better depth behind the card
+
+The card should feel like:
+real field media credential
+not concept art
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — ADD CONTROLLED MOTION
+━━━━━━━━━━━━━━━━━━━
+
+Introduce subtle motion only where it helps.
+
+Allowed examples:
+- slow globe rotation
+- faint signal pulse
+- gentle node flicker
+- restrained line sweep
+- ambient background drift
+- soft radar-like shimmer
+
+Rules:
+- motion must be slow
+- motion must be premium
+- motion must never distract from reading
+- respect reduced motion preferences
+
+This motion should create life, not chaos.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 10 — MAKE THE SITE FEEL “CONNECTED”
+━━━━━━━━━━━━━━━━━━━
+
+The product should feel like a live connected system.
+
+Add small details like:
+- connection lines between visual motifs
+- section metadata strips
+- status rails
+- system labels
+- operational node markers
+- transmission labels
+- subtle region/grid references
+- active signal indicators where appropriate
+
+Again:
+restrained
+serious
+integrated
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 11 — DO NOT JUST DESCRIBE THE CSS
+━━━━━━━━━━━━━━━━━━━
+
+Do not respond with another long summary of design tokens and CSS classes.
+
+Actually implement the stronger visual system.
+
+Then verify:
+- login works
+- bootstrap operator account exists
+- command access works
+- visuals are visibly more advanced
+- hero now has signature tech support art
+- internal surfaces feel richer
+
+Report results based on what is actually visible and working.
+
+━━━━━━━━━━━━━━━━━━━
+FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete, the site should feel like:
+
+- a modern independent press command institution
+- a live reporting network
+- a secure media access system
+- a premium black-glass command interface
+- a globally connected field operations platform
+
+It should look like it has:
+reach
+infrastructure
+systems
+clearance
+network presence
+seriousness
+
+Not:
+- empty
+- flat
+- generic
+- childish
+- over-neon
+- over-animated
+- startup SaaS
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Implement the stronger visual support layer and bootstrap operator access.
+
+Preserve:
+- working routes
+- working buttons
+- working auth structure
+- no fake data
+
+Add:
+- signature globe / wireframe / network visuals
+- richer tech-world atmosphere
+- more graphic support throughout the product
+- bootstrap operator login for:
+  spbusinessinq@gmail.com
+  temporary password: 4451
+
+Then verify the login and present the improved build.
+Execute.

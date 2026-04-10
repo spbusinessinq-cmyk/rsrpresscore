@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { useLogin } from "@workspace/api-client-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { WireGlobeGraphic } from "@/components/graphics/WireGlobeGraphic";
+import { SignalGridOverlay } from "@/components/graphics/SignalGridOverlay";
 
 type LoginMode = "member" | "operator";
 
@@ -54,116 +56,163 @@ export default function Login() {
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background relative overflow-hidden">
       <div className="scanline" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_40%_50%,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <SignalGridOverlay opacity={0.4} />
 
-      <header className="border-b border-primary/10 px-6 h-14 flex items-center">
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_30%_50%,_hsl(150_55%_33%_/_0.07)_0%,_transparent_100%)] pointer-events-none" />
+
+      <header className="relative z-10 border-b border-white/[0.06] px-6 h-14 flex items-center justify-between">
         <button
           onClick={() => setLocation("/")}
-          className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors"
         >
           <ArrowLeft className="w-3 h-3" />
           RSR Press Corps
         </button>
+        <div className="flex items-center gap-2">
+          <span className="status-dot-active" />
+          <span className="font-mono text-[9px] text-primary/40 uppercase tracking-widest">Auth Gate Active</span>
+        </div>
       </header>
 
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 border border-primary/30 mb-5">
-              <Shield className="w-6 h-6 text-primary" />
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          {/* Left — Globe / Visual identity */}
+          <div className="hidden lg:flex flex-col items-center justify-center relative">
+            <div className="relative">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(150_55%_33%_/_0.1)_0%,_transparent_65%)] blur-2xl pointer-events-none" />
+              <WireGlobeGraphic size={400} opacity={0.6} className="relative z-10" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_0%_50%,_hsl(220_16%_6%)_0%,_transparent_55%)] pointer-events-none z-20" />
             </div>
-            <h1 className="font-mono text-2xl font-bold uppercase tracking-widest">Network Access</h1>
-            <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mt-1">RSR Press Corps Authentication</p>
+
+            <div className="mt-8 text-center space-y-2">
+              <div className="font-mono text-[10px] text-primary/40 uppercase tracking-[0.3em]">RSR Press Corps</div>
+              <div className="font-mono text-[10px] text-muted-foreground/25 uppercase tracking-widest">Secure Access Node // Auth Gate</div>
+              <div className="flex items-center justify-center gap-3 mt-3">
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/20" />
+                <span className="status-dot-active" />
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/20" />
+              </div>
+            </div>
           </div>
 
-          <div className="border border-primary/20 bg-black/40 overflow-hidden">
-            <div className="flex border-b border-white/5">
-              <button
-                onClick={() => switchMode("member")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-widest transition-colors border-r border-white/5
-                  ${mode === "member" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}
-              >
-                <Users className="w-3 h-3" />
-                Member Access
-              </button>
-              <button
-                onClick={() => switchMode("operator")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-widest transition-colors
-                  ${mode === "operator" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}
-              >
-                <Lock className="w-3 h-3" />
-                Command Access
-              </button>
+          {/* Right — Login form */}
+          <div className="w-full max-w-md mx-auto">
+            <div className="mb-8 text-center lg:text-left">
+              <div className="inline-flex items-center justify-center w-11 h-11 glass-panel border-primary/30 mb-5 tactical-glow-sm">
+                <Shield className="w-5 h-5 text-primary" />
+              </div>
+              <h1 className="font-mono text-2xl font-bold uppercase tracking-tight">Network Access</h1>
+              <p className="font-mono text-[10px] text-muted-foreground/40 uppercase tracking-[0.2em] mt-1">RSR Press Corps Authentication</p>
             </div>
 
-            <div className="p-8">
-              <div className="mb-6">
-                <div className="font-mono font-bold uppercase tracking-widest text-sm mb-1">
-                  {mode === "operator" ? "Command Authentication" : "Correspondent Login"}
-                </div>
-                <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
-                  {mode === "operator"
-                    ? "Operator clearance required for command access"
-                    : "Enter your issued email and access code"}
-                </div>
+            <div className="glass-elevated overflow-hidden">
+              {/* Chrome header */}
+              <div className="panel-chrome border-b border-white/[0.05]">
+                <div className="w-2 h-2 border border-primary/40" />
+                <span className="font-mono text-[9px] text-primary/40 uppercase tracking-widest">Auth Terminal</span>
+                <span className="ml-auto font-mono text-[9px] text-muted-foreground/20 uppercase tracking-widest">v2.1</span>
               </div>
 
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-1.5">
-                  <Label className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                    {mode === "operator" ? "Operator ID" : "Email Address"}
-                  </Label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    autoComplete="email"
-                    placeholder={mode === "operator" ? "command@rsrpresscorps.com" : "correspondent@email.com"}
-                    className="font-mono bg-black/60 tactical-border h-11"
-                    data-testid="input-login-email"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                    {mode === "operator" ? "Command Passcode" : "Access Code"}
-                  </Label>
-                  <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="••••••••"
-                    className="font-mono bg-black/60 tactical-border h-11"
-                    data-testid="input-login-password"
-                  />
-                </div>
-
-                {mode === "member" && (
-                  <p className="font-mono text-[10px] text-muted-foreground/50 leading-relaxed pt-1">
-                    Access codes are issued upon application acceptance. Contact command if you have not received yours.
-                  </p>
-                )}
-
-                <Button
-                  type="submit"
-                  className={`w-full h-11 font-mono uppercase tracking-widest font-bold text-xs mt-2
-                    ${mode === "operator"
-                      ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                      : "bg-white/10 hover:bg-white/15 text-foreground border border-white/20"}`}
-                  disabled={loginMutation.isPending}
-                  data-testid="btn-login-submit"
+              {/* Tabs */}
+              <div className="flex border-b border-white/[0.05]">
+                <button
+                  onClick={() => switchMode("member")}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-all border-r border-white/[0.05]
+                    ${mode === "member" ? "bg-primary/8 text-primary border-b border-b-primary/50" : "text-muted-foreground/40 hover:text-muted-foreground/70 hover:bg-white/[0.02]"}`}
                 >
-                  {loginMutation.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : mode === "operator" ? (
-                    "Authenticate — Command"
-                  ) : (
-                    "Authenticate — Member"
+                  <Users className="w-3 h-3" />
+                  Member
+                </button>
+                <button
+                  onClick={() => switchMode("operator")}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-all
+                    ${mode === "operator" ? "bg-primary/8 text-primary border-b border-b-primary/50" : "text-muted-foreground/40 hover:text-muted-foreground/70 hover:bg-white/[0.02]"}`}
+                >
+                  <Lock className="w-3 h-3" />
+                  Command
+                </button>
+              </div>
+
+              <div className="p-7">
+                <div className="mb-6 pb-5 border-b border-white/[0.05]">
+                  <div className="font-mono font-bold uppercase tracking-widest text-sm mb-1">
+                    {mode === "operator" ? "Command Authentication" : "Correspondent Login"}
+                  </div>
+                  <div className="font-mono text-[9px] text-muted-foreground/35 uppercase tracking-widest">
+                    {mode === "operator"
+                      ? "Operator clearance required for command access"
+                      : "Enter your issued email and access code"}
+                  </div>
+                </div>
+
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/60">
+                      {mode === "operator" ? "Operator ID" : "Email Address"}
+                    </Label>
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      autoComplete="email"
+                      placeholder={mode === "operator" ? "command@rsrpresscorps.com" : "correspondent@email.com"}
+                      className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none placeholder:text-white/18"
+                      data-testid="input-login-email"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/60">
+                      {mode === "operator" ? "Command Passcode" : "Access Code"}
+                    </Label>
+                    <Input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      autoComplete={mode === "operator" ? "current-password" : "off"}
+                      placeholder="••••••••"
+                      className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none"
+                      data-testid="input-login-password"
+                    />
+                  </div>
+
+                  {mode === "member" && (
+                    <div className="px-3 py-2.5 bg-black/30 border border-white/[0.06]">
+                      <p className="font-mono text-[9px] text-muted-foreground/35 uppercase tracking-wider leading-relaxed">
+                        Access codes are issued upon application acceptance.
+                      </p>
+                    </div>
                   )}
-                </Button>
-              </form>
+
+                  <div className="pt-1">
+                    <Button
+                      type="submit"
+                      className={`w-full h-10 font-mono uppercase tracking-widest font-bold text-[10px] rounded-none transition-all
+                        ${mode === "operator"
+                          ? "bg-primary hover:bg-primary/90 text-primary-foreground btn-primary-depth"
+                          : "bg-white/8 hover:bg-white/12 text-foreground/80 border border-white/12 hover:border-white/20"}`}
+                      disabled={loginMutation.isPending}
+                      data-testid="btn-login-submit"
+                    >
+                      {loginMutation.isPending ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : mode === "operator" ? (
+                        "Authenticate — Command"
+                      ) : (
+                        "Authenticate — Member"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div className="mt-4 text-center font-mono text-[9px] text-muted-foreground/20 uppercase tracking-widest">
+              Secure session — RSR Press Corps // Auth Gate
             </div>
           </div>
         </div>
