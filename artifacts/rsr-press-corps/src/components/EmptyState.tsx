@@ -55,12 +55,12 @@ export function EmptyState({ label, subtext, icon: Icon, operationalLine }: Empt
           </div>
         )}
 
-        <div className="font-mono text-[10px] text-muted-foreground/38 uppercase tracking-[0.3em] mb-2">{label}</div>
+        <div className="font-mono text-[11px] text-muted-foreground/60 uppercase tracking-[0.25em] mb-2 font-bold">{label}</div>
 
         {subtext ? (
-          <div className="font-mono text-[9px] text-muted-foreground/20 uppercase tracking-[0.22em]">{subtext}</div>
+          <div className="font-mono text-[9px] text-muted-foreground/35 uppercase tracking-[0.2em]">{subtext}</div>
         ) : (
-          <div className="flex items-center gap-2 font-mono text-[9px] text-muted-foreground/18 uppercase tracking-[0.22em]">
+          <div className="flex items-center gap-2 font-mono text-[9px] text-muted-foreground/35 uppercase tracking-[0.2em]">
             <span className="status-dot-active" style={{ width: 4, height: 4, flexShrink: 0 }} />
             {operationalLine || "System Active — Awaiting Input"}
           </div>

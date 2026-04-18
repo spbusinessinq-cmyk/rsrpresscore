@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { Shield, LogOut, Radio, Send, FileText, CheckCircle, Activity } from "lucide-react";
+import { Shield, LogOut, Radio, Send, FileText, CheckCircle, Activity, ChevronLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -79,38 +79,58 @@ export default function Portal() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(5,8,6,0.97)] backdrop-blur-xl">
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/18 to-transparent" />
-        <div className="container mx-auto px-4 h-[60px] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 glass-panel border-primary/28 flex items-center justify-center">
-              <Shield className="w-3.5 h-3.5 text-primary" />
+        <div className="container mx-auto px-4 h-[60px] flex items-center gap-3">
+
+          {/* ← Back to site */}
+          <button
+            onClick={() => setLocation("/")}
+            className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest
+              text-muted-foreground/35 hover:text-primary/70 transition-colors py-1 px-2
+              border border-transparent hover:border-white/[0.07] group flex-shrink-0"
+            title="Return to Press Corps"
+          >
+            <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="hidden sm:inline">Press Corps</span>
+          </button>
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-white/[0.07] flex-shrink-0" />
+
+          {/* Identity */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="w-7 h-7 glass-panel border-primary/28 flex items-center justify-center">
+              <Shield className="w-3 h-3 text-primary" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">RSR Press Corps</span>
-              <span className="font-mono font-bold text-sm uppercase tracking-[0.15em]">
-                <span className="text-primary">Member</span> Portal
-              </span>
+              <span className="font-mono text-[8px] text-primary/40 uppercase tracking-[0.25em]">Member Portal</span>
+              <span className="font-mono font-bold text-[11px] uppercase tracking-[0.18em] text-foreground/80">RSR Press Corps</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Correspondent identity chip */}
-            <div className="hidden md:flex items-center gap-3 px-3 py-1.5 glass-panel">
-              <span className="status-dot-active" />
-              <div className="flex flex-col leading-none">
-                <span className="font-mono text-[7px] text-muted-foreground/30 uppercase tracking-widest">Correspondent</span>
-                <span className="font-mono text-[9px] text-muted-foreground/65 uppercase tracking-wider">{user?.name}</span>
-              </div>
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Correspondent identity chip */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 glass-panel flex-shrink-0">
+            <span className="status-dot-active" />
+            <div className="flex flex-col leading-none">
+              <span className="font-mono text-[7px] text-muted-foreground/30 uppercase tracking-widest">Correspondent</span>
+              <span className="font-mono text-[9px] text-foreground/55 uppercase tracking-wider">{user?.name}</span>
             </div>
-            {/* Signal state */}
-            <div className="hidden lg:flex items-center gap-1.5">
-              <Activity className="w-3 h-3 text-primary/30" />
-              <span className="font-mono text-[8px] text-primary/30 uppercase tracking-widest">Auth Active</span>
-            </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout}
-              className="text-muted-foreground/35 hover:text-muted-foreground/65 h-8 w-8" data-testid="btn-logout">
-              <LogOut className="w-3.5 h-3.5" />
-            </Button>
           </div>
+
+          {/* Auth state */}
+          <div className="hidden lg:flex items-center gap-1.5 flex-shrink-0">
+            <Activity className="w-3 h-3 text-primary/30" />
+            <span className="font-mono text-[8px] text-primary/30 uppercase tracking-widest">Auth Active</span>
+          </div>
+
+          <Button variant="ghost" size="sm" onClick={handleLogout}
+            className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/45 hover:text-destructive/80 hover:bg-destructive/8 h-8 gap-1.5 border border-transparent hover:border-destructive/15 transition-all"
+            data-testid="btn-logout">
+            <LogOut className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Logout</span>
+          </Button>
         </div>
       </header>
 
@@ -123,19 +143,21 @@ export default function Portal() {
               <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">RSR Press Corps // Correspondent Access</span>
               <span className="ml-auto font-mono text-[9px] text-muted-foreground/18 uppercase tracking-widest">{user?.name}</span>
             </div>
-            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-2 justify-start gap-1 w-full">
+            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-1.5 justify-start gap-1 w-full">
               {[
-                { value: "bulletins",   label: "Bulletins"  },
-                { value: "assignments", label: "Field Ops"  },
-                { value: "schedule",    label: "Schedule"   },
+                { value: "bulletins",   label: "Bulletins"   },
+                { value: "assignments", label: "Field Ops"   },
+                { value: "schedule",    label: "Schedule"    },
                 { value: "report",      label: "File Report" },
-                { value: "comms",       label: "Comms"      },
+                { value: "comms",       label: "Comms"       },
               ].map(({ value, label }) => (
                 <TabsTrigger
                   key={value} value={value}
-                  className="rounded-none uppercase tracking-widest text-[10px] py-2 px-4 border border-transparent
-                    data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
-                    data-[state=active]:border-primary/20 hover:bg-white/[0.02] hover:text-foreground/65 transition-all"
+                  className="rounded-none uppercase tracking-widest text-[10px] py-2.5 px-4 border border-transparent
+                    text-muted-foreground/40
+                    data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none
+                    data-[state=active]:border-primary/15 data-[state=active]:border-b-2 data-[state=active]:border-b-primary/60
+                    hover:bg-white/[0.03] hover:text-foreground/65 transition-all"
                 >
                   {label}
                 </TabsTrigger>

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import {
   Shield, LogOut, CheckCircle, Clock, AlertTriangle, XCircle,
-  Search, Users, Radio, Calendar, FileText, Wifi, Activity
+  Search, Users, Radio, Calendar, FileText, Wifi, Activity,
+  ChevronLeft
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -99,45 +100,67 @@ export default function Command() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[rgba(5,8,6,0.97)] backdrop-blur-xl">
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/22 to-transparent" />
-        <div className="container mx-auto px-4 h-[60px] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 glass-panel border-primary/40 flex items-center justify-center tactical-glow-sm">
-              <Shield className="w-3.5 h-3.5 text-primary" />
+        <div className="container mx-auto px-4 h-[60px] flex items-center gap-3">
+
+          {/* ← Back to site */}
+          <button
+            onClick={() => setLocation("/")}
+            className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest
+              text-muted-foreground/35 hover:text-primary/70 transition-colors py-1 px-2
+              border border-transparent hover:border-white/[0.07] group flex-shrink-0"
+            title="Return to Press Corps"
+          >
+            <ChevronLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+            <span className="hidden sm:inline">Press Corps</span>
+          </button>
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-white/[0.07] flex-shrink-0" />
+
+          {/* Identity */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="w-7 h-7 glass-panel border-primary/40 flex items-center justify-center tactical-glow-sm">
+              <Shield className="w-3 h-3 text-primary" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">RSR Press Corps</span>
-              <span className="font-mono font-bold text-sm uppercase tracking-[0.15em]">
-                <span className="text-primary">Command</span> Dashboard
-              </span>
+              <span className="font-mono text-[8px] text-primary/40 uppercase tracking-[0.25em]">Command Dashboard</span>
+              <span className="font-mono font-bold text-[11px] uppercase tracking-[0.18em] text-foreground/80">RSR Press Corps</span>
             </div>
           </div>
+
+          {/* Spacer */}
+          <div className="flex-1" />
 
           {/* Center — system state strip (desktop only) */}
           <div className="hidden xl:flex items-center gap-px border border-white/[0.06] overflow-hidden">
             {[
-              { label: "Signal", value: "Active",   pulse: true  },
-              { label: "Network", value: "Nominal",  pulse: false },
-              { label: "Auth",    value: "Granted",  pulse: false },
+              { label: "Signal",  value: "Active",  pulse: true  },
+              { label: "Network", value: "Nominal", pulse: false },
+              { label: "Auth",    value: "Granted", pulse: false },
             ].map(s => (
               <div key={s.label} className="flex items-center gap-1.5 px-3 py-1.5 bg-background/60">
                 {s.pulse && <span className="status-dot-active" style={{ width: 4, height: 4 }} />}
                 <span className="font-mono text-[7px] text-muted-foreground/25 uppercase tracking-widest">{s.label}</span>
-                <span className="font-mono text-[8px] text-primary/45 uppercase tracking-wide font-bold">{s.value}</span>
+                <span className="font-mono text-[8px] text-primary/50 uppercase tracking-wide font-bold">{s.value}</span>
               </div>
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 hidden md:flex">
-              <Activity className="w-3 h-3 text-primary/35" />
-              <span className="font-mono text-[9px] text-primary/40 uppercase tracking-widest">Session Active</span>
+          <div className="hidden xl:block w-px h-5 bg-white/[0.07]" />
+
+          {/* Right: session + logout */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="hidden md:flex items-center gap-1.5">
+              <Activity className="w-3 h-3 text-primary/30" />
+              <span className="font-mono text-[8px] text-primary/35 uppercase tracking-widest">Session</span>
             </div>
             <Button
               variant="ghost" size="sm"
               onClick={handleLogout}
-              className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/40 hover:text-muted-foreground/70 h-8 gap-1.5"
+              className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/45 hover:text-destructive/80 hover:bg-destructive/8 h-8 gap-1.5 border border-transparent hover:border-destructive/15 transition-all"
             >
-              <LogOut className="w-3 h-3" /> Terminate
+              <LogOut className="w-3 h-3" />
+              <span className="hidden sm:inline">Logout</span>
             </Button>
           </div>
         </div>
@@ -155,20 +178,22 @@ export default function Command() {
                 <span className="font-mono text-[9px] text-muted-foreground/18 uppercase tracking-widest">All Systems Nominal</span>
               </div>
             </div>
-            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-2 justify-start gap-1 w-full">
+            <TabsList className="bg-transparent border-none shadow-none font-mono rounded-none flex-wrap h-auto p-1.5 justify-start gap-1 w-full">
               {[
-                { value: "applications", icon: Users,    label: "Intake"      },
-                { value: "bulletins",    icon: Radio,    label: "Bulletins"   },
-                { value: "assignments",  icon: CrosshairIcon, label: "Assignments" },
-                { value: "schedule",     icon: Calendar, label: "Schedule"    },
-                { value: "reports",      icon: FileText, label: "Intel"       },
+                { value: "applications", icon: Users,        label: "Intake"      },
+                { value: "bulletins",    icon: Radio,        label: "Bulletins"   },
+                { value: "assignments",  icon: CrosshairIcon,label: "Assignments" },
+                { value: "schedule",     icon: Calendar,     label: "Schedule"    },
+                { value: "reports",      icon: FileText,     label: "Intel"       },
               ].map(({ value, icon: Icon, label }) => (
                 <TabsTrigger
                   key={value} value={value}
-                  className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2 flex items-center gap-1.5
-                    data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none
-                    border border-transparent data-[state=active]:border-primary/20
-                    hover:bg-white/[0.02] hover:text-foreground/70 transition-all"
+                  className="rounded-none uppercase text-[10px] tracking-widest px-4 py-2.5 flex items-center gap-1.5
+                    text-muted-foreground/40
+                    data-[state=active]:bg-primary/12 data-[state=active]:text-primary data-[state=active]:shadow-none
+                    data-[state=active]:border-b-2 data-[state=active]:border-primary/60
+                    border border-transparent data-[state=active]:border-primary/15
+                    hover:bg-white/[0.03] hover:text-foreground/65 transition-all"
                 >
                   <Icon className="w-3 h-3" /> {label}
                 </TabsTrigger>
@@ -249,13 +274,13 @@ function ApplicationsPanel() {
 
         {/* Table */}
         <Table>
-          <TableHeader className="bg-black/40 font-mono">
-            <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest font-mono">Operator</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest font-mono">Location</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest font-mono hidden md:table-cell">Experience</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest font-mono hidden md:table-cell">Received</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest font-mono">Status</TableHead>
+          <TableHeader className="bg-black/55 font-mono">
+            <TableRow className="border-b border-white/[0.08] hover:bg-transparent">
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest font-mono py-3">Operator</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest font-mono py-3">Location</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest font-mono py-3 hidden md:table-cell">Experience</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest font-mono py-3 hidden md:table-cell">Received</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest font-mono py-3">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -514,7 +539,7 @@ function BulletinManagement() {
                 </span>
               </div>
               <Button variant="ghost" size="sm" onClick={() => handleDelete(b.id)}
-                className="text-destructive/40 hover:text-destructive hover:bg-destructive/10 h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-all">
+                className="text-destructive/30 hover:text-destructive hover:bg-destructive/10 h-7 w-7 p-0 opacity-30 group-hover:opacity-100 transition-all">
                 <XCircle className="w-3.5 h-3.5" />
               </Button>
             </div>
@@ -636,12 +661,12 @@ function AssignmentManagement() {
           <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">Active Taskings</span>
         </div>
         <Table>
-          <TableHeader className="bg-black/40 font-mono">
-            <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest">Obj / Loc</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest">Pri / Vis</TableHead>
-              <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest">Status / Asset</TableHead>
-              <TableHead className="w-10" />
+          <TableHeader className="bg-black/55 font-mono">
+            <TableRow className="border-b border-white/[0.08] hover:bg-transparent">
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3">Obj / Loc</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3">Pri / Vis</TableHead>
+              <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3">Status / Asset</TableHead>
+              <TableHead className="w-10 py-3" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -665,7 +690,7 @@ function AssignmentManagement() {
                 </TableCell>
                 <TableCell>
                   <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id)}
-                    className="text-destructive/30 hover:text-destructive hover:bg-destructive/10 w-7 h-7 opacity-0 group-hover:opacity-100 transition-all">
+                    className="text-destructive/30 hover:text-destructive hover:bg-destructive/10 w-7 h-7 opacity-25 group-hover:opacity-100 transition-all">
                     <XCircle className="w-3.5 h-3.5" />
                   </Button>
                 </TableCell>
@@ -750,7 +775,7 @@ function ScheduleManagement() {
             </div>
             <Button variant="ghost" size="icon"
               onClick={() => deleteItem.mutate({ id: s.id }, { onSuccess: () => queryClient.invalidateQueries({ queryKey: getListScheduleItemsQueryKey() }) })}
-              className="opacity-0 group-hover:opacity-100 text-destructive/40 hover:text-destructive hover:bg-destructive/10 w-7 h-7 transition-all">
+              className="opacity-25 group-hover:opacity-100 text-destructive/40 hover:text-destructive hover:bg-destructive/10 w-7 h-7 transition-all">
               <XCircle className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -773,11 +798,11 @@ function ReportsPanel() {
         </span>
       </div>
       <Table>
-        <TableHeader className="bg-black/40 font-mono">
-          <TableRow className="border-b border-white/[0.05] hover:bg-transparent">
-            <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest">Report / Title</TableHead>
-            <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest">Operator</TableHead>
-            <TableHead className="text-primary/60 text-[10px] uppercase tracking-widest hidden md:table-cell">Filed</TableHead>
+        <TableHeader className="bg-black/55 font-mono">
+          <TableRow className="border-b border-white/[0.08] hover:bg-transparent">
+            <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3">Report / Title</TableHead>
+            <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3">Operator</TableHead>
+            <TableHead className="text-primary/75 text-[10px] uppercase tracking-widest py-3 hidden md:table-cell">Filed</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

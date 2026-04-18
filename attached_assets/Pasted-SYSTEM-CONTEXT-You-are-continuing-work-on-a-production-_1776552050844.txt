@@ -1,0 +1,317 @@
+SYSTEM CONTEXT:
+
+You are continuing work on a production platform called:
+
+RSR PRESS CORPS
+
+The major visual and systems build is now largely in place.
+This is no longer a concept-stage build.
+
+The next pass is NOT a giant redesign.
+It is a targeted:
+
+USABILITY
+NAVIGATION
+OPERATOR WORKFLOW
+FINAL FRICTION REMOVAL
+
+pass.
+
+The system already has:
+- public site
+- command dashboard
+- member portal
+- auth
+- intake flow
+- visual system
+- support graphics
+- empty states
+- dashboard structure
+
+Now I need to fix the remaining operational friction.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Make RSR Press Corps easier and cleaner to actually use in real operation.
+
+Do NOT redesign everything.
+Do NOT remove the good visual work.
+Do NOT add fake data.
+Do NOT drift into abstract design commentary.
+
+This pass is about:
+- navigation clarity
+- back/return paths
+- operator usability
+- cleaner workflow
+- final practical polish
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL ISSUE #1 — ADD A REAL BACK / RETURN PATH
+━━━━━━━━━━━━━━━━━━━
+
+In the Command Dashboard there needs to be a clear way to go back.
+
+Right now there is no obvious “back” behavior or public-site return path.
+That is bad UX.
+
+Implement a clear and intentional back/return control in the command area.
+
+Required:
+
+1. Add a visible back control in /command
+Preferred examples:
+- ← Back to Site
+- Return to Press Corps
+- Exit Command
+
+2. This control should route back to:
+- homepage `/`
+or
+- last meaningful public route if already tracked cleanly
+
+3. Style it so it fits the command chrome
+- subtle
+- institutional
+- not a consumer-app blue link
+- easy to find
+- top-left or top-header appropriate
+
+4. Add the same concept to the Member Portal:
+- ← Back to Site
+or
+- Return to Press Corps
+
+This should exist in both protected areas.
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL ISSUE #2 — COMMAND SHOULD FEEL EASIER TO OPERATE
+━━━━━━━━━━━━━━━━━━━
+
+The command dashboard looks good, but now needs operator workflow refinement.
+
+Improve the command experience by tightening:
+
+1. header usability
+- clearer hierarchy
+- back path
+- session state
+- terminate/logout placement
+- less chance of misclick / confusion
+
+2. tab usability
+- make tab targets feel more intentional
+- stronger active-state clarity
+- smoother switching
+- clearer section identity when switching tabs
+
+3. panel readability
+- improve table/header contrast if needed
+- improve empty state readability
+- improve filter placement and relationship to the table
+- make the whole command surface easier to scan quickly
+
+Goal:
+An operator should instantly know where they are and how to move.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — COMMAND HEADER REFINEMENT
+━━━━━━━━━━━━━━━━━━━
+
+Refine the /command top bar.
+
+Required elements:
+- Back to Site / Return to Press Corps
+- RSR PRESS CORPS / Command Dashboard identity
+- system state strip if it still works cleanly
+- session indicator
+- logout / terminate
+
+Spacing and hierarchy should be cleaner and more intuitive.
+
+Do not make this crowded.
+Do not remove the premium tone.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — PORTAL HEADER REFINEMENT
+━━━━━━━━━━━━━━━━━━━
+
+Apply the same idea to the member portal.
+
+Required:
+- Back to Site / Return to Press Corps
+- portal identity
+- correspondent identity chip if already implemented
+- session state / logout area
+
+Members should never feel trapped inside the portal.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — BETTER EMPTY STATE READABILITY
+━━━━━━━━━━━━━━━━━━━
+
+Some empty states may now be visually cool but too dim or too buried.
+
+Improve them slightly:
+
+- clearer title contrast
+- slightly stronger supporting line
+- better central alignment
+- ensure operator can read empty-state meaning at a glance
+
+Examples:
+- INTAKE QUEUE CLEAR
+- NO ACTIVE BULLETINS
+- NO OPEN ASSIGNMENTS
+- SCHEDULE CLEAR
+
+Keep them premium and restrained.
+Just make them easier to read.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — TABLE / FILTER / PANEL PRACTICALITY
+━━━━━━━━━━━━━━━━━━━
+
+Tighten the command panels so they feel better in real use.
+
+Focus on:
+- filter alignment
+- row spacing
+- hover clarity
+- column readability
+- header-to-content relationship
+- scroll behavior if records grow
+- action button discoverability
+
+Make it operationally clean.
+
+Do NOT over-style.
+Do NOT add fake rows.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — OPERATOR ACTION CLARITY
+━━━━━━━━━━━━━━━━━━━
+
+Wherever operator actions exist, make sure they are easy to understand.
+
+Examples:
+- accept
+- reject
+- hold
+- under review
+- delete
+- edit
+- terminate/logout
+
+If current action affordances are too subtle, improve clarity.
+
+This does NOT mean giant buttons everywhere.
+It means:
+clear, serious, efficient operator controls.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — MEMBER PORTAL PRACTICALITY
+━━━━━━━━━━━━━━━━━━━
+
+Tighten the member portal for actual use too.
+
+Check:
+- tab clarity
+- report submission readability
+- comms panel readability
+- back navigation
+- empty-state visibility
+- overall section scanability
+
+It should feel like a real correspondent terminal, not just a nice dark page.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — NAVIGATION SANITY PASS
+━━━━━━━━━━━━━━━━━━━
+
+Audit all major navigation flows:
+
+PUBLIC
+- homepage
+- login
+- request access
+- operations
+- tiers
+
+OPERATOR
+- login
+- /command
+- tab switching
+- back to site
+- logout
+
+MEMBER
+- login
+- /portal
+- tab switching
+- back to site
+- logout
+
+Fix any friction, dead-end feeling, or awkward transition.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — KEEP EVERYTHING ELSE INTACT
+━━━━━━━━━━━━━━━━━━━
+
+Do NOT break:
+- bootstrap operator login
+- member login
+- protected routes
+- role-specific intake flow
+- no-mock-data rule
+- working auth
+- working visuals
+- support graphics
+- empty state structure
+
+This is a refinement pass, not a rebuild.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — FINAL TARGET
+━━━━━━━━━━━━━━━━━━━
+
+When this pass is complete:
+
+- /command has a clear back path
+- /portal has a clear back path
+- operator navigation is cleaner
+- member navigation is cleaner
+- empty states are more legible
+- practical usability is better
+- the system feels easier to operate in the real world
+
+This should feel like:
+a finished operational platform with strong usability
+
+Not:
+a beautiful system with small navigation annoyances
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as a targeted usability + navigation pass.
+
+Add:
+- back/return controls
+- cleaner header usability
+- better operator workflow clarity
+- better member portal usability
+- stronger empty-state readability
+
+Preserve:
+- visuals
+- auth
+- role logic
+- no mock data
+- system structure
+
+Then verify the updated flows.
+Execute.
