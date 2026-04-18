@@ -1,0 +1,233 @@
+SYSTEM CONTEXT:
+
+You are working on a production platform called:
+
+RSR PRESS CORPS
+
+The system is effectively launch-ready.
+
+At this point I do NOT want redesigns, feature additions, style experiments, or architecture changes.
+
+This is a very focused final pass:
+
+SCROLLBAR CLEANUP
+OVERFLOW CLEANUP
+FINAL UI EDGE CLEANUP
+
+The app currently still shows ugly or unintended scrollbars in places where they hurt the premium feel.
+
+This must be fixed before launch.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Find and fix all unnecessary, ugly, duplicate, or broken scrollbars across the app.
+
+The goal is:
+
+- no random inner scrollbars unless absolutely necessary
+- no double-scroll situations
+- no horizontal overflow bars
+- no accidental panel overflow
+- no modal/body scroll fighting
+- no layout shifts caused by scrollbars
+- preserve usability where true scrolling is needed
+
+Do NOT break layout.
+Do NOT hide necessary content.
+Do NOT introduce clipped content.
+
+━━━━━━━━━━━━━━━━━━━
+WHAT TO AUDIT
+━━━━━━━━━━━━━━━━━━━
+
+Audit ALL major surfaces:
+
+PUBLIC SITE
+- homepage
+- hero
+- section transitions
+- access tiers
+- credentials
+- process
+- closing CTA
+- login modal
+- request access modal
+
+COMMAND
+- command dashboard shell
+- header
+- tab panels
+- intake table
+- bulletin panels
+- assignment panels
+- schedule panels
+- intel/reports panels
+- all modals/drawers if present
+
+PORTAL
+- portal shell
+- header
+- tab panels
+- report form
+- comms panel
+- bulletin list
+- schedule list
+- any modal/popup states
+
+━━━━━━━━━━━━━━━━━━━
+CRITICAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+1. Remove horizontal scrollbars everywhere unless absolutely intentional
+2. Remove nested/duplicate vertical scrollbars where a single page scroll should handle it
+3. Fix any element causing viewport overflow:
+   - oversized widths
+   - translate values
+   - absolute-positioned graphics
+   - negative margins
+   - min-width issues
+   - table wrappers
+   - modal wrappers
+4. Make modals behave correctly:
+   - modal content can scroll if needed
+   - background page should not awkwardly fight scroll
+   - no double scroll unless truly necessary
+5. Dashboard and portal panels should not create ugly internal scrollbars unless content truly exceeds limits
+6. Preserve usable scrolling in long data areas if required, but style it cleanly
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — GLOBAL OVERFLOW AUDIT
+━━━━━━━━━━━━━━━━━━━
+
+Audit the whole app for overflow problems.
+
+Check:
+- body / html overflow rules
+- root app container
+- section wrappers
+- hero graphic containers
+- absolute support graphics
+- SVG/canvas decorations
+- glass panels
+- modal portals
+- table wrappers
+
+Fix any source of stray overflow.
+
+Likely issues may include:
+- hero globe/support visuals exceeding container width
+- negative offsets on decorative elements
+- section overlays extending past viewport
+- wide grid backgrounds
+- translated markers or accents
+- panel min-width settings
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — MODAL SCROLL SANITY
+━━━━━━━━━━━━━━━━━━━
+
+Audit every modal carefully.
+
+Required:
+- modals open centered and clean
+- background page lock works correctly
+- modal body scroll works only when necessary
+- no page + modal scroll fight
+- no clipped modal footer/buttons
+- no weird right-edge scrollbar artifacts
+- no accidental horizontal modal overflow
+
+This applies especially to:
+- login modal
+- request access / intake modal
+- any command detail modal
+- any portal/report modal
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — DASHBOARD / PORTAL PANEL OVERFLOW FIXES
+━━━━━━━━━━━━━━━━━━━
+
+In /command and /portal:
+
+- remove ugly inner scrollbars where panels can naturally size
+- keep only intentional scroll regions
+- ensure headers/tabs do not create width overflow
+- ensure tables fit cleanly
+- ensure filters/actions do not push panels too wide
+- make mobile/narrow cases degrade gracefully
+
+If a table truly needs horizontal scroll on small screens:
+- confine it to a clean table wrapper
+- do not let the whole page get a horizontal scrollbar
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — STYLE INTENTIONAL SCROLLBARS WHERE NEEDED
+━━━━━━━━━━━━━━━━━━━
+
+If any scrollbars must remain, style them to match the app.
+
+Use a subtle, thin, premium dark scrollbar treatment:
+- low visual weight
+- dark track
+- restrained green/steel thumb
+- no default bright browser scrollbar if avoidable
+
+Apply only where appropriate.
+Do NOT overdo custom scrollbar styling if it becomes messy.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — FINAL VIEWPORT SANITY CHECK
+━━━━━━━━━━━━━━━━━━━
+
+Check at least these viewport classes:
+
+- desktop wide
+- laptop
+- tablet
+- narrow/mobile-ish width
+
+Verify:
+- no horizontal app scrollbar
+- no hero overflow
+- no header overflow
+- no modal overflow disasters
+- no command/portal shell overflow
+- no visual graphics pushing width beyond viewport
+
+Fix obvious offenders.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — DO NOT BREAK ANYTHING
+━━━━━━━━━━━━━━━━━━━
+
+While doing this pass, do NOT break:
+- auth
+- command route
+- portal route
+- request access flow
+- login flow
+- role/tier application behavior
+- visuals/graphics
+- animations
+- back buttons
+- no-mock-data rule
+
+This is a final surface cleanup pass only.
+
+━━━━━━━━━━━━━━━━━━━
+FINAL DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Execute this as a launch-blocking scrollbar and overflow cleanup pass.
+
+At the end:
+- all stray scrollbars should be fixed
+- remaining scrollbars should be intentional and clean
+- no accidental horizontal overflow should remain
+- modals should scroll correctly
+- command/portal should feel clean and premium
+
+Then verify what was fixed and where scrolling remains intentionally.
+Execute.

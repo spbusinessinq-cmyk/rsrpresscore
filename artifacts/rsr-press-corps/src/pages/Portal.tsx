@@ -60,7 +60,7 @@ export default function Portal() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative">
+    <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-x-hidden">
       <div className="scanline" />
       <SignalGridOverlay opacity={0.20} />
 
