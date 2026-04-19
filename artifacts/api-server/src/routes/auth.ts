@@ -4,20 +4,19 @@ import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-// Read env vars at request time (not module load time).
-// Some edge runtimes (including Tencent SCF / EdgeOne Pages) inject env vars
-// into process.env lazily — after the module has been evaluated. Capturing them
-// in module-level constants means they're always undefined in those environments.
+// All env vars are read at request time — never captured at module load.
+// EdgeOne Pages (Tencent SCF) injects process.env after module evaluation.
+
 function getOperatorCreds() {
   return {
-    email: process.env.OPERATOR_EMAIL ?? "",
+    email: (process.env.OPERATOR_EMAIL ?? "").trim(),
     password: process.env.OPERATOR_PASSWORD ?? "",
   };
 }
 
 function getBootstrapCreds() {
   return {
-    email: process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "",
+    email: (process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "").trim(),
     password: process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "",
   };
 }
@@ -25,22 +24,57 @@ function getBootstrapCreds() {
 function isOperator(email: string, password: string): boolean {
   const op = getOperatorCreds();
   if (!op.email || !op.password) return false;
-  const normalizedEmail = email.trim().toLowerCase();
-  if (normalizedEmail === op.email.trim().toLowerCase() && password === op.password) return true;
+  const normalizedInput = email.trim().toLowerCase();
+  const normalizedOp = op.email.toLowerCase();
+  const emailMatch = normalizedInput === normalizedOp;
+  const passMatch = password === op.password;
+  console.log("[auth/isOperator]", {
+    email_match: emailMatch,
+    pass_match: passMatch,
+    input_email_len: normalizedInput.length,
+    stored_email_len: normalizedOp.length,
+    input_pass_len: password.length,
+    stored_pass_len: op.password.length,
+  });
+  if (emailMatch && passMatch) return true;
   const boot = getBootstrapCreds();
-  if (boot.email && normalizedEmail === boot.email.trim().toLowerCase() && password === boot.password) return true;
+  if (boot.email && normalizedInput === boot.email.toLowerCase() && password === boot.password) return true;
   return false;
 }
 
+// ── Diagnostic endpoint ────────────────────────────────────────────────────
+// Safe: returns only booleans and lengths — never actual credential values.
+// Remove or gate behind NODE_ENV !== "production" once login is confirmed working.
+router.get("/auth/debug-env", (_req, res): void => {
+  const op = getOperatorCreds();
+  const boot = getBootstrapCreds();
+  res.json({
+    operator_email_set: !!op.email,
+    operator_email_length: op.email.length,
+    operator_email_has_at: op.email.includes("@"),
+    operator_email_has_space: op.email.includes(" "),
+    operator_password_set: !!op.password,
+    operator_password_length: op.password.length,
+    bootstrap_email_set: !!boot.email,
+    bootstrap_password_set: !!boot.password,
+    session_secret_set: !!(process.env.SESSION_SECRET ?? ""),
+    database_url_set: !!(process.env.DATABASE_URL ?? ""),
+    node_env: process.env.NODE_ENV ?? "(not set)",
+    runtime: "edgeone-cloud-function",
+  });
+});
+
+// ── Login ──────────────────────────────────────────────────────────────────
 router.post("/auth/login", async (req, res): Promise<void> => {
   const op = getOperatorCreds();
 
-  // Safe debug log — shows in EdgeOne function logs, never exposes secrets
-  console.log("[auth/login]", {
+  console.log("[auth/login] env-check", {
     operator_email_set: !!op.email,
     operator_password_set: !!op.password,
     bootstrap_email_set: !!process.env.BOOTSTRAP_OPERATOR_EMAIL,
     received_email: req.body?.email ?? "(none)",
+    body_keys: Object.keys(req.body ?? {}),
+    content_type: req.headers["content-type"] ?? "(none)",
   });
 
   if (!op.email || !op.password) {
@@ -48,17 +82,17 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  const { email, password } = req.body;
+  const { email, password } = req.body ?? {};
 
   if (!email || !password) {
-    res.status(400).json({ error: "Email and password are required" });
+    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email, password: !!password })}` });
     return;
   }
 
-  if (isOperator(email, password)) {
+  if (isOperator(String(email), String(password))) {
     req.session.user = {
       id: 0,
-      email: email.trim().toLowerCase(),
+      email: String(email).trim().toLowerCase(),
       name: "Command",
       role: "operator",
       tier: "command",
@@ -75,7 +109,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     const [row] = await db
       .select()
       .from(applicationsTable)
-      .where(eq(applicationsTable.email, email.trim().toLowerCase()));
+      .where(eq(applicationsTable.email, String(email).trim().toLowerCase()));
     application = row;
   } catch (err) {
     console.error("[auth] DB query failed during login:", err);
@@ -93,7 +127,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  if (!application.accessCode || application.accessCode !== password) {
+  if (!application.accessCode || application.accessCode !== String(password)) {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
   }
@@ -113,12 +147,14 @@ router.post("/auth/login", async (req, res): Promise<void> => {
   res.json(req.session.user);
 });
 
+// ── Logout ─────────────────────────────────────────────────────────────────
 router.post("/auth/logout", (req, res): void => {
   req.session.destroy(() => {
     res.json({ ok: true });
   });
 });
 
+// ── Session check ──────────────────────────────────────────────────────────
 router.get("/auth/me", (req, res): void => {
   if (!req.session.user) {
     res.status(401).json({ error: "Not authenticated" });

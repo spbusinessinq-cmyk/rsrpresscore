@@ -39,10 +39,13 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             setLocation("/portal");
           }
         },
-        onError: () => {
+        onError: (err: unknown) => {
+          const serverMsg =
+            (err as { data?: { error?: string } })?.data?.error ??
+            (err instanceof Error ? err.message : null);
           toast({
             title: "Access Denied",
-            description: "Credentials not recognized. Verify your identity.",
+            description: serverMsg ?? "Credentials not recognized. Verify your identity.",
             variant: "destructive",
           });
         },

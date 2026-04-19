@@ -58717,46 +58717,77 @@ var import_express2 = __toESM(require_express2(), 1);
 var router2 = (0, import_express2.Router)();
 function getOperatorCreds() {
   return {
-    email: process.env.OPERATOR_EMAIL ?? "",
+    email: (process.env.OPERATOR_EMAIL ?? "").trim(),
     password: process.env.OPERATOR_PASSWORD ?? ""
   };
 }
 function getBootstrapCreds() {
   return {
-    email: process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "",
+    email: (process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "").trim(),
     password: process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? ""
   };
 }
 function isOperator(email3, password) {
   const op = getOperatorCreds();
   if (!op.email || !op.password) return false;
-  const normalizedEmail = email3.trim().toLowerCase();
-  if (normalizedEmail === op.email.trim().toLowerCase() && password === op.password) return true;
+  const normalizedInput = email3.trim().toLowerCase();
+  const normalizedOp = op.email.toLowerCase();
+  const emailMatch = normalizedInput === normalizedOp;
+  const passMatch = password === op.password;
+  console.log("[auth/isOperator]", {
+    email_match: emailMatch,
+    pass_match: passMatch,
+    input_email_len: normalizedInput.length,
+    stored_email_len: normalizedOp.length,
+    input_pass_len: password.length,
+    stored_pass_len: op.password.length
+  });
+  if (emailMatch && passMatch) return true;
   const boot = getBootstrapCreds();
-  if (boot.email && normalizedEmail === boot.email.trim().toLowerCase() && password === boot.password) return true;
+  if (boot.email && normalizedInput === boot.email.toLowerCase() && password === boot.password) return true;
   return false;
 }
+router2.get("/auth/debug-env", (_req, res) => {
+  const op = getOperatorCreds();
+  const boot = getBootstrapCreds();
+  res.json({
+    operator_email_set: !!op.email,
+    operator_email_length: op.email.length,
+    operator_email_has_at: op.email.includes("@"),
+    operator_email_has_space: op.email.includes(" "),
+    operator_password_set: !!op.password,
+    operator_password_length: op.password.length,
+    bootstrap_email_set: !!boot.email,
+    bootstrap_password_set: !!boot.password,
+    session_secret_set: !!(process.env.SESSION_SECRET ?? ""),
+    database_url_set: !!(process.env.DATABASE_URL ?? ""),
+    node_env: process.env.NODE_ENV ?? "(not set)",
+    runtime: "edgeone-cloud-function"
+  });
+});
 router2.post("/auth/login", async (req, res) => {
   const op = getOperatorCreds();
-  console.log("[auth/login]", {
+  console.log("[auth/login] env-check", {
     operator_email_set: !!op.email,
     operator_password_set: !!op.password,
     bootstrap_email_set: !!process.env.BOOTSTRAP_OPERATOR_EMAIL,
-    received_email: req.body?.email ?? "(none)"
+    received_email: req.body?.email ?? "(none)",
+    body_keys: Object.keys(req.body ?? {}),
+    content_type: req.headers["content-type"] ?? "(none)"
   });
   if (!op.email || !op.password) {
     res.status(503).json({ error: "Server not configured. Set OPERATOR_EMAIL and OPERATOR_PASSWORD." });
     return;
   }
-  const { email: email3, password } = req.body;
+  const { email: email3, password } = req.body ?? {};
   if (!email3 || !password) {
-    res.status(400).json({ error: "Email and password are required" });
+    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email3, password: !!password })}` });
     return;
   }
-  if (isOperator(email3, password)) {
+  if (isOperator(String(email3), String(password))) {
     req.session.user = {
       id: 0,
-      email: email3.trim().toLowerCase(),
+      email: String(email3).trim().toLowerCase(),
       name: "Command",
       role: "operator",
       tier: "command"
@@ -58769,7 +58800,7 @@ router2.post("/auth/login", async (req, res) => {
   }
   let application;
   try {
-    const [row] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, email3.trim().toLowerCase()));
+    const [row] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, String(email3).trim().toLowerCase()));
     application = row;
   } catch (err) {
     console.error("[auth] DB query failed during login:", err);
@@ -58784,7 +58815,7 @@ router2.post("/auth/login", async (req, res) => {
     res.status(401).json({ error: "Application not yet accepted. Access denied." });
     return;
   }
-  if (!application.accessCode || application.accessCode !== password) {
+  if (!application.accessCode || application.accessCode !== String(password)) {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
   }

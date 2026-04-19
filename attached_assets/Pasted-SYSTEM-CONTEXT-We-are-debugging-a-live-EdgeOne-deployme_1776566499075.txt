@@ -1,0 +1,116 @@
+SYSTEM CONTEXT:
+
+We are debugging a live EdgeOne deployment for:
+
+RSR PRESS CORPS
+
+Current state:
+- frontend loads
+- command login modal works
+- login still returns 401 "Credentials not recognized"
+- auth code was already fixed to read process.env at request time
+- EdgeOne env vars are set
+- redeploy already happened
+- result is still the same
+
+This is now a FINAL PRODUCTION AUTH DIAGNOSTIC PASS.
+
+Do NOT redesign anything.
+Do NOT change UI.
+Do NOT guess.
+Instrument and prove exactly what the live serverless function is seeing.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Determine exactly why the EdgeOne live function is still rejecting the operator login.
+
+I need hard proof from runtime behavior, not theory.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — ADD TEMP SAFE DIAGNOSTIC ENDPOINT
+━━━━━━━━━━━━━━━━━━━
+
+Create a temporary debug route in the auth/API layer, something like:
+
+GET /api/auth/debug-env
+
+It must return ONLY safe booleans / metadata, never secrets.
+
+Example response:
+
+{
+  "operator_email_set": true,
+  "operator_password_set": true,
+  "bootstrap_email_set": false,
+  "bootstrap_password_set": false,
+  "node_env": "production",
+  "runtime": "edgeone-cloud-function"
+}
+
+DO NOT return real credential values.
+DO NOT return passwords.
+DO NOT weaken auth.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — ADD LOGIN BRANCH LOGGING
+━━━━━━━━━━━━━━━━━━━
+
+Instrument the login route with safe logs showing:
+
+- received_email
+- operator_email_set true/false
+- operator_password_set true/false
+- bootstrap_email_set true/false
+- bootstrap_password_set true/false
+- operator_match_email true/false
+- operator_match_password true/false
+- whether code fell through to member lookup
+
+NO password values in logs.
+Booleans only.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — VERIFY CLOUD FUNCTION BUNDLE
+━━━━━━━━━━━━━━━━━━━
+
+Verify the auth fix is actually reaching the deployed cloud function bundle.
+
+Inspect:
+- generated handler output
+- cloud-functions/api/handler.mjs
+- cloud-functions/api/index.js
+- build process copy step
+
+Confirm the fixed auth code is present in the actual deployed function artifact, not just source.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — CHECK EDGEONE ENV AVAILABILITY
+━━━━━━━━━━━━━━━━━━━
+
+Determine whether EdgeOne Pages env vars are available inside the cloud function runtime the same way this project expects.
+
+If they are not, adapt the function entry/runtime access layer so the auth route can read them correctly.
+
+If EdgeOne requires a different mechanism or build/runtime distinction, fix it.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact temporary debug route added
+2. exact logs added
+3. whether live function sees operator env vars
+4. whether operator email/password comparisons evaluate true/false
+5. whether the deployed bundle included the auth fix
+6. exact root cause
+7. exact fix applied
+8. whether I need to redeploy
+9. whether I should remove the debug route after login works
+
+No fluff.
+No vague theory.
+Prove the live runtime behavior.
