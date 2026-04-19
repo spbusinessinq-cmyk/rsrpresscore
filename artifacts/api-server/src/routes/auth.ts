@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db, applicationsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import { verifyPassword } from "./applications";
 
 const router: IRouter = Router();
 
@@ -41,8 +42,7 @@ router.all("/auth/debug-request", (req, res): void => {
 });
 
 // ── Diagnostic endpoint ────────────────────────────────────────────────────
-// Safe: returns only booleans/lengths — never actual credential values.
-// Remove once login is confirmed working in production.
+// Safe: booleans/lengths only — remove once login confirmed working in production.
 router.get("/auth/debug-env", (_req, res): void => {
   const admin = getAdminCreds();
   res.json({
@@ -70,7 +70,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     content_type: req.headers["content-type"] ?? "(none)",
   });
 
-  // ── Admin / Command path (username) ──
+  // ── Admin / Command path (username) ──────────────────────────────────────
   if (username !== undefined) {
     if (!username || !password) {
       res.status(400).json({ error: "Missing username or password." });
@@ -102,46 +102,67 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  // ── Member path (email) ──
+  // ── Member path (email + password) ───────────────────────────────────────
   if (!email || !password) {
-    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email, password: !!password })}` });
+    res.status(400).json({ error: "Missing email or password." });
     return;
   }
 
-  let application;
+  let user;
   try {
     const [row] = await db
       .select()
       .from(applicationsTable)
       .where(eq(applicationsTable.email, String(email).trim().toLowerCase()));
-    application = row;
+    user = row;
   } catch (err) {
     console.error("[auth] DB query failed during login:", err);
     res.status(503).json({ error: "Service temporarily unavailable. Try again." });
     return;
   }
 
-  if (!application) {
+  if (!user) {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
   }
 
-  if (application.status !== "accepted") {
-    res.status(401).json({ error: "Application not yet accepted. Access denied." });
+  // Verify password — support both hashed passwords and legacy access codes
+  let authenticated = false;
+  if (user.passwordHash) {
+    authenticated = await verifyPassword(String(password), user.passwordHash);
+  } else if (user.accessCode) {
+    // Legacy: old records used a random accessCode string
+    authenticated = user.accessCode === String(password);
+  }
+
+  if (!authenticated) {
+    res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
   }
 
-  if (!application.accessCode || application.accessCode !== String(password)) {
+  // Status gate
+  if (user.status === "pending") {
+    res.status(403).json({ error: "Account pending verification. Awaiting approval from command." });
+    return;
+  }
+
+  if (user.status === "rejected") {
+    res.status(401).json({ error: "Account access denied." });
+    return;
+  }
+
+  // accepted or verified both grant access
+  if (user.status !== "verified" && user.status !== "accepted") {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
   }
 
   req.session.user = {
-    id: application.id,
-    email: application.email,
-    name: application.name,
+    id: user.id,
+    email: user.email,
+    name: user.name,
     role: "member",
-    tier: application.experienceLevel,
+    tier: user.experienceLevel || null,
   };
 
   await new Promise<void>((resolve, reject) =>

@@ -21,6 +21,7 @@ export * from "./healthStatus";
 export * from "./listApplicationsParams";
 export * from "./listAssignmentsParams";
 export * from "./loginBody";
+export * from "./signupBody";
 export * from "./message";
 export * from "./report";
 export * from "./scheduleItem";

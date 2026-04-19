@@ -184,6 +184,13 @@ export interface AuthUser {
 }
 
 export interface LoginBody {
+  email?: string;
+  username?: string;
+  password: string;
+}
+
+export interface SignupBody {
+  name: string;
   email: string;
   password: string;
 }

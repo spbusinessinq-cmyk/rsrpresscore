@@ -1,0 +1,205 @@
+SYSTEM CONTEXT:
+
+We are simplifying auth for RSR PRESS CORPS immediately.
+
+The current auth flow is overcomplicated and wasting time.
+
+NEW AUTH MODEL — SIMPLE VERSION
+
+ADMIN:
+- fixed username/password login
+- username: rsr-admin
+- password: 4451
+- if valid, log straight into /command
+
+PUBLIC USERS / MEMBERS:
+- create account
+- account status defaults to pending
+- pending users cannot access protected areas
+- only verified/approved users can move forward
+
+This is NOT a redesign pass.
+This is NOT a feature expansion pass.
+This is a SIMPLE AUTH REBUILD for reliability.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Implement the simplest possible working auth model:
+
+1. Admin types:
+   username + password
+   and gets into /command
+
+2. Everyone else:
+   signs up
+   waits for verification
+   cannot proceed until approved
+
+━━━━━━━━━━━━━━━━━━━
+ADMIN AUTH REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+Replace command/admin login with:
+
+- username field
+- password field
+
+Use these env vars only:
+
+ADMIN_USERNAME=rsr-admin
+ADMIN_PASSWORD=4451
+
+When admin login is correct:
+- create admin session
+- redirect to /command
+
+When wrong:
+- return clean invalid credentials error
+
+Do NOT require email for admin login.
+Do NOT require operator records for admin login.
+Do NOT use OPERATOR_EMAIL / BOOTSTRAP vars anymore.
+
+━━━━━━━━━━━━━━━━━━━
+MEMBER / USER FLOW
+━━━━━━━━━━━━━━━━━━━
+
+Create a very simple account flow for non-admin users:
+
+Public user can:
+- sign up with basic fields:
+  - name
+  - email
+  - password
+
+When they sign up:
+- create account record
+- default status = pending
+
+Pending user behavior:
+- can log in if needed
+- sees waiting / pending approval state
+- cannot access command
+- cannot access member-only protected workflows
+- cannot proceed until approved
+
+Verified user behavior:
+- once approved by admin, status becomes verified
+- verified users can access their allowed area
+
+Rejected user behavior:
+- status = rejected
+- blocked from proceeding
+
+━━━━━━━━━━━━━━━━━━━
+REQUIRED STATUS MODEL
+━━━━━━━━━━━━━━━━━━━
+
+User/account statuses:
+
+- pending
+- verified
+- rejected
+
+Admin should be able to change user status in /command.
+
+━━━━━━━━━━━━━━━━━━━
+COMMAND DASHBOARD REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+In /command, admin must be able to:
+
+- view signups
+- see status
+- approve user
+- reject user
+
+That’s it.
+Keep it simple.
+
+Do NOT overbuild notes, tiers, or advanced role logic right now unless already present and stable.
+Focus on:
+- admin access
+- pending verification workflow
+
+━━━━━━━━━━━━━━━━━━━
+PROTECTED ROUTES
+━━━━━━━━━━━━━━━━━━━
+
+/command
+- admin only
+
+/member or /portal if used
+- verified users only
+
+pending users
+- blocked from protected areas
+- shown a simple pending approval screen
+
+public users
+- can view public pages and sign up
+
+━━━━━━━━━━━━━━━━━━━
+UI REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+Keep the current visual style.
+
+Change only what is needed:
+
+Admin login tab:
+- Username
+- Password
+- Authenticate
+
+Member tab:
+- Sign up / log in flow
+- if pending, show:
+  "Account created. Awaiting verification."
+
+Do NOT redesign the site.
+Do NOT add complexity.
+
+━━━━━━━━━━━━━━━━━━━
+DATA / BACKEND REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+Implement this using the existing backend/database structure as simply as possible.
+
+If a current users/applications table can support this cleanly, use it.
+If a small new table is needed, create it cleanly.
+
+Admin auth must be env-based:
+- ADMIN_USERNAME
+- ADMIN_PASSWORD
+
+User/member auth must be DB-based with status field.
+
+━━━━━━━━━━━━━━━━━━━
+REMOVE / BYPASS OLD COMPLEXITY
+━━━━━━━━━━━━━━━━━━━
+
+Remove or bypass old auth paths that are causing confusion, including:
+- operator email login for admin
+- bootstrap operator email logic
+- unnecessary dual admin credential systems
+
+We want ONE admin login path only:
+rsr-admin / 4451
+
+━━━━━━━━━━━━━━━━━━━
+RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+1. exact frontend files changed
+2. exact backend files changed
+3. exact env vars required
+4. exact signup/account status flow
+5. whether I need to redeploy
+
+No fluff.
+No overbuilding.
+Make auth simple and reliable.
+Execute.

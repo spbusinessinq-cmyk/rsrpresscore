@@ -53608,16 +53608,17 @@ var applicationsTable = pgTable("applications", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone"),
-  city: text("city").notNull(),
-  state: text("state").notNull(),
-  areasOfOperation: text("areas_of_operation").notNull(),
-  experienceLevel: text("experience_level").notNull(),
+  city: text("city").notNull().default(""),
+  state: text("state").notNull().default(""),
+  areasOfOperation: text("areas_of_operation").notNull().default(""),
+  experienceLevel: text("experience_level").notNull().default(""),
   workTypes: text("work_types").array().notNull().default([]),
-  intent: text("intent").notNull(),
+  intent: text("intent").notNull().default(""),
   links: text("links"),
   status: text("status").notNull().default("pending"),
   notes: text("notes"),
   accessCode: text("access_code"),
+  passwordHash: text("password_hash"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => /* @__PURE__ */ new Date())
 });
@@ -57892,140 +57893,10 @@ router.get("/healthz", (_req, res) => {
 var health_default = router;
 
 // src/routes/auth.ts
-var import_express2 = __toESM(require_express2(), 1);
-var router2 = (0, import_express2.Router)();
-function getAdminCreds() {
-  return {
-    username: (process.env.ADMIN_USERNAME ?? "").trim(),
-    password: process.env.ADMIN_PASSWORD ?? ""
-  };
-}
-function isAdmin(username, password) {
-  const admin = getAdminCreds();
-  if (!admin.username || !admin.password) return false;
-  const usernameMatch = username.trim().toLowerCase() === admin.username.toLowerCase();
-  const passMatch = password === admin.password;
-  console.log("[auth/isAdmin]", {
-    username_match: usernameMatch,
-    pass_match: passMatch,
-    input_len: username.trim().length,
-    stored_len: admin.username.length
-  });
-  return usernameMatch && passMatch;
-}
-router2.all("/auth/debug-request", (req, res) => {
-  res.json({
-    method_received: req.method,
-    path_received: req.path,
-    content_type: req.headers["content-type"] ?? "(none)",
-    body_keys: Object.keys(req.body ?? {}),
-    body_is_object: typeof req.body === "object" && req.body !== null,
-    host: req.headers["host"] ?? "(none)"
-  });
-});
-router2.get("/auth/debug-env", (_req, res) => {
-  const admin = getAdminCreds();
-  res.json({
-    admin_username_set: !!admin.username,
-    admin_username_length: admin.username.length,
-    admin_password_set: !!admin.password,
-    admin_password_length: admin.password.length,
-    session_secret_set: !!(process.env.SESSION_SECRET ?? ""),
-    database_url_set: !!(process.env.DATABASE_URL ?? ""),
-    node_env: process.env.NODE_ENV ?? "(not set)",
-    runtime: "edgeone-cloud-function"
-  });
-});
-router2.post("/auth/login", async (req, res) => {
-  const body = req.body ?? {};
-  const { username, email: email3, password } = body;
-  console.log("[auth/login] received", {
-    has_username: !!username,
-    has_email: !!email3,
-    has_password: !!password,
-    body_keys: Object.keys(body),
-    content_type: req.headers["content-type"] ?? "(none)"
-  });
-  if (username !== void 0) {
-    if (!username || !password) {
-      res.status(400).json({ error: "Missing username or password." });
-      return;
-    }
-    const admin = getAdminCreds();
-    if (!admin.username || !admin.password) {
-      res.status(503).json({ error: "Server not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD." });
-      return;
-    }
-    if (!isAdmin(String(username), String(password))) {
-      res.status(401).json({ error: "Invalid credentials. Access denied." });
-      return;
-    }
-    req.session.user = {
-      id: 0,
-      email: "command@rsrpresscorps.internal",
-      name: "Command",
-      role: "operator",
-      tier: "command"
-    };
-    await new Promise(
-      (resolve, reject) => req.session.save((err) => err ? reject(err) : resolve())
-    );
-    res.json(req.session.user);
-    return;
-  }
-  if (!email3 || !password) {
-    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email3, password: !!password })}` });
-    return;
-  }
-  let application;
-  try {
-    const [row] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, String(email3).trim().toLowerCase()));
-    application = row;
-  } catch (err) {
-    console.error("[auth] DB query failed during login:", err);
-    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
-    return;
-  }
-  if (!application) {
-    res.status(401).json({ error: "Invalid credentials. Access denied." });
-    return;
-  }
-  if (application.status !== "accepted") {
-    res.status(401).json({ error: "Application not yet accepted. Access denied." });
-    return;
-  }
-  if (!application.accessCode || application.accessCode !== String(password)) {
-    res.status(401).json({ error: "Invalid credentials. Access denied." });
-    return;
-  }
-  req.session.user = {
-    id: application.id,
-    email: application.email,
-    name: application.name,
-    role: "member",
-    tier: application.experienceLevel
-  };
-  await new Promise(
-    (resolve, reject) => req.session.save((err) => err ? reject(err) : resolve())
-  );
-  res.json(req.session.user);
-});
-router2.post("/auth/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.json({ ok: true });
-  });
-});
-router2.get("/auth/me", (req, res) => {
-  if (!req.session.user) {
-    res.status(401).json({ error: "Not authenticated" });
-    return;
-  }
-  res.json(req.session.user);
-});
-var auth_default = router2;
+var import_express3 = __toESM(require_express2(), 1);
 
 // src/routes/applications.ts
-var import_express3 = __toESM(require_express2(), 1);
+var import_express2 = __toESM(require_express2(), 1);
 
 // src/lib/logger.ts
 var import_pino = __toESM(require_pino(), 1);
@@ -58068,8 +57939,74 @@ async function notifyDiscord(message) {
 
 // src/routes/applications.ts
 import crypto2 from "crypto";
-var router3 = (0, import_express3.Router)();
-router3.post("/apply", async (req, res) => {
+var router2 = (0, import_express2.Router)();
+async function hashPassword(password) {
+  return new Promise((resolve, reject) => {
+    const salt = crypto2.randomBytes(16).toString("hex");
+    crypto2.scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      else resolve(`${salt}:${derivedKey.toString("hex")}`);
+    });
+  });
+}
+async function verifyPassword(password, hash) {
+  return new Promise((resolve, reject) => {
+    const [salt, key] = hash.split(":");
+    if (!salt || !key) {
+      resolve(false);
+      return;
+    }
+    crypto2.scrypt(password, salt, 64, (err, derivedKey) => {
+      if (err) reject(err);
+      else resolve(key === derivedKey.toString("hex"));
+    });
+  });
+}
+router2.post("/signup", async (req, res) => {
+  const { name, email: email3, password } = req.body ?? {};
+  if (!name || !email3 || !password) {
+    res.status(400).json({ error: "Name, email, and password are required." });
+    return;
+  }
+  if (typeof password !== "string" || password.length < 4) {
+    res.status(400).json({ error: "Password must be at least 4 characters." });
+    return;
+  }
+  const normalizedEmail = String(email3).trim().toLowerCase();
+  try {
+    const [existing] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, normalizedEmail));
+    if (existing) {
+      res.status(409).json({ error: "An account with that email already exists." });
+      return;
+    }
+  } catch (err) {
+    console.error("[signup] DB lookup failed:", err);
+    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
+    return;
+  }
+  const passwordHash = await hashPassword(String(password));
+  try {
+    const [user] = await db.insert(applicationsTable).values({
+      name: String(name).trim(),
+      email: normalizedEmail,
+      passwordHash,
+      status: "pending"
+    }).returning();
+    console.log("[signup] new account created:", { id: user.id, email: user.email });
+    await notifyDiscord(
+      `**NEW SIGNUP**
+Name: ${user.name}
+Email: ${user.email}
+Status: pending`
+    ).catch(() => {
+    });
+    res.status(201).json({ id: user.id, email: user.email, name: user.name, status: user.status });
+  } catch (err) {
+    console.error("[signup] DB insert failed:", err);
+    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
+  }
+});
+router2.post("/apply", async (req, res) => {
   const parsed = SubmitApplicationBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.message });
@@ -58099,14 +58036,14 @@ Work Types: ${application.workTypes.join(", ")}`
   );
   res.status(201).json(application);
 });
-router3.get("/applications", async (req, res) => {
+router2.get("/applications", async (req, res) => {
   const params = ListApplicationsQueryParams.safeParse(req.query);
   const status = params.success ? params.data.status : void 0;
   const allApps = await db.select().from(applicationsTable).orderBy(applicationsTable.createdAt);
   const filtered = status ? allApps.filter((a) => a.status === status) : allApps;
   res.json(filtered);
 });
-router3.get("/applications/:id", async (req, res) => {
+router2.get("/applications/:id", async (req, res) => {
   const params = GetApplicationParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: "Invalid ID" });
@@ -58119,7 +58056,7 @@ router3.get("/applications/:id", async (req, res) => {
   }
   res.json(application);
 });
-router3.patch("/applications/:id/status", async (req, res) => {
+router2.patch("/applications/:id/status", async (req, res) => {
   const params = UpdateApplicationStatusParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: "Invalid ID" });
@@ -58130,28 +58067,21 @@ router3.patch("/applications/:id/status", async (req, res) => {
     res.status(400).json({ error: body.error.message });
     return;
   }
-  const updates = {
-    status: body.data.status
-  };
-  if (body.data.status === "accepted") {
-    updates.accessCode = crypto2.randomBytes(4).toString("hex").toUpperCase();
-  }
-  const [updated] = await db.update(applicationsTable).set(updates).where(eq(applicationsTable.id, params.data.id)).returning();
+  const [updated] = await db.update(applicationsTable).set({ status: body.data.status }).where(eq(applicationsTable.id, params.data.id)).returning();
   if (!updated) {
     res.status(404).json({ error: "Application not found" });
     return;
   }
-  if (body.data.status === "accepted") {
-    await notifyDiscord(
-      `**APPLICATION ACCEPTED**
+  await notifyDiscord(
+    `**USER STATUS UPDATED**
 Name: ${updated.name}
 Email: ${updated.email}
-Access Code: ${updated.accessCode}`
-    );
-  }
+New Status: ${body.data.status.toUpperCase()}`
+  ).catch(() => {
+  });
   res.json(updated);
 });
-router3.patch("/applications/:id/notes", async (req, res) => {
+router2.patch("/applications/:id/notes", async (req, res) => {
   const params = UpdateApplicationNotesParams.safeParse(req.params);
   if (!params.success) {
     res.status(400).json({ error: "Invalid ID" });
@@ -58169,7 +58099,153 @@ router3.patch("/applications/:id/notes", async (req, res) => {
   }
   res.json(updated);
 });
-var applications_default = router3;
+var applications_default = router2;
+
+// src/routes/auth.ts
+var router3 = (0, import_express3.Router)();
+function getAdminCreds() {
+  return {
+    username: (process.env.ADMIN_USERNAME ?? "").trim(),
+    password: process.env.ADMIN_PASSWORD ?? ""
+  };
+}
+function isAdmin(username, password) {
+  const admin = getAdminCreds();
+  if (!admin.username || !admin.password) return false;
+  const usernameMatch = username.trim().toLowerCase() === admin.username.toLowerCase();
+  const passMatch = password === admin.password;
+  console.log("[auth/isAdmin]", {
+    username_match: usernameMatch,
+    pass_match: passMatch,
+    input_len: username.trim().length,
+    stored_len: admin.username.length
+  });
+  return usernameMatch && passMatch;
+}
+router3.all("/auth/debug-request", (req, res) => {
+  res.json({
+    method_received: req.method,
+    path_received: req.path,
+    content_type: req.headers["content-type"] ?? "(none)",
+    body_keys: Object.keys(req.body ?? {}),
+    body_is_object: typeof req.body === "object" && req.body !== null,
+    host: req.headers["host"] ?? "(none)"
+  });
+});
+router3.get("/auth/debug-env", (_req, res) => {
+  const admin = getAdminCreds();
+  res.json({
+    admin_username_set: !!admin.username,
+    admin_username_length: admin.username.length,
+    admin_password_set: !!admin.password,
+    admin_password_length: admin.password.length,
+    session_secret_set: !!(process.env.SESSION_SECRET ?? ""),
+    database_url_set: !!(process.env.DATABASE_URL ?? ""),
+    node_env: process.env.NODE_ENV ?? "(not set)",
+    runtime: "edgeone-cloud-function"
+  });
+});
+router3.post("/auth/login", async (req, res) => {
+  const body = req.body ?? {};
+  const { username, email: email3, password } = body;
+  console.log("[auth/login] received", {
+    has_username: !!username,
+    has_email: !!email3,
+    has_password: !!password,
+    body_keys: Object.keys(body),
+    content_type: req.headers["content-type"] ?? "(none)"
+  });
+  if (username !== void 0) {
+    if (!username || !password) {
+      res.status(400).json({ error: "Missing username or password." });
+      return;
+    }
+    const admin = getAdminCreds();
+    if (!admin.username || !admin.password) {
+      res.status(503).json({ error: "Server not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD." });
+      return;
+    }
+    if (!isAdmin(String(username), String(password))) {
+      res.status(401).json({ error: "Invalid credentials. Access denied." });
+      return;
+    }
+    req.session.user = {
+      id: 0,
+      email: "command@rsrpresscorps.internal",
+      name: "Command",
+      role: "operator",
+      tier: "command"
+    };
+    await new Promise(
+      (resolve, reject) => req.session.save((err) => err ? reject(err) : resolve())
+    );
+    res.json(req.session.user);
+    return;
+  }
+  if (!email3 || !password) {
+    res.status(400).json({ error: "Missing email or password." });
+    return;
+  }
+  let user;
+  try {
+    const [row] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, String(email3).trim().toLowerCase()));
+    user = row;
+  } catch (err) {
+    console.error("[auth] DB query failed during login:", err);
+    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
+    return;
+  }
+  if (!user) {
+    res.status(401).json({ error: "Invalid credentials. Access denied." });
+    return;
+  }
+  let authenticated = false;
+  if (user.passwordHash) {
+    authenticated = await verifyPassword(String(password), user.passwordHash);
+  } else if (user.accessCode) {
+    authenticated = user.accessCode === String(password);
+  }
+  if (!authenticated) {
+    res.status(401).json({ error: "Invalid credentials. Access denied." });
+    return;
+  }
+  if (user.status === "pending") {
+    res.status(403).json({ error: "Account pending verification. Awaiting approval from command." });
+    return;
+  }
+  if (user.status === "rejected") {
+    res.status(401).json({ error: "Account access denied." });
+    return;
+  }
+  if (user.status !== "verified" && user.status !== "accepted") {
+    res.status(401).json({ error: "Invalid credentials. Access denied." });
+    return;
+  }
+  req.session.user = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: "member",
+    tier: user.experienceLevel || null
+  };
+  await new Promise(
+    (resolve, reject) => req.session.save((err) => err ? reject(err) : resolve())
+  );
+  res.json(req.session.user);
+});
+router3.post("/auth/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({ ok: true });
+  });
+});
+router3.get("/auth/me", (req, res) => {
+  if (!req.session.user) {
+    res.status(401).json({ error: "Not authenticated" });
+    return;
+  }
+  res.json(req.session.user);
+});
+var auth_default = router3;
 
 // src/routes/bulletins.ts
 var import_express4 = __toESM(require_express2(), 1);

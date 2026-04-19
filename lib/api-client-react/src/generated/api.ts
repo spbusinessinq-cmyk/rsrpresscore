@@ -32,6 +32,7 @@ import type {
   ListApplicationsParams,
   ListAssignmentsParams,
   LoginBody,
+  SignupBody,
   Message,
   Report,
   ScheduleItem,
@@ -208,6 +209,51 @@ export const useSubmitApplication = <
   TContext
 > => {
   return useMutation(getSubmitApplicationMutationOptions(options));
+};
+
+/**
+ * @summary Sign up for a member account
+ */
+export const getSignupUrl = () => `/api/signup`;
+
+export const signup = async (
+  signupBody: SignupBody,
+  options?: RequestInit,
+): Promise<{ id: number; email: string; name: string; status: string }> => {
+  return customFetch(getSignupUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(signupBody),
+  });
+};
+
+export const getSignupMutationOptions = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError, { data: BodyType<SignupBody> }, TContext>;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError, { data: BodyType<SignupBody> }, TContext> => {
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof signup>>, { data: BodyType<SignupBody> }> = (props) => {
+    const { data } = props ?? {};
+    return signup(data, options?.request);
+  };
+  return { mutationFn, ...options?.mutation };
+};
+
+export type SignupMutationResult = NonNullable<Awaited<ReturnType<typeof signup>>>;
+export type SignupMutationBody = BodyType<SignupBody>;
+export type SignupMutationError = ErrorType<ErrorResponse>;
+
+export const useSignup = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError, { data: BodyType<SignupBody> }, TContext>;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<Awaited<ReturnType<typeof signup>>, TError, { data: BodyType<SignupBody> }, TContext> => {
+  return useMutation(getSignupMutationOptions(options));
 };
 
 /**

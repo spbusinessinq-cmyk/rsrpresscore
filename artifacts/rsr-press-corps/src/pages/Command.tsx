@@ -233,7 +233,8 @@ function ApplicationsPanel() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'accepted':    return <Badge className="bg-primary/20 text-primary border border-primary/50 font-mono text-[10px] uppercase rounded-none">Accepted</Badge>;
+      case 'verified':    return <Badge className="bg-primary/20 text-primary border border-primary/50 font-mono text-[10px] uppercase rounded-none">Verified</Badge>;
+      case 'accepted':    return <Badge className="bg-primary/20 text-primary border border-primary/50 font-mono text-[10px] uppercase rounded-none">Verified</Badge>;
       case 'rejected':    return <Badge className="bg-destructive/20 text-destructive border border-destructive/50 font-mono text-[10px] uppercase rounded-none">Rejected</Badge>;
       case 'under_review':return <Badge className="bg-amber-500/20 text-amber-500 border border-amber-500/50 font-mono text-[10px] uppercase rounded-none">Reviewing</Badge>;
       case 'hold':        return <Badge className="bg-orange-500/20 text-orange-500 border border-orange-500/50 font-mono text-[10px] uppercase rounded-none">Hold</Badge>;
@@ -264,9 +265,9 @@ function ApplicationsPanel() {
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="under_review">Under Review</SelectItem>
-              <SelectItem value="accepted">Accepted</SelectItem>
+              <SelectItem value="verified">Verified</SelectItem>
               <SelectItem value="rejected">Rejected</SelectItem>
+              <SelectItem value="under_review">Under Review</SelectItem>
               <SelectItem value="hold">Hold</SelectItem>
             </SelectContent>
           </Select>
@@ -421,8 +422,8 @@ function ApplicationDetailModal({ application, onClose, getStatusBadge }: { appl
         </div>
 
         <div className="border-t border-white/[0.05] mt-6 pt-6 flex flex-wrap gap-2">
-          <Button onClick={() => handleStatusUpdate('accepted')} className="font-mono uppercase text-xs bg-primary hover:bg-primary/90 text-primary-foreground rounded-none">
-            <CheckCircle className="w-3 h-3 mr-2" /> Approve
+          <Button onClick={() => handleStatusUpdate('verified')} className="font-mono uppercase text-xs bg-primary hover:bg-primary/90 text-primary-foreground rounded-none">
+            <CheckCircle className="w-3 h-3 mr-2" /> Verify
           </Button>
           <Button onClick={() => handleStatusUpdate('under_review')} variant="outline" className="font-mono uppercase text-xs border-amber-500/50 text-amber-500 hover:bg-amber-500/10 hover:text-amber-500 rounded-none">
             <Search className="w-3 h-3 mr-2" /> Flag for Review
