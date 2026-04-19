@@ -1,0 +1,127 @@
+SYSTEM CONTEXT:
+
+We are deploying RSR PRESS CORPS to EdgeOne Pages.
+
+The current backend deployment is STILL wrong.
+The repeated 405 response proves the native EdgeOne Express integration is either not actually in effect or not structured correctly.
+
+This is the FINAL EDGEONE NATIVE FUNCTION CORRECTION PASS.
+
+No redesign.
+No feature work.
+No theory.
+Make the backend conform EXACTLY to EdgeOne’s documented Express Node Function structure.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Replace any remaining broken function entry with the exact native EdgeOne Express structure so /api/auth/login accepts POST in production.
+
+EdgeOne doc requirements to follow exactly:
+- function file path must be cloud-functions/api/[[default]].js for catch-all /api/*
+- export the Express app instance as default
+- do NOT start an HTTP server
+- do NOT wrap in serverless-http
+- do NOT use Lambda/AWS/Tencent event adapters
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — VERIFY ACTUAL DEPLOYED ENTRY PATH
+━━━━━━━━━━━━━━━━━━━
+
+Confirm the repo contains this exact file path:
+
+cloud-functions/api/[[default]].js
+
+If it does not exist, create it.
+If any alternative entry file exists (index.js, handler.js, handler.mjs, etc.) and is being used for API routing, remove that path from the EdgeOne runtime path.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — USE THE EXACT NATIVE EXPRESS EXPORT
+━━━━━━━━━━━━━━━━━━━
+
+Inside cloud-functions/api/[[default]].js:
+
+- import the existing Express app instance
+- export default app
+
+No app.listen
+No serverless-http
+No normalizeEvent
+No wrapper translation
+No custom method adaptation
+
+EdgeOne should handle request routing natively.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — CLEAN EXPRESS APP STRUCTURE
+━━━━━━━━━━━━━━━━━━━
+
+Ensure backend structure is:
+
+- app.ts exports the configured Express app only
+- local server startup (if needed) lives separately in index.ts or equivalent
+- [[default]].js imports app and exports default app
+
+The app instance must include all middleware and all routes before export.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — REMOVE BROKEN COMPATIBILITY LAYER
+━━━━━━━━━━━━━━━━━━━
+
+Remove ALL of the following from the production EdgeOne path:
+
+- serverless-http
+- handler.ts wrapper logic
+- normalizeEvent()
+- copied handler.mjs artifacts used only for EdgeOne
+- any AWS/Tencent/Lambda request adaptation code
+- any cloud-functions/api/index.js entry if [[default]].js is the correct catch-all path
+
+We are no longer trying to emulate Lambda.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — VERIFY ROUTE COVERAGE
+━━━━━━━━━━━━━━━━━━━
+
+Confirm these continue to map through the exported Express app:
+
+- /api/auth/login
+- /api/auth/me
+- /api/applications
+- /api/bulletins
+- /api/assignments
+- /api/reports
+- /api/schedule
+- /api/messages
+
+POST /api/auth/login must work through the native EdgeOne catch-all function.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — EDGEONE CONFIG SANITY
+━━━━━━━━━━━━━━━━━━━
+
+Confirm EdgeOne settings remain appropriate:
+- cloud functions directory = cloud-functions
+- static output dir unchanged
+- no special Lambda wrapper build step remains
+- no stale function artifact is being copied for deployment
+
+If edgeone.json needs cleanup to reflect the native function setup, do it.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact files changed
+2. exact content/purpose of cloud-functions/api/[[default]].js
+3. whether serverless-http was fully removed from EdgeOne path
+4. whether old handler/index function files were removed or bypassed
+5. whether I need to redeploy
+6. whether debug routes should stay until login is confirmed
+
+No fluff.
+No theory.
+Conform the backend exactly to EdgeOne’s documented Express integration.

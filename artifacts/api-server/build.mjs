@@ -129,7 +129,7 @@ buildAll()
   .then(async () => {
     // Copy the bundled Express app into cloud-functions so EdgeOne's native
     // Node Functions runtime can import it without cross-directory path traversal.
-    // EdgeOne's [[default]].mjs does: export { default } from './app.mjs'
+    // EdgeOne's [[default]].js does: export { default } from './app.mjs'
     const repoRoot = path.resolve(artifactDir, "..", "..");
     const src = path.resolve(artifactDir, "dist", "app.mjs");
     const cfDir = path.resolve(repoRoot, "cloud-functions", "api");
