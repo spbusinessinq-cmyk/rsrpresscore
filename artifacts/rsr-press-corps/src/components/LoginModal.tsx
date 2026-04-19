@@ -18,6 +18,7 @@ interface LoginModalProps {
 
 export function LoginModal({ open, onClose }: LoginModalProps) {
   const [mode, setMode] = useState<LoginMode>("member");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [, setLocation] = useLocation();
@@ -27,33 +28,34 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate(
-      { data: { email, password } },
-      {
-        onSuccess: async (data) => {
-          await refetch();
-          onClose();
-          if (data.role === "operator") {
-            setLocation("/command");
-          } else if (data.role === "member") {
-            setLocation("/portal");
-          }
-        },
-        onError: (err: unknown) => {
-          const serverMsg =
-            (err as { data?: { error?: string } })?.data?.error ??
-            (err instanceof Error ? err.message : null);
-          toast({
-            title: "Access Denied",
-            description: serverMsg ?? "Credentials not recognized. Verify your identity.",
-            variant: "destructive",
-          });
-        },
-      }
-    );
+    const payload = mode === "operator"
+      ? { data: { username, password } }
+      : { data: { email, password } };
+    loginMutation.mutate(payload, {
+      onSuccess: async (data) => {
+        await refetch();
+        onClose();
+        if (data.role === "operator") {
+          setLocation("/command");
+        } else if (data.role === "member") {
+          setLocation("/portal");
+        }
+      },
+      onError: (err: unknown) => {
+        const serverMsg =
+          (err as { data?: { error?: string } })?.data?.error ??
+          (err instanceof Error ? err.message : null);
+        toast({
+          title: "Access Denied",
+          description: serverMsg ?? "Credentials not recognized. Verify your identity.",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   const reset = () => {
+    setUsername("");
     setEmail("");
     setPassword("");
     loginMutation.reset?.();
@@ -119,30 +121,43 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
               <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/70">
-                {mode === "operator" ? "Operator ID" : "Email Address"}
+                {mode === "operator" ? "Username" : "Email Address"}
               </Label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                placeholder={mode === "operator" ? "command@rsrpresscorps.com" : "correspondent@secure.net"}
-                className="font-mono bg-black/60 h-10 text-sm placeholder:text-white/18 border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
-                data-testid="input-login-email"
-              />
+              {mode === "operator" ? (
+                <Input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  autoComplete="username"
+                  placeholder="rsr-admin"
+                  className="font-mono bg-black/60 h-10 text-sm placeholder:text-white/18 border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
+                  data-testid="input-login-username"
+                />
+              ) : (
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  placeholder="correspondent@secure.net"
+                  className="font-mono bg-black/60 h-10 text-sm placeholder:text-white/18 border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
+                  data-testid="input-login-email"
+                />
+              )}
             </div>
 
             <div className="space-y-1.5">
               <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/70">
-                {mode === "operator" ? "Command Passcode" : "Access Code"}
+                {mode === "operator" ? "Password" : "Access Code"}
               </Label>
               <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                autoComplete={mode === "operator" ? "current-password" : "off"}
+                autoComplete="current-password"
                 placeholder="••••••••"
                 className="font-mono bg-black/60 h-10 text-sm border-white/10 hover:border-white/15 focus:border-primary/40 rounded-none"
                 data-testid="input-login-password"

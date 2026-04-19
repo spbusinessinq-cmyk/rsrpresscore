@@ -4,47 +4,31 @@ import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-// All env vars are read at request time — never captured at module load.
-// EdgeOne Pages (Tencent SCF) injects process.env after module evaluation.
+// All env vars read at request time — never captured at module load.
+// EdgeOne Pages injects process.env after module evaluation.
 
-function getOperatorCreds() {
+function getAdminCreds() {
   return {
-    email: (process.env.OPERATOR_EMAIL ?? "").trim(),
-    password: process.env.OPERATOR_PASSWORD ?? "",
+    username: (process.env.ADMIN_USERNAME ?? "").trim(),
+    password: process.env.ADMIN_PASSWORD ?? "",
   };
 }
 
-function getBootstrapCreds() {
-  return {
-    email: (process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "").trim(),
-    password: process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "",
-  };
-}
-
-function isOperator(email: string, password: string): boolean {
-  const op = getOperatorCreds();
-  if (!op.email || !op.password) return false;
-  const normalizedInput = email.trim().toLowerCase();
-  const normalizedOp = op.email.toLowerCase();
-  const emailMatch = normalizedInput === normalizedOp;
-  const passMatch = password === op.password;
-  console.log("[auth/isOperator]", {
-    email_match: emailMatch,
+function isAdmin(username: string, password: string): boolean {
+  const admin = getAdminCreds();
+  if (!admin.username || !admin.password) return false;
+  const usernameMatch = username.trim().toLowerCase() === admin.username.toLowerCase();
+  const passMatch = password === admin.password;
+  console.log("[auth/isAdmin]", {
+    username_match: usernameMatch,
     pass_match: passMatch,
-    input_email_len: normalizedInput.length,
-    stored_email_len: normalizedOp.length,
-    input_pass_len: password.length,
-    stored_pass_len: op.password.length,
+    input_len: username.trim().length,
+    stored_len: admin.username.length,
   });
-  if (emailMatch && passMatch) return true;
-  const boot = getBootstrapCreds();
-  if (boot.email && normalizedInput === boot.email.toLowerCase() && password === boot.password) return true;
-  return false;
+  return usernameMatch && passMatch;
 }
 
 // ── Method/routing diagnostic ──────────────────────────────────────────────
-// Accepts ALL methods — confirms POST can reach Express through EdgeOne's layer.
-// Hit GET /api/auth/debug-request AND then POST /api/auth/debug-request to confirm.
 router.all("/auth/debug-request", (req, res): void => {
   res.json({
     method_received: req.method,
@@ -57,20 +41,15 @@ router.all("/auth/debug-request", (req, res): void => {
 });
 
 // ── Diagnostic endpoint ────────────────────────────────────────────────────
-// Safe: returns only booleans and lengths — never actual credential values.
-// Remove or gate behind NODE_ENV !== "production" once login is confirmed working.
+// Safe: returns only booleans/lengths — never actual credential values.
+// Remove once login is confirmed working in production.
 router.get("/auth/debug-env", (_req, res): void => {
-  const op = getOperatorCreds();
-  const boot = getBootstrapCreds();
+  const admin = getAdminCreds();
   res.json({
-    operator_email_set: !!op.email,
-    operator_email_length: op.email.length,
-    operator_email_has_at: op.email.includes("@"),
-    operator_email_has_space: op.email.includes(" "),
-    operator_password_set: !!op.password,
-    operator_password_length: op.password.length,
-    bootstrap_email_set: !!boot.email,
-    bootstrap_password_set: !!boot.password,
+    admin_username_set: !!admin.username,
+    admin_username_length: admin.username.length,
+    admin_password_set: !!admin.password,
+    admin_password_length: admin.password.length,
     session_secret_set: !!(process.env.SESSION_SECRET ?? ""),
     database_url_set: !!(process.env.DATABASE_URL ?? ""),
     node_env: process.env.NODE_ENV ?? "(not set)",
@@ -80,33 +59,38 @@ router.get("/auth/debug-env", (_req, res): void => {
 
 // ── Login ──────────────────────────────────────────────────────────────────
 router.post("/auth/login", async (req, res): Promise<void> => {
-  const op = getOperatorCreds();
+  const body = req.body ?? {};
+  const { username, email, password } = body;
 
-  console.log("[auth/login] env-check", {
-    operator_email_set: !!op.email,
-    operator_password_set: !!op.password,
-    bootstrap_email_set: !!process.env.BOOTSTRAP_OPERATOR_EMAIL,
-    received_email: req.body?.email ?? "(none)",
-    body_keys: Object.keys(req.body ?? {}),
+  console.log("[auth/login] received", {
+    has_username: !!username,
+    has_email: !!email,
+    has_password: !!password,
+    body_keys: Object.keys(body),
     content_type: req.headers["content-type"] ?? "(none)",
   });
 
-  if (!op.email || !op.password) {
-    res.status(503).json({ error: "Server not configured. Set OPERATOR_EMAIL and OPERATOR_PASSWORD." });
-    return;
-  }
+  // ── Admin / Command path (username) ──
+  if (username !== undefined) {
+    if (!username || !password) {
+      res.status(400).json({ error: "Missing username or password." });
+      return;
+    }
 
-  const { email, password } = req.body ?? {};
+    const admin = getAdminCreds();
+    if (!admin.username || !admin.password) {
+      res.status(503).json({ error: "Server not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD." });
+      return;
+    }
 
-  if (!email || !password) {
-    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email, password: !!password })}` });
-    return;
-  }
+    if (!isAdmin(String(username), String(password))) {
+      res.status(401).json({ error: "Invalid credentials. Access denied." });
+      return;
+    }
 
-  if (isOperator(String(email), String(password))) {
     req.session.user = {
       id: 0,
-      email: String(email).trim().toLowerCase(),
+      email: "command@rsrpresscorps.internal",
       name: "Command",
       role: "operator",
       tier: "command",
@@ -115,6 +99,12 @@ router.post("/auth/login", async (req, res): Promise<void> => {
       req.session.save((err) => (err ? reject(err) : resolve()))
     );
     res.json(req.session.user);
+    return;
+  }
+
+  // ── Member path (email) ──
+  if (!email || !password) {
+    res.status(400).json({ error: `Missing fields. Received: ${JSON.stringify({ email: !!email, password: !!password })}` });
     return;
   }
 

@@ -14,6 +14,7 @@ type LoginMode = "member" | "operator";
 
 export default function Login() {
   const [mode, setMode] = useState<LoginMode>("member");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [, setLocation] = useLocation();
@@ -23,35 +24,36 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate(
-      { data: { email, password } },
-      {
-        onSuccess: async (data) => {
-          await refetch();
-          if (data.role === "operator") {
-            setLocation("/command");
-          } else if (data.role === "member") {
-            setLocation("/portal");
-          } else {
-            setLocation("/");
-          }
-        },
-        onError: (err: unknown) => {
-          const serverMsg =
-            (err as { data?: { error?: string } })?.data?.error ??
-            (err instanceof Error ? err.message : null);
-          toast({
-            title: "Access Denied",
-            description: serverMsg ?? "Credentials not recognized. Verify your identity.",
-            variant: "destructive",
-          });
-        },
-      }
-    );
+    const payload = mode === "operator"
+      ? { data: { username, password } }
+      : { data: { email, password } };
+    loginMutation.mutate(payload, {
+      onSuccess: async (data) => {
+        await refetch();
+        if (data.role === "operator") {
+          setLocation("/command");
+        } else if (data.role === "member") {
+          setLocation("/portal");
+        } else {
+          setLocation("/");
+        }
+      },
+      onError: (err: unknown) => {
+        const serverMsg =
+          (err as { data?: { error?: string } })?.data?.error ??
+          (err instanceof Error ? err.message : null);
+        toast({
+          title: "Access Denied",
+          description: serverMsg ?? "Credentials not recognized. Verify your identity.",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   const switchMode = (m: LoginMode) => {
     setMode(m);
+    setUsername("");
     setEmail("");
     setPassword("");
   };
@@ -83,7 +85,6 @@ export default function Login() {
 
           {/* Left — Globe / Visual identity */}
           <div className="hidden lg:flex flex-col items-center justify-center relative min-h-[460px]">
-            {/* Wide atmospheric bloom — no inner box */}
             <div
               className="absolute pointer-events-none"
               style={{
@@ -92,15 +93,10 @@ export default function Login() {
                 filter: 'blur(40px)',
               }}
             />
-
-            {/* Globe — free-floating */}
             <WireGlobeGraphic size={380} opacity={0.65} className="relative z-10" />
-
-            {/* Edge fades — no hard box */}
             <div className="absolute inset-y-0 right-0 w-[30%] bg-[linear-gradient(270deg,_hsl(220_16%_6%_/_0.7)_0%,_transparent_100%)] pointer-events-none z-20" />
             <div className="absolute inset-x-0 top-0 h-[25%] bg-[linear-gradient(180deg,_hsl(220_16%_6%_/_0.65)_0%,_transparent_100%)] pointer-events-none z-20" />
             <div className="absolute inset-x-0 bottom-0 h-[35%] bg-[linear-gradient(0deg,_hsl(220_16%_6%)_0%,_transparent_100%)] pointer-events-none z-20" />
-
             <div className="mt-6 text-center space-y-2 relative z-30">
               <div className="font-mono text-[10px] text-primary/38 uppercase tracking-[0.3em]">RSR Press Corps</div>
               <div className="font-mono text-[10px] text-muted-foreground/22 uppercase tracking-widest">Secure Access Node // Auth Gate</div>
@@ -165,30 +161,43 @@ export default function Login() {
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-1.5">
                     <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/60">
-                      {mode === "operator" ? "Operator ID" : "Email Address"}
+                      {mode === "operator" ? "Username" : "Email Address"}
                     </Label>
-                    <Input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      autoComplete="email"
-                      placeholder={mode === "operator" ? "command@rsrpresscorps.com" : "correspondent@email.com"}
-                      className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none placeholder:text-white/18"
-                      data-testid="input-login-email"
-                    />
+                    {mode === "operator" ? (
+                      <Input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        autoComplete="username"
+                        placeholder="rsr-admin"
+                        className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none placeholder:text-white/18"
+                        data-testid="input-login-username"
+                      />
+                    ) : (
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        autoComplete="email"
+                        placeholder="correspondent@email.com"
+                        className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none placeholder:text-white/18"
+                        data-testid="input-login-email"
+                      />
+                    )}
                   </div>
 
                   <div className="space-y-1.5">
                     <Label className="font-mono text-[9px] uppercase tracking-[0.22em] text-primary/60">
-                      {mode === "operator" ? "Command Passcode" : "Access Code"}
+                      {mode === "operator" ? "Password" : "Access Code"}
                     </Label>
                     <Input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      autoComplete={mode === "operator" ? "current-password" : "off"}
+                      autoComplete="current-password"
                       placeholder="••••••••"
                       className="font-mono bg-black/60 h-10 text-sm border-white/10 focus:border-primary/40 rounded-none"
                       data-testid="input-login-password"

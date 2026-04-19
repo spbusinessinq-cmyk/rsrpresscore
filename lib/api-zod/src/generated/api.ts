@@ -356,7 +356,8 @@ export const SubmitReportBody = zod.object({
  * @summary Log in
  */
 export const LoginBody = zod.object({
-  email: zod.string(),
+  email: zod.string().optional(),
+  username: zod.string().optional(),
   password: zod.string(),
 });
 
