@@ -11,18 +11,26 @@ import Login from "@/pages/Login";
 import Command from "@/pages/Command";
 import Portal from "@/pages/Portal";
 
-interface ErrorBoundaryState { hasError: boolean; message: string }
+const BUILD_ID = "rsr-20260419-B";
+
+interface ErrorBoundaryState { hasError: boolean; message: string; stack: string }
 
 class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
-  state: ErrorBoundaryState = { hasError: false, message: "" };
+  state: ErrorBoundaryState = { hasError: false, message: "", stack: "" };
 
   static getDerivedStateFromError(error: unknown): ErrorBoundaryState {
     const message = error instanceof Error ? error.message : String(error);
-    return { hasError: true, message };
+    const stack = error instanceof Error ? (error.stack ?? "") : "";
+    return { hasError: true, message, stack };
   }
 
   componentDidCatch(error: unknown, info: ErrorInfo) {
-    console.error("[RSR] Uncaught render error:", error, info.componentStack);
+    const route = window.location.pathname;
+    console.error(
+      `[RSR][${BUILD_ID}] Render crash @ ${route}`,
+      "\nError:", error,
+      "\nComponent stack:", info.componentStack,
+    );
   }
 
   render() {
@@ -40,6 +48,9 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
                 {this.state.message}
               </pre>
             )}
+            <p className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">
+              build {BUILD_ID}
+            </p>
             <button
               onClick={() => window.location.reload()}
               className="font-mono text-[10px] uppercase tracking-[0.2em] border border-primary/30 text-primary/70 px-6 py-2 hover:bg-primary/10 transition-colors"
@@ -71,6 +82,7 @@ function Router() {
 function App() {
   useEffect(() => {
     document.documentElement.classList.add('dark');
+    console.log(`[RSR] build=${BUILD_ID} route=${window.location.pathname}`);
   }, []);
 
   return (

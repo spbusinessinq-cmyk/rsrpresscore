@@ -1,0 +1,106 @@
+SYSTEM CONTEXT:
+
+We are debugging RSR PRESS CORPS production frontend.
+
+The latest supposed fix for the .map crash was deployed, but the live site still shows the same runtime failure.
+
+This is now a FINAL FRONTEND CRASH TRACE PASS.
+
+Do NOT redesign anything.
+Do NOT change auth.
+Do NOT add features.
+ONLY identify the exact remaining crash site and prove whether EdgeOne is serving the newest build.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Find the exact remaining frontend crash path and make the app boot safely.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — ADD BUILD IDENTIFIER
+━━━━━━━━━━━━━━━━━━━
+
+Add a visible frontend build identifier/version string somewhere safe and subtle, such as:
+- footer microtext
+- console log on boot
+- data attribute on body/root
+
+Use current timestamp or git commit short hash if available.
+
+Goal:
+I need to verify the live site is actually serving the newest bundle.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — ADD TEMP CONSOLE TRACE AROUND ERROR BOUNDARY
+━━━━━━━━━━━━━━━━━━━
+
+Improve the ErrorBoundary temporarily so it logs:
+- error.message
+- component stack if available
+- current route
+- build identifier
+
+Do NOT remove the styled fallback screen.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — TRACE EVERY REMAINING .map SITE
+━━━━━━━━━━━━━━━━━━━
+
+Search the entire frontend for all `.map(` usages and harden every remaining one.
+
+Do NOT stop at Command.tsx and Portal.tsx.
+Include:
+- homepage sections
+- layout components
+- shared UI components
+- tier cards
+- operations page
+- login-related views
+- any utility that transforms collections before render
+
+For each risky site:
+- normalize with Array.isArray(...)
+- prevent `.length` on uncertain values if it assumes array
+- make render safe under malformed API/object/null values
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — FIND NON-ARRAY ITERATION PATTERNS
+━━━━━━━━━━━━━━━━━━━
+
+Also audit for similar crash patterns beyond `.map()`:
+- `.filter()`
+- `.some()`
+- `.find()`
+- `.reduce()`
+- spread of uncertain values
+- Object.values(...).map on uncertain values
+
+Harden anything that can explode during boot.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — VERIFY LOCALLY IN PRODUCTION MODE
+━━━━━━━━━━━━━━━━━━━
+
+Run the true production build and verify:
+- homepage renders
+- login modal opens
+- command auth view opens
+- no ErrorBoundary on boot
+- no console runtime errors
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. the build identifier added
+2. exact file(s) where remaining crash risk was found
+3. exact remaining variable(s) that were not guaranteed arrays
+4. exact fix applied
+5. whether I need to redeploy
+
+No fluff.
+No theory.
+Find the real remaining crash source.
