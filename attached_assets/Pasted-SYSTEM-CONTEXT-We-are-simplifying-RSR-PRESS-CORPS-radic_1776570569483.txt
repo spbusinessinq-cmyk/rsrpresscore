@@ -1,0 +1,92 @@
+SYSTEM CONTEXT:
+
+We are simplifying RSR PRESS CORPS radically.
+
+Stop building a heavy backend auth system.
+
+NEW MODEL:
+
+1. ADMIN ACCESS
+Hardcode a simple admin gate in the app:
+- username: rsr-admin
+- password: 4451
+
+If correct:
+- set a persistent admin session in browser storage
+- unlock /command
+
+This is a simple internal admin gate, not enterprise auth.
+
+2. PUBLIC SIGNUP
+Users can sign up inside the same app with:
+- name
+- email
+- password
+
+These signups must be stored in the project’s shared data layer so they appear in the command dashboard.
+
+3. COMMAND DASHBOARD
+Inside /command, admin can:
+- view signups
+- see pending / verified / rejected
+- verify users
+- reject users
+
+4. MEMBER ACCESS
+If a user is verified, allow them through.
+If pending, show:
+"Awaiting verification."
+
+5. REMOVE COMPLEXITY
+Do NOT use the current complicated admin auth backend path.
+Do NOT require email-based admin login.
+Do NOT require cloud-function auth routing for admin.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Make the app simple and self-contained:
+
+- hardcoded admin unlock for me
+- signup flow for others
+- shared signup inbox on my end
+- verification flow inside the same app
+
+━━━━━━━━━━━━━━━━━━━
+REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+1. Admin login UI
+- username field
+- password field
+- if rsr-admin / 4451 is correct, unlock command mode
+
+2. Admin persistence
+- keep admin logged in locally until logout
+
+3. Signup storage
+- signups must persist in shared app storage/database
+- not just local browser memory
+
+4. Command inbox
+- show submitted signups
+- allow verify / reject
+
+5. Verified user flow
+- verified users can move forward
+- pending users cannot
+
+━━━━━━━━━━━━━━━━━━━
+RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+1. exact files changed
+2. where signup data is stored
+3. how admin unlock works
+4. how verified users are checked
+5. whether I need to redeploy
+
+Do not overbuild.
+Do not add enterprise auth.
+Make it simple and inside the app.

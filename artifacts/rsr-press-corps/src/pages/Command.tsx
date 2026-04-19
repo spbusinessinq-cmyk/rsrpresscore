@@ -43,7 +43,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { SignalGridOverlay } from "@/components/graphics/SignalGridOverlay";
 
 export default function Command() {
-  const { user, isLoading, role, refetch } = useAuth();
+  const { user, isLoading, role, refetch, adminUnlocked, setAdminUnlocked } = useAuth();
   const [, setLocation] = useLocation();
   const logoutMutation = useLogout();
 
@@ -67,12 +67,17 @@ export default function Command() {
   if (role !== "operator") return null;
 
   const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: async () => {
-        await refetch();
-        setLocation("/");
-      }
-    });
+    if (adminUnlocked) {
+      setAdminUnlocked(false);
+      setLocation("/");
+    } else {
+      logoutMutation.mutate(undefined, {
+        onSuccess: async () => {
+          await refetch();
+          setLocation("/");
+        }
+      });
+    }
   };
 
   return (
