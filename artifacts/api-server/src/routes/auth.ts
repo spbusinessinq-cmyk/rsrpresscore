@@ -4,29 +4,46 @@ import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-const OPERATOR_EMAIL = process.env.OPERATOR_EMAIL;
-const OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD;
-
-if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
-  console.warn(
-    "[auth] WARNING: OPERATOR_EMAIL and OPERATOR_PASSWORD are not set. " +
-    "Operator login will return 503 until these are configured."
-  );
+// Read env vars at request time (not module load time).
+// Some edge runtimes (including Tencent SCF / EdgeOne Pages) inject env vars
+// into process.env lazily — after the module has been evaluated. Capturing them
+// in module-level constants means they're always undefined in those environments.
+function getOperatorCreds() {
+  return {
+    email: process.env.OPERATOR_EMAIL ?? "",
+    password: process.env.OPERATOR_PASSWORD ?? "",
+  };
 }
 
-const BOOTSTRAP_EMAIL = process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "";
-const BOOTSTRAP_PASSWORD = process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "";
+function getBootstrapCreds() {
+  return {
+    email: process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "",
+    password: process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "",
+  };
+}
 
 function isOperator(email: string, password: string): boolean {
-  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) return false;
-  const normalizedEmail = email.toLowerCase();
-  if (normalizedEmail === OPERATOR_EMAIL.toLowerCase() && password === OPERATOR_PASSWORD) return true;
-  if (BOOTSTRAP_EMAIL && normalizedEmail === BOOTSTRAP_EMAIL.toLowerCase() && password === BOOTSTRAP_PASSWORD) return true;
+  const op = getOperatorCreds();
+  if (!op.email || !op.password) return false;
+  const normalizedEmail = email.trim().toLowerCase();
+  if (normalizedEmail === op.email.trim().toLowerCase() && password === op.password) return true;
+  const boot = getBootstrapCreds();
+  if (boot.email && normalizedEmail === boot.email.trim().toLowerCase() && password === boot.password) return true;
   return false;
 }
 
 router.post("/auth/login", async (req, res): Promise<void> => {
-  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
+  const op = getOperatorCreds();
+
+  // Safe debug log — shows in EdgeOne function logs, never exposes secrets
+  console.log("[auth/login]", {
+    operator_email_set: !!op.email,
+    operator_password_set: !!op.password,
+    bootstrap_email_set: !!process.env.BOOTSTRAP_OPERATOR_EMAIL,
+    received_email: req.body?.email ?? "(none)",
+  });
+
+  if (!op.email || !op.password) {
     res.status(503).json({ error: "Server not configured. Set OPERATOR_EMAIL and OPERATOR_PASSWORD." });
     return;
   }
@@ -41,7 +58,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
   if (isOperator(email, password)) {
     req.session.user = {
       id: 0,
-      email: email.toLowerCase(),
+      email: email.trim().toLowerCase(),
       name: "Command",
       role: "operator",
       tier: "command",
@@ -58,7 +75,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     const [row] = await db
       .select()
       .from(applicationsTable)
-      .where(eq(applicationsTable.email, email.toLowerCase()));
+      .where(eq(applicationsTable.email, email.trim().toLowerCase()));
     application = row;
   } catch (err) {
     console.error("[auth] DB query failed during login:", err);

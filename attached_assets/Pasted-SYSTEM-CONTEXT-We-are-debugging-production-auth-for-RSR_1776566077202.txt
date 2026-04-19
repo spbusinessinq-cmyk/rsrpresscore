@@ -1,0 +1,137 @@
+SYSTEM CONTEXT:
+
+We are debugging production auth for:
+
+RSR PRESS CORPS
+
+Current state:
+- EdgeOne deploy is live
+- frontend loads
+- command login UI works
+- login request returns:
+  "Access Denied — Credentials not recognized. Verify your identity."
+- both env sets were configured in EdgeOne:
+  OPERATOR_EMAIL / OPERATOR_PASSWORD
+  BOOTSTRAP_OPERATOR_EMAIL / BOOTSTRAP_OPERATOR_PASSWORD
+
+So now this is a PRECISE AUTH DEBUG PASS.
+
+Do NOT redesign anything.
+Do NOT change UI.
+Do NOT guess.
+Find exactly why production auth is rejecting valid credentials.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Identify the exact credential check path in the backend and determine why the deployed EdgeOne function is rejecting:
+
+email: spbusinessinq@gmail.com
+password: 4451
+
+Return the exact root cause and exact fix.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — TRACE AUTH FLOW
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the exact login route and auth logic used by the command login form.
+
+Find:
+
+1. which frontend file submits the command login
+2. which API endpoint it calls
+3. which backend file handles that endpoint
+4. what credential source it compares against
+
+I need the actual files and actual variable names.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — VERIFY ENV VAR NAMES
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the backend auth code and identify the EXACT env var names it reads.
+
+Do NOT assume they are:
+- OPERATOR_EMAIL
+- OPERATOR_PASSWORD
+- BOOTSTRAP_OPERATOR_EMAIL
+- BOOTSTRAP_OPERATOR_PASSWORD
+
+Confirm the real names in code.
+
+If the code expects different names, say exactly what they are.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — EDGEONE FUNCTION ENV COMPATIBILITY
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the cloud function runtime entry path and confirm how env vars are being accessed.
+
+Check:
+- process.env usage
+- whether the handler is bundling values incorrectly
+- whether EdgeOne function context is required
+- whether the cloud function sees the same env vars as the frontend build
+
+If needed, add TEMPORARY SAFE DEBUG LOGGING that confirms:
+- operator env email exists (yes/no)
+- bootstrap env email exists (yes/no)
+- login route is receiving posted email
+- which auth branch is being used
+
+Do NOT log actual passwords.
+Do NOT expose secrets to the client.
+But you may safely log booleans / existence checks server-side.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — VERIFY REQUEST PAYLOAD
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the frontend login submission payload.
+
+Confirm:
+- exact field names being sent
+- whether email is trimmed
+- whether password field name matches backend expectation
+- whether command login is accidentally hitting member auth path
+- whether request body shape is what backend expects
+
+Fix any mismatch.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — FIX THE AUTH SOURCE CLEANLY
+━━━━━━━━━━━━━━━━━━━
+
+Once root cause is identified, apply the smallest safe fix.
+
+Examples:
+- align env var names
+- trim/lowercase email comparison if appropriate
+- correct route mismatch
+- correct payload mismatch
+- correct cloud function env access
+- correct bootstrap fallback logic
+
+Do NOT weaken auth.
+Do NOT add hacks.
+Do a clean fix.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact frontend file for command login
+2. exact backend file for command auth
+3. exact env var names actually used
+4. exact root cause of rejection
+5. exact fix applied
+6. whether I need to update EdgeOne env vars
+7. whether I need to redeploy
+
+No fluff.
+No vague theory.
+Find the real auth mismatch.
