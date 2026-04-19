@@ -1,0 +1,121 @@
+SYSTEM CONTEXT:
+
+You are preparing a production app called:
+
+RSR PRESS CORPS
+
+The app is already built and visually finalized.
+We are now in:
+
+EDGEONE DEPLOYMENT EXECUTION MODE
+
+I am time-limited.
+Do as much of the deployment prep as possible for me and return only the exact final values and exact commands I need.
+
+Do NOT redesign anything.
+Do NOT add features.
+Do NOT change the visual system unless required for deployment compatibility.
+Do NOT give vague explanations.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Prepare this project for EdgeOne deployment and reduce manual work to the absolute minimum.
+
+I need you to:
+
+1. verify the correct EdgeOne build settings
+2. verify all required environment variables
+3. generate anything that can be generated safely
+4. confirm the project is ready
+5. give me exact copy-paste values for EdgeOne
+6. give me exact post-deploy commands
+7. tell me if anything is still missing and exactly where to get it
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — VERIFY EDGEONE BUILD CONFIG
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the actual project and confirm the exact final values for:
+
+- Preset framework
+- Root directory
+- Build output directory
+- Build command
+- Install command
+- Cloud functions directory
+- Node version if relevant
+
+Return these in a clean paste-ready block.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — ENV VAR EXECUTION
+━━━━━━━━━━━━━━━━━━━
+
+Identify all required env vars for this project.
+
+Required target list:
+
+- DATABASE_URL
+- SESSION_SECRET
+- OPERATOR_EMAIL
+- OPERATOR_PASSWORD
+- COOKIE_SAME_SITE
+- NODE_ENV
+- VITE_API_BASE_URL
+
+Do the following:
+
+1. Generate SESSION_SECRET for me now if possible
+2. Tell me exactly what value each variable should have
+3. If any variable must come from me manually, clearly mark it as:
+   USER MUST SUPPLY
+
+If VITE_API_BASE_URL should be blank, say that explicitly.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — DATABASE / AUTH POST-DEPLOY STEPS
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the repo and confirm the exact post-deploy DB/auth steps.
+
+I need exact commands only.
+
+Confirm:
+- whether I need to run `pnpm --filter @workspace/db run push`
+- whether I need to run SQL for the session table
+- where that SQL is located
+- whether any seed/bootstrap auth step is needed
+
+Return a clean copy-paste block.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — FINAL DEPLOY CHECK
+━━━━━━━━━━━━━━━━━━━
+
+Verify before answering:
+
+- build is still valid
+- no required env vars are missing from the app logic
+- cloud functions path is correct
+- no Docker-only instructions are being confused with EdgeOne
+- auth still has the bootstrap operator path
+- deployment instructions are current and exact
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — FINAL OUTPUT FORMAT
+━━━━━━━━━━━━━━━━━━━
+
+Return ONLY these sections:
+
+1. EDGEONE SETTINGS
+2. ENV VARS
+3. POST-DEPLOY COMMANDS
+4. ANYTHING I STILL MUST SUPPLY
+
+Be concise.
+Be exact.
+Do not explain more than necessary.
+Make this as close to one-click deployment as possible.
+Execute.
