@@ -1,0 +1,194 @@
+SYSTEM CONTEXT:
+
+You are working on a production platform called:
+
+RSR PRESS CORPS
+
+The application is visually and functionally near launch-ready.
+The next requirement is infrastructure packaging.
+
+I need this project prepared for:
+
+1. GitHub cleanliness
+2. Docker / Portainer readiness
+3. production deployment readiness
+
+This is NOT a redesign pass.
+This is NOT a feature-expansion pass.
+This is an infrastructure and packaging pass only.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the existing RSR Press Corps codebase for clean GitHub push and Portainer deployment.
+
+Required deliverables:
+
+- proper .gitignore
+- proper README
+- proper .dockerignore
+- proper Dockerfile
+- proper docker-compose.yml
+- production-safe env handling
+- package.json scripts verified for Docker/runtime
+- no secrets committed
+- clean deploy notes
+
+Do NOT change the visual design unnecessarily.
+Do NOT rebuild architecture unless needed for containerization.
+Do NOT add fake data.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — GITHUB CLEANUP
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the repo for a clean GitHub push.
+
+Required:
+
+1. Add/verify `.gitignore`
+Must exclude at minimum:
+- node_modules
+- .env
+- .env.local
+- .env.production
+- dist
+- build
+- logs
+- OS junk
+
+2. Audit for secrets
+Ensure no hardcoded:
+- passwords
+- session secrets
+- database URLs
+- webhook URLs
+- API keys
+
+If any exist, move them to env usage immediately.
+
+3. Add/verify `README.md`
+Keep it concise but real:
+- project name
+- what it is
+- major layers (public site / command / portal)
+- tech stack
+- env/setup summary
+- deployment note
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — DOCKER / PORTAINER READINESS
+━━━━━━━━━━━━━━━━━━━
+
+Package the app properly for container deployment.
+
+Required files:
+
+1. `.dockerignore`
+Exclude:
+- node_modules
+- .git
+- .env
+- dist/build artifacts if not needed in image
+- logs
+- local junk
+
+2. `Dockerfile`
+Create a production-appropriate Dockerfile for this exact app.
+Do NOT guess blindly — inspect how the app actually runs.
+
+You must determine:
+- whether this is frontend-only
+- frontend + backend
+- what command actually starts the app
+- what port it serves on
+
+Then create the Dockerfile accordingly.
+
+3. `docker-compose.yml`
+Create a compose file suitable for Portainer stack deployment.
+
+If the app requires PostgreSQL, include a db service.
+If the app expects an external database, make that clear and structure compose accordingly.
+
+Use env variables cleanly.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — PACKAGE.JSON / STARTUP VERIFICATION
+━━━━━━━━━━━━━━━━━━━
+
+Audit package.json scripts and verify they match deployment reality.
+
+Required:
+- confirm build script
+- confirm start script
+- confirm production runtime command
+- if needed, add a clean production start script
+
+Do NOT leave Docker to call a fake or incorrect start command.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — ENV HANDLING
+━━━━━━━━━━━━━━━━━━━
+
+Create a clear env variable strategy.
+
+Required:
+- identify all required env vars
+- ensure code reads from env, not hardcoded values
+- create a `.env.example` file with placeholders only
+
+Example categories:
+- DATABASE_URL
+- SESSION_SECRET
+- DISCORD_WEBHOOK_URL
+- APP_BASE_URL
+- PORT
+
+Do NOT place real secrets in `.env.example`.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — DEPLOYMENT NOTES
+━━━━━━━━━━━━━━━━━━━
+
+At the end, provide concise deployment notes covering:
+
+1. how to push to GitHub
+2. how to build locally with Docker
+3. how to run with docker compose
+4. how to deploy in Portainer
+5. what env vars must be set before deployment
+
+Keep it practical.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — VERIFICATION
+━━━━━━━━━━━━━━━━━━━
+
+After all packaging work is done, verify:
+
+- build still works
+- Docker config is coherent
+- no secrets are exposed
+- GitHub push will be clean
+- Portainer stack path is viable
+
+Do NOT give vague hype.
+Be exact.
+
+━━━━━━━━━━━━━━━━━━━
+FINAL DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Make the project cleanly GitHub-ready and Portainer-ready.
+
+Then summarize:
+- files added/changed
+- start command used
+- whether DB is included in compose
+- required env vars
+- exact GitHub push command
+- exact Docker/Portainer run path
+
+Execute.

@@ -1,49 +1,67 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# compiled output
-dist
-tmp
-out-tsc
+# ─── Compiled Output ──────────────────────────────────────────────────────────
+dist/
+tmp/
+out-tsc/
 *.tsbuildinfo
-.expo
-.expo-shared
+.expo/
+.expo-shared/
 
-# dependencies
-node_modules
+# ─── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
 
-# IDEs and editors
-/.idea
+# ─── Environment / Secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-error.log
+pino-*.log
+
+# ─── OS Junk ──────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
+.cursor/
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
+# ─── Build Tooling ────────────────────────────────────────────────────────────
 /.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
 /typings
+*.tsbuildinfo
 
-# System Files
-.DS_Store
-Thumbs.db
-
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
-
-# Replit
+# ─── Replit Platform ──────────────────────────────────────────────────────────
 .cache/
 .local/
+.replit
+.replitignore
+.agents/
+
+# ─── Test Artifacts ───────────────────────────────────────────────────────────
+test-results/
+playwright-report/

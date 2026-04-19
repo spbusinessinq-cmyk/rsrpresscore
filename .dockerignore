@@ -1,0 +1,39 @@
+# ─── Version Control ──────────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ─── Dependencies (reinstalled inside image) ──────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ─── Environment / Secrets ────────────────────────────────────────────────────
+.env
+.env.*
+
+# ─── Pre-built Artifacts (rebuilt inside image) ───────────────────────────────
+**/dist/
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ─── Replit Platform ──────────────────────────────────────────────────────────
+.cache/
+.local/
+.replit
+.replitignore
+.agents/
+attached_assets/
+
+# ─── IDE / OS ─────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ─── Dev-only Artifacts ───────────────────────────────────────────────────────
+artifacts/mockup-sandbox/
+
+# ─── Test Artifacts ───────────────────────────────────────────────────────────
+test-results/
+playwright-report/

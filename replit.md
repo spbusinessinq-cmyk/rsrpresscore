@@ -13,7 +13,7 @@ A full two-sided operational platform for RSR Press Corps — the public-facing 
 - Access tier structure display
 
 **Layer 2 — Command Dashboard** (`/command`)
-- Operator-only. Login: `admin@rsrpresscorps.com` / `rsr-command-2024`
+- Operator-only. Login via `OPERATOR_EMAIL` / `OPERATOR_PASSWORD` env vars.
 - Review and manage incoming applications (accept/reject/hold/review)
 - Create and manage bulletins, assignments, schedule items
 - View submitted field reports
@@ -48,7 +48,7 @@ A full two-sided operational platform for RSR Press Corps — the public-facing 
 
 ## Auth Logic
 
-- **Operator login**: email `OPERATOR_EMAIL` env var (default: `admin@rsrpresscorps.com`), password `OPERATOR_PASSWORD` env var (default: `rsr-command-2024`)
+- **Operator login**: `OPERATOR_EMAIL` and `OPERATOR_PASSWORD` env vars (required — no defaults)
 - **Member login**: email (from accepted application) + access code (auto-generated 8-char hex code on acceptance)
 - **Session**: stored in PostgreSQL `session` table via connect-pg-simple
 - **Session secret**: `SESSION_SECRET` env var (already configured)

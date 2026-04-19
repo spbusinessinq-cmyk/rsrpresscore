@@ -39,3 +39,5 @@ channel = "stable-25_05"
 [userenv.shared]
 BOOTSTRAP_OPERATOR_EMAIL = "spbusinessinq@gmail.com"
 BOOTSTRAP_OPERATOR_PASSWORD = "4451"
+OPERATOR_EMAIL = "admin@rsrpresscorps.com"
+OPERATOR_PASSWORD = "rsr-command-2024"

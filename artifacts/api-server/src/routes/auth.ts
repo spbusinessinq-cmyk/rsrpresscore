@@ -4,8 +4,16 @@ import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-const OPERATOR_EMAIL = process.env.OPERATOR_EMAIL ?? "admin@rsrpresscorps.com";
-const OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD ?? "rsr-command-2024";
+const OPERATOR_EMAIL = process.env.OPERATOR_EMAIL;
+const OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD;
+
+if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
+  throw new Error(
+    "OPERATOR_EMAIL and OPERATOR_PASSWORD environment variables are required. " +
+    "Set them in your environment configuration."
+  );
+}
+
 const BOOTSTRAP_EMAIL = process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "";
 const BOOTSTRAP_PASSWORD = process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "";
 
