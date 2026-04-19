@@ -42,6 +42,20 @@ function isOperator(email: string, password: string): boolean {
   return false;
 }
 
+// ── Method/routing diagnostic ──────────────────────────────────────────────
+// Accepts ALL methods — confirms POST can reach Express through EdgeOne's layer.
+// Hit GET /api/auth/debug-request AND then POST /api/auth/debug-request to confirm.
+router.all("/auth/debug-request", (req, res): void => {
+  res.json({
+    method_received: req.method,
+    path_received: req.path,
+    content_type: req.headers["content-type"] ?? "(none)",
+    body_keys: Object.keys(req.body ?? {}),
+    body_is_object: typeof req.body === "object" && req.body !== null,
+    host: req.headers["host"] ?? "(none)",
+  });
+});
+
 // ── Diagnostic endpoint ────────────────────────────────────────────────────
 // Safe: returns only booleans and lengths — never actual credential values.
 // Remove or gate behind NODE_ENV !== "production" once login is confirmed working.

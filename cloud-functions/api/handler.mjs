@@ -58747,6 +58747,16 @@ function isOperator(email3, password) {
   if (boot.email && normalizedInput === boot.email.toLowerCase() && password === boot.password) return true;
   return false;
 }
+router2.all("/auth/debug-request", (req, res) => {
+  res.json({
+    method_received: req.method,
+    path_received: req.path,
+    content_type: req.headers["content-type"] ?? "(none)",
+    body_keys: Object.keys(req.body ?? {}),
+    body_is_object: typeof req.body === "object" && req.body !== null,
+    host: req.headers["host"] ?? "(none)"
+  });
+});
 router2.get("/auth/debug-env", (_req, res) => {
   const op = getOperatorCreds();
   const boot = getBootstrapCreds();
@@ -59261,7 +59271,61 @@ app.use((err, _req, res, _next) => {
 var app_default = app;
 
 // src/handler.ts
-var main = (0, import_serverless_http.default)(app_default);
+var serverlessHandler = (0, import_serverless_http.default)(app_default);
+function normalizeEvent(event) {
+  if (!event || typeof event !== "object") return event;
+  const ev = event;
+  console.log("[handler] event top-level keys:", Object.keys(ev).join(", "));
+  if (ev.request && typeof ev.request === "object") {
+    console.log("[handler] event.request keys:", Object.keys(ev.request).join(", "));
+  }
+  if (ev.request && typeof ev.request === "object") {
+    const r = ev.request;
+    const normalized = {
+      ...ev,
+      httpMethod: r.method || "GET",
+      path: r.uri || r.path || "/",
+      headers: lowerCaseHeaders(r.headers ?? ev.headers ?? {}),
+      body: r.body ?? ev.body ?? "",
+      isBase64Encoded: r.isBase64Encoded ?? ev.isBase64Encoded ?? false,
+      queryStringParameters: r.queryStringParameters ?? ev.queryStringParameters ?? {},
+      // serverless-http requires this even if empty
+      requestContext: ev.requestContext ?? {}
+    };
+    console.log("[handler] normalized (format A) method:", normalized.httpMethod, "path:", normalized.path);
+    return normalized;
+  }
+  if (!ev.httpMethod && (ev.method || ev.uri)) {
+    const normalized = {
+      ...ev,
+      httpMethod: ev.method || "GET",
+      path: ev.uri || ev.path || "/",
+      headers: lowerCaseHeaders(ev.headers ?? {}),
+      body: ev.body ?? "",
+      isBase64Encoded: ev.isBase64Encoded ?? false,
+      queryStringParameters: ev.queryStringParameters ?? ev.queryString ?? {},
+      requestContext: ev.requestContext ?? {}
+    };
+    console.log("[handler] normalized (format B) method:", normalized.httpMethod, "path:", normalized.path);
+    return normalized;
+  }
+  console.log("[handler] using event as-is (format C), httpMethod:", ev.httpMethod ?? "(undefined)");
+  if (!ev.requestContext) {
+    ev.requestContext = {};
+  }
+  return ev;
+}
+function lowerCaseHeaders(headers) {
+  const result = {};
+  for (const [k, v] of Object.entries(headers)) {
+    result[k.toLowerCase()] = v;
+  }
+  return result;
+}
+async function main(event, context) {
+  const normalizedEvent = normalizeEvent(event);
+  return serverlessHandler(normalizedEvent, context);
+}
 var handler_default = main;
 export {
   handler_default as default,

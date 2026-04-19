@@ -1,0 +1,154 @@
+SYSTEM CONTEXT:
+
+We are debugging a live EdgeOne deployment for:
+
+RSR PRESS CORPS
+
+We now have the exact live failure:
+
+COMMAND LOGIN returns:
+HTTP 405 MethodNotAllowed
+
+This means:
+- the frontend is reaching the deployed backend path
+- but the cloud function / EdgeOne routing layer is rejecting the HTTP method
+- this is NOT a credential problem
+- this is NOT a UI problem
+- this is NOT an env var problem
+
+This is now a:
+
+CRITICAL EDGEONE METHOD / FUNCTION ROUTING FIX PASS
+
+No fluff.
+No redesign.
+No theory.
+Fix the routing/method issue so POST auth requests work in EdgeOne.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Find exactly why POST /api/auth/login is being rejected with 405 on EdgeOne and fix it in the smallest correct way.
+
+Preserve:
+- current UI
+- auth logic
+- visuals
+- env usage
+- EdgeOne deployment target
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — TRACE THE EXACT REQUEST PATH
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the frontend login flow and identify the exact request URL and method being sent for command login.
+
+Confirm:
+- exact endpoint path
+- exact method
+- headers/content-type
+- whether fetch is hitting /api/auth/login or a malformed URL
+
+Return the exact path being called.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — AUDIT EDGEONE FUNCTION ENTRY
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the full EdgeOne cloud function entry chain:
+
+- cloud-functions/api/index.js
+- copied handler.mjs
+- serverless-http wrapper
+- auth route registration
+- any EdgeOne-specific request handler export format
+
+Determine why POST is rejected with 405.
+
+Possible suspects:
+- wrong function export signature for EdgeOne
+- handler only wired for GET
+- EdgeOne expects all methods handled differently
+- request path rewriting mismatch
+- serverless wrapper incompatible with current EdgeOne function entry
+- function route mounted incorrectly under /api
+
+Do NOT guess.
+Pinpoint the exact incompatibility.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — VERIFY AUTH ROUTE REGISTRATION
+━━━━━━━━━━━━━━━━━━━
+
+Inspect backend route registration.
+
+Confirm:
+- auth router is mounted correctly
+- POST /auth/login exists in Express
+- final mounted route becomes /api/auth/login
+- no method mismatch inside Express itself
+
+If Express route exists correctly, then the bug is definitely in EdgeOne function adaptation.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — FIX EDGEONE METHOD HANDLING
+━━━━━━━━━━━━━━━━━━━
+
+Apply the correct fix so EdgeOne accepts POST for the auth route.
+
+Potential valid fixes include:
+- correcting the cloud function export format
+- adapting the function wrapper to EdgeOne’s actual method handling
+- changing the function file structure so /api/* routes route correctly
+- replacing incompatible wrapper logic
+- ensuring all methods are passed through, not just GET
+
+Do NOT use hacks.
+Do NOT switch platforms.
+Fix the EdgeOne compatibility layer properly.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — ADD A TEMP METHOD DEBUG ROUTE IF NEEDED
+━━━━━━━━━━━━━━━━━━━
+
+If needed for confirmation, add a temporary route that reports:
+
+- request method
+- request path
+- whether POST reaches Express
+- whether EdgeOne strips or rewrites the path
+
+But only if necessary to confirm the exact failure.
+Keep it temporary and safe.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — VERIFY WITH REAL POST REQUEST
+━━━━━━━━━━━━━━━━━━━
+
+After the fix:
+
+1. verify POST /api/auth/login works in production build
+2. verify it no longer returns 405
+3. verify invalid creds return normal JSON 401 instead of method error
+4. verify valid creds can log in
+5. verify other API endpoints still work
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact frontend endpoint path used
+2. exact backend auth route file
+3. exact EdgeOne function file causing the 405
+4. exact root cause
+5. exact files changed
+6. exact fix applied
+7. whether I need to redeploy
+8. whether any temporary debug route should be removed afterward
+
+No fluff.
+No broad explanations.
+Fix the 405 and make command login work.
