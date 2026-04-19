@@ -103,7 +103,7 @@ export default function Portal() {
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-mono text-[8px] text-primary/40 uppercase tracking-[0.25em]">Member Portal</span>
-              <span className="font-mono font-bold text-[11px] uppercase tracking-[0.18em] text-foreground/80">RSR Press Corps</span>
+              <span className="font-display font-bold text-[11px] uppercase tracking-[0.08em] text-foreground/80">RSR Press Corps</span>
             </div>
           </div>
 
@@ -193,7 +193,7 @@ function BulletinBoard() {
           <Radio className="w-3 h-3 text-primary/60" />
         </div>
         <div>
-          <div className="font-mono font-bold uppercase text-base tracking-wide">Command Bulletins</div>
+          <div className="font-display font-semibold uppercase text-sm tracking-[0.06em]">Command Bulletins</div>
           <div className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">Live transmissions from command</div>
         </div>
       </div>
@@ -260,7 +260,7 @@ function ActiveAssignments({ userName }: { userName: string }) {
           <Shield className="w-3 h-3 text-primary/60" />
         </div>
         <div>
-          <div className="font-mono font-bold uppercase text-base tracking-wide">Field Operations</div>
+          <div className="font-display font-semibold uppercase text-sm tracking-[0.06em]">Field Operations</div>
           <div className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">Active assignments and field taskings</div>
         </div>
       </div>
@@ -321,7 +321,7 @@ function Schedule() {
   return (
     <div className="space-y-4 max-w-3xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="font-mono font-bold uppercase text-base tracking-wide">Master Schedule</div>
+        <div className="font-display font-semibold uppercase text-sm tracking-[0.06em]">Master Schedule</div>
       </div>
       {!schedule?.length ? (
         <EmptyState label="Schedule Clear" operationalLine="No Upcoming Events or Coverage Windows" />
@@ -372,7 +372,7 @@ function ReportForm({ user }: { user: { name: string, email: string } }) {
           <FileText className="w-3 h-3 text-primary/60" />
         </div>
         <div>
-          <div className="font-mono font-bold uppercase text-base tracking-wide">File Intelligence Report</div>
+          <div className="font-display font-semibold uppercase text-sm tracking-[0.06em]">File Intelligence Report</div>
           <div className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">Transmit field intelligence to command</div>
         </div>
       </div>

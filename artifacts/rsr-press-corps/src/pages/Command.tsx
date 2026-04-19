@@ -124,7 +124,7 @@ export default function Command() {
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-mono text-[8px] text-primary/40 uppercase tracking-[0.25em]">Command Dashboard</span>
-              <span className="font-mono font-bold text-[11px] uppercase tracking-[0.18em] text-foreground/80">RSR Press Corps</span>
+              <span className="font-display font-bold text-[11px] uppercase tracking-[0.08em] text-foreground/80">RSR Press Corps</span>
             </div>
           </div>
 

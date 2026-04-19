@@ -30,7 +30,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-mono font-bold text-[9px] text-primary/50 uppercase tracking-[0.35em]">Red State Rhetoric</span>
-              <span className="font-mono font-bold text-[15px] uppercase tracking-[0.12em] leading-tight">RSR PRESS CORPS</span>
+              <span className="font-display font-bold text-[13px] uppercase tracking-[0.05em] leading-tight">RSR PRESS CORPS</span>
             </div>
           </div>
 
@@ -87,7 +87,7 @@ export default function Home() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/12 to-transparent" />
         <div className="flex items-center justify-center gap-2 mb-3 opacity-30">
           <Shield className="w-3 h-3" />
-          <span className="font-mono font-bold tracking-[0.3em] text-xs uppercase">RSR Press Corps</span>
+          <span className="font-display font-bold tracking-[0.12em] text-[11px] uppercase">RSR Press Corps</span>
         </div>
         <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em] opacity-35">
           Independent Press Infrastructure &bull; Field Operations &bull; &copy; {new Date().getFullYear()}

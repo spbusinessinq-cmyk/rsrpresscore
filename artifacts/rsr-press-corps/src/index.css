@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -59,6 +59,7 @@
 
   --font-sans: var(--app-font-sans);
   --font-mono: var(--app-font-mono);
+  --font-display: var(--app-font-display);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -112,6 +113,7 @@
 
   --app-font-sans: 'Rajdhani', sans-serif;
   --app-font-mono: 'Space Mono', monospace;
+  --app-font-display: 'Orbitron', sans-serif;
   --radius: 0.15rem;
 
   --glass-bg: rgba(10, 14, 11, 0.72);
@@ -193,6 +195,15 @@
   /* Prevent horizontal scroll at root level from any decorative element bleed */
   html {
     overflow-x: hidden;
+  }
+
+  /*
+   * Orbitron display font — applied to headings that have no explicit font-* class.
+   * Elements with font-mono or font-sans Tailwind classes retain their font.
+   */
+  h1, h2, h3 {
+    font-family: var(--app-font-display);
+    letter-spacing: -0.02em;
   }
 
   body {

@@ -1,0 +1,201 @@
+SYSTEM CONTEXT:
+
+You are working on a production platform called:
+
+RSR PRESS CORPS
+
+The system is now ready for final branding refinement before deployment.
+
+This pass is a:
+
+FONT SYSTEM UPGRADE
+
+Specifically:
+Implement Orbitron as the primary display/command font while preserving readability and hierarchy.
+
+Do NOT redesign the UI.
+Do NOT change layout structure.
+Do NOT break anything.
+Do NOT affect auth, routes, or functionality.
+
+This is a controlled typography upgrade.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Integrate the Orbitron font into the system in a way that:
+
+- enhances the command/tech identity
+- improves visual authority
+- preserves readability
+- maintains hierarchy
+- does NOT make the UI feel gimmicky or hard to read
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — ADD ORBITRON FONT
+━━━━━━━━━━━━━━━━━━━
+
+Import Orbitron properly using Google Fonts.
+
+Include weights:
+- 400
+- 500
+- 600
+- 700
+
+Use the modern import method (not deprecated CSS import if avoidable).
+
+If using index.html:
+
+Add:
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — DEFINE FONT SYSTEM
+━━━━━━━━━━━━━━━━━━━
+
+Do NOT apply Orbitron to everything.
+
+Create a structured font system:
+
+1. PRIMARY UI FONT (body text, inputs, forms, tables)
+→ Keep current readable font (likely system/Inter/sans-serif)
+
+2. DISPLAY / COMMAND FONT
+→ Orbitron
+
+Apply Orbitron ONLY to:
+
+- main headings (H1, H2)
+- section titles
+- command labels (e.g. RSR PRESS CORPS, COMMAND DASHBOARD)
+- system strips / status bars
+- buttons (optionally, but test readability)
+- small uppercase system labels
+- metadata labels (where appropriate)
+
+DO NOT apply Orbitron to:
+- paragraph body text
+- long-form content
+- form inputs
+- dense tables
+- report text
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — GLOBAL CSS VARIABLES
+━━━━━━━━━━━━━━━━━━━
+
+Define clean font variables:
+
+Example:
+
+--font-display: "Orbitron", sans-serif;
+--font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+Apply them consistently across the system.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — APPLY TO KEY AREAS
+━━━━━━━━━━━━━━━━━━━
+
+Apply Orbitron to:
+
+1. HERO
+- main headline
+- system labels
+- metadata strips
+
+2. HEADER
+- RSR PRESS CORPS title
+- nav labels (subtle, test weight)
+
+3. COMMAND DASHBOARD
+- header identity
+- tab labels
+- system strips
+- panel headers
+
+4. MEMBER PORTAL
+- section headers
+- identity labels
+
+5. BUTTONS (SELECTIVE)
+- primary CTA buttons can use Orbitron if it improves presence
+- ensure readability is not compromised
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — TUNE TYPOGRAPHY
+━━━━━━━━━━━━━━━━━━━
+
+Orbitron needs tuning to look premium.
+
+Adjust:
+
+- letter-spacing (slightly tighter than default)
+- font-weight usage (avoid everything being bold)
+- line-height for headings
+- tracking for small labels (slightly increased for system feel)
+
+Goal:
+clean, sharp, not stretched, not gimmicky
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — VISUAL CONSISTENCY CHECK
+━━━━━━━━━━━━━━━━━━━
+
+After applying:
+
+Verify:
+- no layout shifts
+- no overflow caused by font width
+- no clipped text
+- buttons still fit
+- headers align properly
+- modals still look clean
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — PERFORMANCE CHECK
+━━━━━━━━━━━━━━━━━━━
+
+Ensure:
+- font loads correctly
+- no blocking render issues
+- fallback fonts work
+- no console errors
+
+━━━━━━━━━━━━━━━━━━━
+FINAL TARGET FEEL
+━━━━━━━━━━━━━━━━━━━
+
+The system should now feel:
+
+- more technical
+- more command-driven
+- more premium
+- more distinctive
+- more “RSR identity”
+
+NOT:
+- over-stylized
+- hard to read
+- arcade-like
+- gimmicky
+
+━━━━━━━━━━━━━━━━━━━
+DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Implement Orbitron correctly as a display/command font.
+
+Preserve:
+- readability
+- hierarchy
+- usability
+- existing layout
+- system stability
+
+Then verify the UI still works cleanly.
+
+Execute.
