@@ -1,6 +1,5 @@
 {
   "_comment": "EdgeOne Pages build configuration. Enter these values in the EdgeOne project dashboard under Build Settings.",
-  "framework": "vite",
   "buildCommand": "pnpm install && pnpm --filter @workspace/api-server run build && BASE_PATH=/ PORT=3000 pnpm --filter @workspace/rsr-press-corps run build",
   "outputDirectory": "artifacts/rsr-press-corps/dist/public",
   "cloudFunctionsDirectory": "cloud-functions",

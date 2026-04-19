@@ -1,0 +1,164 @@
+SYSTEM CONTEXT:
+
+We are deploying RSR PRESS CORPS to EdgeOne Pages.
+
+The current backend adaptation path is wrong.
+
+We have been trying to run Express through a Lambda/serverless-http style wrapper and manually normalize method/path events.
+This is causing repeated production method/routing failures (405 MethodNotAllowed) on EdgeOne.
+
+We are DONE patching the Lambda wrapper.
+
+This is now a:
+
+NATIVE EDGEONE NODE FUNCTION MIGRATION PASS
+
+Do NOT redesign UI.
+Do NOT change frontend behavior.
+Do NOT change branding.
+Do NOT add features.
+
+ONLY replace the current broken serverless-http/Lambda adaptation with the correct native EdgeOne Node Functions integration.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Migrate the backend from the current serverless-http wrapper approach to EdgeOne’s native Node Functions framework mode for Express.
+
+Goal:
+- /api/auth/login must work on EdgeOne
+- all existing /api/* routes must work
+- no more 405 due to Lambda event mismatches
+- preserve current auth/business logic
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — REMOVE THE WRONG ADAPTATION LAYER
+━━━━━━━━━━━━━━━━━━━
+
+Audit and remove the current Lambda/serverless-http adaptation path:
+
+- artifacts/api-server/src/handler.ts
+- any normalizeEvent() logic
+- any AWS/Tencent event translation logic
+- any build copy step whose only purpose is creating a serverless-http handler bundle
+- any cloud-functions entry file that imports a wrapped handler instead of an Express app
+
+We do NOT want to keep patching AWS-style event handling.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — USE NATIVE EDGEONE EXPRESS FRAMEWORK MODE
+━━━━━━━━━━━━━━━━━━━
+
+Implement the backend the way EdgeOne expects for Express:
+
+- create /cloud-functions/api/[[default]].js (or .mjs if required by the project build pipeline)
+- import the existing Express app
+- export the Express app instance as the default export
+- do NOT call app.listen()
+- do NOT wrap it in serverless-http
+
+Important:
+Preserve all existing API routes exactly as they currently exist in the Express app.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — VERIFY EXPRESS APP EXPORT
+━━━━━━━━━━━━━━━━━━━
+
+Audit the existing Express app entry.
+
+Make sure there is one clean Express app instance that:
+- mounts all routes
+- applies middleware
+- is exportable
+- does not depend on HTTP server startup to function
+
+If current code mixes “create app” and “listen”, refactor minimally so:
+- the Express app can be imported and exported cleanly for EdgeOne
+- local dev server still works if needed
+
+Best pattern:
+- app.ts exports the app
+- index.ts (or equivalent) starts the local server only
+- cloud-functions/api/[[default]].js imports app and exports default app
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — MATCH EDGEONE ROUTING CORRECTLY
+━━━━━━━━━━━━━━━━━━━
+
+Use EdgeOne’s file-system routing correctly.
+
+Target:
+- cloud-functions/api/[[default]].js
+should handle:
+- /api/auth/login
+- /api/auth/me
+- /api/applications
+- /api/bulletins
+- /api/assignments
+- /api/reports
+- /api/schedule
+- /api/messages
+- all other existing /api/* routes
+
+Do NOT break route paths.
+Do NOT force frontend route changes unless absolutely necessary.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — KEEP ENV + AUTH LOGIC INTACT
+━━━━━━━━━━━━━━━━━━━
+
+Preserve the working auth logic changes:
+- operator env vars must still be read at request time
+- trim email comparisons if already fixed
+- no module-load capture of credentials
+- no weakening of auth
+
+Do NOT regress auth.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — CLEAN BUILD / DEPLOY PATH
+━━━━━━━━━━━━━━━━━━━
+
+Update the build/deploy path so it no longer depends on copying a serverless handler bundle.
+
+Adjust:
+- build scripts if needed
+- cloud-functions entry files
+- README EdgeOne deploy notes if needed
+
+The EdgeOne deployment should now rely on:
+- static frontend build
+- native cloud-functions Express export
+
+NOT on a Lambda wrapper artifact.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — VERIFY LOCALLY
+━━━━━━━━━━━━━━━━━━━
+
+Verify before finishing:
+
+1. Express app still works locally
+2. POST /api/auth/login works locally
+3. GET /api/auth/me works locally
+4. all existing routes still respond
+5. no 405 from the Express route layer
+6. frontend does not need path changes
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact files changed
+2. exact new EdgeOne function entry file
+3. whether serverless-http was fully removed
+4. whether the Express app is now exported natively
+5. whether I need to redeploy
+6. whether any temporary debug routes should be removed now or after login is confirmed
+
+No fluff.
+No theory.
+Replace the wrong integration with the correct EdgeOne native Express integration.

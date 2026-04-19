@@ -16,9 +16,10 @@ async function buildAll() {
 
   await esbuild({
     entryPoints: [
+      // Local dev server (produces dist/index.mjs)
       path.resolve(artifactDir, "src/index.ts"),
-      // EdgeOne Pages / Tencent SCF serverless handler (produces dist/handler.mjs)
-      path.resolve(artifactDir, "src/handler.ts"),
+      // EdgeOne Pages native Node Function export (produces dist/app.mjs)
+      path.resolve(artifactDir, "src/app.ts"),
     ],
     platform: "node",
     bundle: true,
@@ -126,15 +127,16 @@ globalThis.__dirname = __bannerPath.dirname(globalThis.__filename);
 
 buildAll()
   .then(async () => {
-    // Copy the serverless handler into the cloud-functions directory so EdgeOne's
-    // cloud function runtime can load it without cross-directory path traversal.
+    // Copy the bundled Express app into cloud-functions so EdgeOne's native
+    // Node Functions runtime can import it without cross-directory path traversal.
+    // EdgeOne's [[default]].mjs does: export { default } from './app.mjs'
     const repoRoot = path.resolve(artifactDir, "..", "..");
-    const src = path.resolve(artifactDir, "dist", "handler.mjs");
+    const src = path.resolve(artifactDir, "dist", "app.mjs");
     const cfDir = path.resolve(repoRoot, "cloud-functions", "api");
-    const dest = path.resolve(cfDir, "handler.mjs");
+    const dest = path.resolve(cfDir, "app.mjs");
     await mkdir(cfDir, { recursive: true });
     await copyFile(src, dest);
-    console.log(`[build] Copied handler.mjs → cloud-functions/api/handler.mjs`);
+    console.log(`[build] Copied app.mjs → cloud-functions/api/app.mjs`);
   })
   .catch((err) => {
     console.error(err);
