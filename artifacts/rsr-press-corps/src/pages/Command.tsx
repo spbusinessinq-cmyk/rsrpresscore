@@ -390,7 +390,7 @@ function ApplicationDetailModal({ application, onClose, getStatusBadge }: { appl
           <div className="col-span-2">
             <div className="font-mono text-[9px] text-primary/50 uppercase tracking-widest mb-2">Capabilities</div>
             <div className="flex flex-wrap gap-2">
-              {application.workTypes.map(w => (
+              {(Array.isArray(application.workTypes) ? application.workTypes : []).map(w => (
                 <Badge key={w} variant="secondary" className="font-mono text-[10px] uppercase rounded-none bg-white/[0.06] border border-white/10">{w}</Badge>
               ))}
             </div>

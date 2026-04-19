@@ -1,0 +1,129 @@
+SYSTEM CONTEXT:
+
+We are debugging a production runtime error on EdgeOne for:
+
+RSR PRESS CORPS
+
+Current visible runtime error:
+
+s.map is not a function
+
+This is now a PRECISE BUG FIX pass.
+
+Do NOT redesign anything.
+Do NOT add features.
+Do NOT change branding.
+ONLY find the exact source of this error and fix it safely.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Locate the exact code path where `.map()` is being called on a non-array value (currently surfaced as "s.map is not a function"), then fix it so production never crashes.
+
+The app must render safely even if API data is malformed, null, object-shaped, or missing.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — FIND THE EXACT SOURCE
+━━━━━━━━━━━━━━━━━━━
+
+Search the built app source for all `.map(` usages in the frontend, especially in:
+
+- App.tsx
+- route components
+- dashboard tabs
+- portal tabs
+- tier/section components
+- any utility/component rendering lists
+- anything bootstrapped on homepage load
+
+Find the exact one producing the runtime error.
+
+Do NOT guess.
+Pinpoint the actual file, variable, and render path.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — INSPECT THE DATA SHAPE
+━━━━━━━━━━━━━━━━━━━
+
+Once found, inspect what `s` actually is at runtime in that path.
+
+Determine whether it is:
+- string
+- object
+- null
+- undefined
+- API response wrapper instead of array
+- single item instead of list
+
+Identify why production data shape differs from local assumptions.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — FIX SAFELY
+━━━━━━━━━━━━━━━━━━━
+
+Apply the smallest safe fix.
+
+Rules:
+
+1. Never call `.map()` directly on uncertain values
+2. Normalize first:
+   - Array.isArray(value) ? value : []
+3. If API returns wrapped payloads, unwrap properly
+4. If prop types are wrong, fix the source and the consumer
+5. Preserve rendering behavior when data is valid
+
+Examples of acceptable pattern:
+
+const items = Array.isArray(s) ? s : [];
+items.map(...)
+
+or
+
+const items = Array.isArray(data?.items) ? data.items : [];
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — AUDIT SIMILAR RISK AREAS
+━━━━━━━━━━━━━━━━━━━
+
+After fixing the exact crash, audit all other risky `.map()` sites in the frontend and harden them too.
+
+Anywhere list data comes from:
+- API
+- optional props
+- auth/session state
+- route loaders
+- local state initialized from fetches
+
+Convert unsafe usage into safe array normalization.
+
+Do NOT over-refactor.
+Do a targeted hardening pass.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — VERIFY PRODUCTION BOOT
+━━━━━━━━━━━━━━━━━━━
+
+After the fix:
+
+1. production build the app
+2. verify homepage renders fully
+3. verify no ErrorBoundary on boot
+4. verify command and portal still render safely
+5. verify invalid/missing API data does not crash the UI
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact file where the crash happened
+2. exact variable that was not an array
+3. exact fix applied
+4. any other `.map()` sites hardened
+5. whether I need to redeploy
+
+No fluff.
+No theory.
+Find and fix the real bug.

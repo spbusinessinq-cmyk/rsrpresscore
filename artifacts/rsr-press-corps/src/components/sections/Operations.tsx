@@ -6,7 +6,7 @@ import { useListAssignments } from "@workspace/api-client-react";
 
 export const Operations = () => {
   const { data: assignments, isLoading } = useListAssignments({ visibility: "public_preview" });
-  const ops = assignments || [];
+  const ops = Array.isArray(assignments) ? assignments : [];
 
   return (
     <section id="operations" className="py-24 relative overflow-hidden section-base">
