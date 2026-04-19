@@ -1,14 +1,8 @@
 /**
  * RSR Press Corps — EdgeOne Pages / Tencent SCF Cloud Function
  *
- * This file re-exports the pre-built serverless handler from the API server.
- *
- * PREREQUISITES (must run before deploying this function):
- *   pnpm --filter @workspace/api-server run build
- *   → produces: artifacts/api-server/dist/handler.mjs
- *
- * HANDLER FORMAT (Tencent SCF / EdgeOne Cloud Functions):
- *   module.exports.main = serverless(expressApp)
+ * handler.mjs is built by: pnpm --filter @workspace/api-server run build
+ * That script also copies the output here automatically.
  *
  * REQUIRED ENV VARS (set in EdgeOne project settings):
  *   DATABASE_URL         PostgreSQL connection string
@@ -29,6 +23,4 @@
  *   /api/reports
  */
 
-// The API server build bundles the entire Express app + all workspace packages
-// into a single self-contained handler. Build first, then deploy.
-export { main } from "../../artifacts/api-server/dist/handler.mjs";
+export { main } from "./handler.mjs";

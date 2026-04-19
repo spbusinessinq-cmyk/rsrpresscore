@@ -1,0 +1,147 @@
+SYSTEM CONTEXT:
+
+You are debugging a production deployment issue for:
+
+RSR PRESS CORPS
+
+The app deployed to EdgeOne, but the behavior is:
+
+- page initially appears to load
+- then the UI disappears
+- only the dark background/grid remains visible
+- this strongly suggests the static shell/CSS loaded, but the React app crashed after boot
+
+This is now a:
+
+PRODUCTION BLANK-SCREEN DEBUG PASS
+
+Do NOT redesign anything.
+Do NOT add features.
+Do NOT change branding.
+Do NOT do broad refactors.
+
+Find and fix the exact cause of the production blank-screen behavior on EdgeOne.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Identify why the deployed app loads the background but not the actual UI, then fix it in the smallest safe way possible.
+
+Likely categories:
+- runtime JS error
+- bootstrapping failure
+- router issue
+- auth/bootstrap request crash
+- env/base-url bug
+- cloud function integration mismatch
+- production-only import/asset failure
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — REPRODUCE AND INSPECT
+━━━━━━━━━━━━━━━━━━━
+
+Reproduce the deployed failure state and inspect the browser/runtime errors.
+
+Required:
+1. check browser console errors
+2. check network failures
+3. check failed JS modules/assets
+4. check failed /api requests during app boot
+5. check whether React is crashing during render
+
+I need the actual cause, not guesses.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — AUDIT APP BOOTSTRAP
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the frontend startup path carefully:
+
+- main.tsx
+- router bootstrap
+- auth bootstrap / auth-me checks
+- base URL setup
+- provider wrappers
+- any route guards
+- any startup effects that run immediately
+
+Look for anything that can blank the UI if:
+- /api/auth/me returns unexpected data
+- VITE_API_BASE_URL is "/"
+- env values differ in production
+- cloud functions respond differently than local nginx/dev
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — EDGEONE-SPECIFIC API SANITY
+━━━━━━━━━━━━━━━━━━━
+
+Verify EdgeOne production API behavior.
+
+Check:
+- are /api/* routes actually reachable on the deployed domain
+- do they return JSON
+- do they return HTML/error pages instead
+- is the frontend trying to parse non-JSON
+- are cookies/session requests behaving differently
+- is there a CORS or same-origin problem
+- is setBaseUrl("/") causing malformed URLs or fetch issues
+
+If VITE_API_BASE_URL should be blank/undefined rather than "/", fix that safely.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — FAIL-SAFE THE UI
+━━━━━━━━━━━━━━━━━━━
+
+Even if auth or boot requests fail, the app must not collapse into a blank page.
+
+Implement safe guards:
+- auth/bootstrap failures should not destroy the entire render tree
+- unexpected API responses should fail gracefully
+- JSON parse failures should be caught
+- route guards should show a recoverable state, not blank the app
+- add an error boundary if needed at the top level
+
+Do this cleanly and minimally.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — CHECK ASSET / FONT / MODULE FAILURES
+━━━━━━━━━━━━━━━━━━━
+
+Verify there is no production-only break caused by:
+- Orbitron font integration
+- SVG/graphic imports
+- unsupported asset paths
+- dynamic import failures
+- path/base issues in Vite output
+- BASE_PATH handling
+- case-sensitive file path mismatch
+
+Fix any issue found.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — VERIFY WITH PRODUCTION BUILD
+━━━━━━━━━━━━━━━━━━━
+
+After fixing:
+1. run the production build locally
+2. verify the app no longer blanks out
+3. verify homepage renders fully
+4. verify background + actual UI both appear
+5. verify auth bootstrap doesn’t crash app
+6. verify no new console errors
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — GIVE ME ONLY THE IMPORTANT OUTPUT
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+1. exact root cause
+2. exact files changed
+3. exact fix applied
+4. whether I need to redeploy
+5. if any EdgeOne env value must change
+
+Do not return vague theory.
+Find the real failure and fix it.
+Execute.

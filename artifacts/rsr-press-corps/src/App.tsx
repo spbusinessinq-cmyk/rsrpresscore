@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, Component } from "react";
+import type { ReactNode, ErrorInfo } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,6 +10,44 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Command from "@/pages/Command";
 import Portal from "@/pages/Portal";
+
+interface ErrorBoundaryState { hasError: boolean; message: string }
+
+class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { hasError: false, message: "" };
+
+  static getDerivedStateFromError(error: unknown): ErrorBoundaryState {
+    const message = error instanceof Error ? error.message : String(error);
+    return { hasError: true, message };
+  }
+
+  componentDidCatch(error: unknown, info: ErrorInfo) {
+    console.error("[RSR] Uncaught render error:", error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-[100dvh] w-full flex items-center justify-center bg-background text-foreground">
+          <div className="text-center space-y-4 px-6 max-w-md">
+            <div className="font-mono text-[10px] text-destructive uppercase tracking-[0.3em]">System Error</div>
+            <div className="font-display text-xl uppercase tracking-wide">RSR Press Corps</div>
+            <p className="font-mono text-[11px] text-muted-foreground/60 uppercase tracking-widest">
+              An unexpected error occurred. Please reload the page.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="font-mono text-[10px] uppercase tracking-[0.2em] border border-primary/30 text-primary/70 px-6 py-2 hover:bg-primary/10 transition-colors"
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const queryClient = new QueryClient();
 
@@ -30,16 +69,18 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
-          </WouterRouter>
-          <Toaster />
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <Router />
+            </WouterRouter>
+            <Toaster />
+          </TooltipProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

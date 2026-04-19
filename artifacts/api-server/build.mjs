@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { build as esbuild } from "esbuild";
 import esbuildPluginPino from "esbuild-plugin-pino";
-import { rm } from "node:fs/promises";
+import { rm, copyFile, mkdir } from "node:fs/promises";
 
 // Plugins (e.g. 'esbuild-plugin-pino') may use `require` to resolve dependencies
 globalThis.require = createRequire(import.meta.url);
@@ -124,7 +124,19 @@ globalThis.__dirname = __bannerPath.dirname(globalThis.__filename);
   });
 }
 
-buildAll().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+buildAll()
+  .then(async () => {
+    // Copy the serverless handler into the cloud-functions directory so EdgeOne's
+    // cloud function runtime can load it without cross-directory path traversal.
+    const repoRoot = path.resolve(artifactDir, "..", "..");
+    const src = path.resolve(artifactDir, "dist", "handler.mjs");
+    const cfDir = path.resolve(repoRoot, "cloud-functions", "api");
+    const dest = path.resolve(cfDir, "handler.mjs");
+    await mkdir(cfDir, { recursive: true });
+    await copyFile(src, dest);
+    console.log(`[build] Copied handler.mjs → cloud-functions/api/handler.mjs`);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
