@@ -51,7 +51,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   const handleMemberLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    memberLogin({ email, password }, {
+    memberLogin.mutate({ email, password }, {
       onSuccess: () => { onClose(); setLocation("/portal"); },
       onError: (msg, isPending) => {
         toast({

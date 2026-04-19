@@ -1,0 +1,122 @@
+SYSTEM CONTEXT:
+
+We are debugging RSR PRESS CORPS production runtime.
+
+Current state:
+- app now opens quickly
+- admin/local unlock path likely works
+- then React crashes
+- ErrorBoundary now shows:
+
+s2.map is not a function
+
+This is a PRECISE FRONTEND CRASH FIX PASS.
+
+Do NOT redesign anything.
+Do NOT change auth model.
+Do NOT add features.
+ONLY find and fix the exact non-array `.map()` crash and harden similar sites.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Find the exact frontend code path where `s2.map(...)` is being called on a non-array value, fix it safely, and prevent similar boot crashes.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — FIND THE EXACT SOURCE
+━━━━━━━━━━━━━━━━━━━
+
+Search the frontend for all `.map(` usages and identify the one producing:
+
+s2.map is not a function
+
+Focus especially on:
+- homepage boot render
+- auth context consumers
+- dashboard summaries
+- section cards/lists
+- any transformed data with minified/local variable names that could compile to s2
+
+Do NOT guess.
+Pinpoint:
+1. exact file
+2. exact variable
+3. exact render path
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — INSPECT THE DATA SHAPE
+━━━━━━━━━━━━━━━━━━━
+
+Determine what that variable actually is at runtime.
+
+Likely possibilities:
+- object instead of array
+- API wrapper instead of items list
+- null
+- string
+- boolean
+- undefined
+
+Find why it is not an array in production.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — FIX THE CRASH
+━━━━━━━━━━━━━━━━━━━
+
+Apply the smallest safe fix.
+
+Rules:
+- Never call `.map()` on uncertain values
+- Normalize first:
+  const items = Array.isArray(value) ? value : [];
+
+Then render:
+  items.map(...)
+
+If API data is wrapped, unwrap properly before mapping.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — HARDEN SIMILAR SITES
+━━━━━━━━━━━━━━━━━━━
+
+After fixing the exact crash, audit all risky list-render sites in the frontend and harden them too.
+
+Anywhere data comes from:
+- API
+- auth/session/bootstrap
+- localStorage
+- props
+- transformed objects
+
+Convert unsafe usage into safe array normalization.
+
+Do NOT over-refactor.
+Do targeted hardening only.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — VERIFY BOOT
+━━━━━━━━━━━━━━━━━━━
+
+After the fix:
+1. production build the frontend
+2. verify homepage renders fully
+3. verify no ErrorBoundary on boot
+4. verify command/login path still works
+5. verify missing/malformed API data does not crash the UI
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+Return:
+
+1. exact file where the crash happened
+2. exact variable that was not an array
+3. exact fix applied
+4. any other `.map()` sites hardened
+5. whether I need to redeploy
+
+No fluff.
+No theory.
+Find and fix the real crash.

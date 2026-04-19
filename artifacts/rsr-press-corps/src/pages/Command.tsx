@@ -233,7 +233,8 @@ function CrosshairIcon(props: React.SVGProps<SVGSVGElement>) {
 
 function ApplicationsPanel() {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined);
-  const { data: applications, isLoading } = useListApplications(statusFilter ? { status: statusFilter } : undefined);
+  const { data: _applications, isLoading } = useListApplications(statusFilter ? { status: statusFilter } : undefined);
+  const applications = Array.isArray(_applications) ? _applications : [];
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
 
   const getStatusBadge = (status: string) => {
@@ -296,7 +297,7 @@ function ApplicationsPanel() {
                   Fetching records...
                 </TableCell>
               </TableRow>
-            ) : !applications?.length ? (
+            ) : !applications.length ? (
               <TableRow>
                 <TableCell colSpan={5} className="py-0">
                   <EmptyState
@@ -305,7 +306,7 @@ function ApplicationsPanel() {
                   />
                 </TableCell>
               </TableRow>
-            ) : applications?.map((app) => (
+            ) : applications.map((app) => (
               <TableRow
                 key={app.id}
                 className="border-b border-white/[0.04] cursor-pointer hover:bg-primary/[0.03] transition-colors font-sans group"
@@ -446,7 +447,8 @@ function ApplicationDetailModal({ application, onClose, getStatusBadge }: { appl
 }
 
 function BulletinManagement() {
-  const { data: bulletins, isLoading } = useListBulletins();
+  const { data: _bulletins, isLoading } = useListBulletins();
+  const bulletins = Array.isArray(_bulletins) ? _bulletins : [];
   const createBulletin = useCreateBulletin();
   const deleteBulletin = useDeleteBulletin();
   const queryClient = useQueryClient();
@@ -528,9 +530,9 @@ function BulletinManagement() {
           <div className="font-mono text-[10px] animate-pulse text-muted-foreground/40 uppercase tracking-widest py-8 text-center">
             Fetching records...
           </div>
-        ) : !bulletins?.length ? (
+        ) : !bulletins.length ? (
           <EmptyState label="No Active Bulletins" operationalLine="Queue Clear — No Transmissions" />
-        ) : bulletins?.map(b => (
+        ) : bulletins.map(b => (
           <div key={b.id} className="glass-panel overflow-hidden group hover:border-primary/22 transition-all">
             <div className="px-4 py-3 border-b border-white/[0.05] flex justify-between items-center">
               <div className="flex items-center gap-3">
@@ -561,7 +563,8 @@ function BulletinManagement() {
 }
 
 function AssignmentManagement() {
-  const { data: assignments, isLoading } = useListAssignments();
+  const { data: _assignments, isLoading } = useListAssignments();
+  const assignments = Array.isArray(_assignments) ? _assignments : [];
   const createAssignment = useCreateAssignment();
   const deleteAssignment = useDeleteAssignment();
   const queryClient = useQueryClient();
@@ -678,9 +681,9 @@ function AssignmentManagement() {
           <TableBody>
             {isLoading ? (
               <TableRow><TableCell colSpan={4} className="text-center font-mono text-muted-foreground/40 py-8 text-[10px] uppercase tracking-widest">Fetching...</TableCell></TableRow>
-            ) : !assignments?.length ? (
+            ) : !assignments.length ? (
               <TableRow><TableCell colSpan={4} className="py-0"><EmptyState label="No Open Assignments" operationalLine="System Active — No Taskings Issued" /></TableCell></TableRow>
-            ) : assignments?.map(a => (
+            ) : assignments.map(a => (
               <TableRow key={a.id} className="border-b border-white/[0.04] font-sans hover:bg-primary/[0.02] transition-colors group">
                 <TableCell>
                   <div className="font-mono font-bold uppercase text-sm">{a.title}</div>
@@ -710,7 +713,8 @@ function AssignmentManagement() {
 }
 
 function ScheduleManagement() {
-  const { data: schedule, isLoading } = useListScheduleItems();
+  const { data: _schedule, isLoading } = useListScheduleItems();
+  const schedule = Array.isArray(_schedule) ? _schedule : [];
   const createItem = useCreateScheduleItem();
   const deleteItem = useDeleteScheduleItem();
   const queryClient = useQueryClient();
@@ -770,9 +774,9 @@ function ScheduleManagement() {
       <div className="space-y-2">
         {isLoading ? (
           <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/40 animate-pulse py-8 text-center">Loading...</div>
-        ) : !schedule?.length ? (
+        ) : !schedule.length ? (
           <EmptyState label="Schedule Clear" operationalLine="No Events Logged" />
-        ) : schedule?.map(s => (
+        ) : schedule.map(s => (
           <div key={s.id} className="flex justify-between items-center px-4 py-3 glass-panel group hover:border-primary/20 transition-all">
             <div>
               <div className="font-mono text-[10px] text-primary/50 uppercase tracking-wider">{new Date(s.eventTime).toLocaleString()}</div>
@@ -792,7 +796,8 @@ function ScheduleManagement() {
 }
 
 function ReportsPanel() {
-  const { data: reports, isLoading } = useListReports();
+  const { data: _reports, isLoading } = useListReports();
+  const reports = Array.isArray(_reports) ? _reports : [];
   const [selectedReport, setSelectedReport] = useState<any>(null);
 
   return (
@@ -800,7 +805,7 @@ function ReportsPanel() {
       <div className="panel-chrome border-b border-white/[0.05]">
         <span className="font-mono text-[9px] text-primary/45 uppercase tracking-[0.3em]">Field Intelligence</span>
         <span className="ml-auto font-mono text-[9px] text-muted-foreground/20 uppercase tracking-widest">
-          {reports?.length ? `${reports.length} report${reports.length !== 1 ? 's' : ''}` : 'no reports'}
+          {reports.length ? `${reports.length} report${reports.length !== 1 ? 's' : ''}` : 'no reports'}
         </span>
       </div>
       <Table>
@@ -814,9 +819,9 @@ function ReportsPanel() {
         <TableBody>
           {isLoading ? (
             <TableRow><TableCell colSpan={3} className="text-center font-mono text-muted-foreground/40 py-8 text-[10px] uppercase tracking-widest">Fetching...</TableCell></TableRow>
-          ) : !reports?.length ? (
+          ) : !reports.length ? (
             <TableRow><TableCell colSpan={3} className="py-0"><EmptyState label="No Reports Filed" operationalLine="Queue Clear — Awaiting Field Intel" /></TableCell></TableRow>
-          ) : reports?.map(r => (
+          ) : reports.map(r => (
             <TableRow key={r.id} onClick={() => setSelectedReport(r)}
               className="cursor-pointer border-b border-white/[0.04] font-sans hover:bg-primary/[0.03] transition-colors">
               <TableCell className="font-mono font-bold uppercase text-sm">{r.title}</TableCell>

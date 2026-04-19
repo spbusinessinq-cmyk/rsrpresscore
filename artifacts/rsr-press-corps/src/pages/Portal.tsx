@@ -177,7 +177,8 @@ export default function Portal() {
 }
 
 function BulletinBoard() {
-  const { data: bulletins, isLoading } = useListBulletins();
+  const { data: _bulletins, isLoading } = useListBulletins();
+  const bulletins = Array.isArray(_bulletins) ? _bulletins : [];
 
   if (isLoading) return (
     <div className="font-mono text-[10px] text-muted-foreground/35 animate-pulse uppercase tracking-widest py-8 text-center">
@@ -197,9 +198,9 @@ function BulletinBoard() {
           <div className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">Live transmissions from command</div>
         </div>
       </div>
-      {!bulletins?.length ? (
+      {!bulletins.length ? (
         <EmptyState label="No Active Bulletins" operationalLine="No Transmissions — Channel Clear" />
-      ) : bulletins?.map((b) => (
+      ) : bulletins.map((b) => (
         <div key={b.id} className="glass-panel overflow-hidden hover:border-primary/22 transition-all">
           <div className="px-5 py-3 border-b border-white/[0.05] flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -251,7 +252,8 @@ function ActiveAssignments({ userName }: { userName: string }) {
     </div>
   );
 
-  const active = assignments?.filter(a => a.status === 'open' || a.status === 'claimed');
+  const safeAssignments = Array.isArray(assignments) ? assignments : [];
+  const active = safeAssignments.filter(a => a.status === 'open' || a.status === 'claimed');
 
   return (
     <div className="space-y-4">
@@ -264,11 +266,11 @@ function ActiveAssignments({ userName }: { userName: string }) {
           <div className="font-mono text-[9px] text-muted-foreground/30 uppercase tracking-widest">Active assignments and field taskings</div>
         </div>
       </div>
-      {!active?.length ? (
+      {!active.length ? (
         <EmptyState label="No Open Assignments" operationalLine="No Active Field Taskings" />
       ) : null}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {active?.map((a) => (
+        {active.map((a) => (
           <div key={a.id} className={`glass-panel overflow-hidden ${a.status === 'claimed' ? 'opacity-70' : 'hover:border-primary/22'} transition-all`}>
             <div className="panel-chrome border-b border-white/[0.05]">
               <Badge variant="outline" className={`font-mono text-[9px] uppercase rounded-none
@@ -310,7 +312,8 @@ function ActiveAssignments({ userName }: { userName: string }) {
 }
 
 function Schedule() {
-  const { data: schedule, isLoading } = useListScheduleItems();
+  const { data: _schedule, isLoading } = useListScheduleItems();
+  const schedule = Array.isArray(_schedule) ? _schedule : [];
 
   if (isLoading) return (
     <div className="font-mono text-[10px] text-muted-foreground/35 animate-pulse uppercase tracking-widest py-8 text-center">
@@ -323,11 +326,11 @@ function Schedule() {
       <div className="flex items-center gap-3 mb-6">
         <div className="font-display font-semibold uppercase text-sm tracking-[0.06em]">Master Schedule</div>
       </div>
-      {!schedule?.length ? (
+      {!schedule.length ? (
         <EmptyState label="Schedule Clear" operationalLine="No Upcoming Events or Coverage Windows" />
       ) : (
         <div className="border-l border-primary/20 pl-4 space-y-6">
-          {schedule?.map(item => (
+          {schedule.map(item => (
             <div key={item.id} className="relative">
               <div className="absolute -left-[21px] top-2 w-2 h-2 border border-primary/40 bg-primary/15" />
               <div className="font-mono text-[10px] text-primary/45 uppercase tracking-wider mb-1">
@@ -425,7 +428,8 @@ function ReportForm({ user }: { user: { name: string, email: string } }) {
 }
 
 function Comms({ user }: { user: { name: string, email: string } }) {
-  const { data: messages, isLoading } = useListMessages({ query: { refetchInterval: 10000 } });
+  const { data: _messages, isLoading } = useListMessages({ query: { refetchInterval: 10000 } });
+  const messages = Array.isArray(_messages) ? _messages : [];
   const sendMessage = useSendMessage();
   const queryClient = useQueryClient();
   const [body, setBody] = useState("");
@@ -465,9 +469,9 @@ function Comms({ user }: { user: { name: string, email: string } }) {
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
           {isLoading ? (
             <div className="font-mono text-[10px] text-muted-foreground/30 text-center uppercase tracking-widest py-8">Establishing connection...</div>
-          ) : !messages?.length ? (
+          ) : !messages.length ? (
             <EmptyState label="Channel Clear" operationalLine="No Messages — Channel Open" />
-          ) : messages?.map(m => (
+          ) : messages.map(m => (
             <div key={m.id} className="bg-black/35 p-3 border-l-2 border-primary/35 text-sm font-sans hover:bg-black/50 transition-colors">
               <div className="flex justify-between items-baseline mb-1">
                 <span className="font-mono text-xs font-bold text-primary/70">{m.senderName}</span>

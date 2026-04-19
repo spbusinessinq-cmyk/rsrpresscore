@@ -46,7 +46,7 @@ export default function Login() {
 
   const handleMemberLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    memberLogin({ email, password }, {
+    memberLogin.mutate({ email, password }, {
       onSuccess: () => setLocation("/portal"),
       onError: (msg, isPending) => {
         toast({
