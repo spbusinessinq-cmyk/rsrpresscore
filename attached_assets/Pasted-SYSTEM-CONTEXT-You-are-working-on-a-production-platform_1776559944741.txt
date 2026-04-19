@@ -1,0 +1,256 @@
+SYSTEM CONTEXT:
+
+You are working on a production platform called:
+
+RSR PRESS CORPS
+
+The app is near launch-ready.
+We are NOT packaging for Portainer right now.
+We are preparing this project specifically for:
+
+EDGEONE PAGES DEPLOYMENT
+
+This is a deployment-targeting pass only.
+
+Do NOT redesign the UI.
+Do NOT add new features.
+Do NOT reintroduce fake data.
+Do NOT pivot architecture unless needed for EdgeOne compatibility.
+
+The goal is to make this project deploy cleanly on EdgeOne Pages with the correct structure, build settings, and function routing.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the existing RSR Press Corps app for a clean EdgeOne deployment.
+
+Required outcomes:
+
+1. EdgeOne-compatible project structure
+2. correct build output handling
+3. correct API/function handling for EdgeOne
+4. clean env variable strategy
+5. GitHub-ready repo
+6. exact deploy notes for EdgeOne
+
+Do NOT guess.
+Inspect the actual app structure and runtime.
+
+━━━━━━━━━━━━━━━━━━━
+EDGEONE TARGET REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━
+
+EdgeOne Pages supports:
+- static site deployment
+- serverless functions
+- Node.js functions routed from /cloud-functions
+- build settings configured in the EdgeOne project dashboard
+
+This project must be prepared accordingly.
+
+You must determine whether the current app is:
+
+A. static frontend only
+B. frontend + serverless/API routes
+C. frontend + custom Node server that needs adaptation
+
+Then adapt the project for EdgeOne appropriately.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — AUDIT CURRENT RUNTIME
+━━━━━━━━━━━━━━━━━━━
+
+Inspect the project and determine:
+
+1. What framework/build system is actually used
+   - Vite?
+   - React SPA?
+   - Express backend?
+   - API routes?
+   - custom Node entry?
+
+2. What command currently builds the app
+
+3. What command currently starts the app
+
+4. Whether the current backend can run directly on EdgeOne
+   OR
+   whether it needs to be moved/adapted into EdgeOne Node Functions
+
+Do not hand-wave this.
+Make the determination from the actual codebase.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — EDGEONE DEPLOYMENT STRATEGY
+━━━━━━━━━━━━━━━━━━━
+
+Based on the audit, choose the correct deployment strategy:
+
+IF STATIC + API ROUTES:
+- frontend deploys as static build
+- backend logic should live under /cloud-functions
+
+IF CURRENT PROJECT USES CUSTOM API FILES:
+- adapt or mirror them into EdgeOne-compatible function structure
+
+IF CURRENT PROJECT USES EXPRESS OR CUSTOM NODE SERVER:
+- convert the backend entry into EdgeOne-compatible Node function routing where possible
+
+Goal:
+The app must be deployable on EdgeOne Pages without relying on a traditional always-on Node server.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — FUNCTION STRUCTURE FOR EDGEONE
+━━━━━━━━━━━━━━━━━━━
+
+Prepare backend/API logic for EdgeOne Pages.
+
+Important:
+EdgeOne Node functions are routed from the /cloud-functions directory.
+
+Required:
+1. Audit all current API/backend routes
+2. Make sure the project has an EdgeOne-compatible serverless structure
+3. Move or adapt current route handlers as needed
+
+Examples:
+- /api/auth/*
+- /api/applications
+- /api/bulletins
+- /api/assignments
+- /api/reports
+- /api/schedule
+- /api/messages
+- any auth/me route
+- any logout/session route
+
+Preserve behavior.
+Do not break auth.
+
+If current routes are already structured in a way that maps cleanly, formalize that structure for EdgeOne.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — BUILD SETTINGS PREP
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the project so EdgeOne build settings are obvious and correct.
+
+You must identify and report:
+
+1. Root directory
+2. Build command
+3. Output directory
+4. Node version assumptions if relevant
+
+If Vite-based, likely build command is something like:
+- npm run build
+or equivalent
+
+But do not assume.
+Confirm from package.json and actual output.
+
+Make sure the static build output is correct for EdgeOne Pages deployment.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — ENV VARIABLE STRATEGY
+━━━━━━━━━━━━━━━━━━━
+
+EdgeOne supports environment variable configuration in the project deployment flow.
+
+Create a clean env strategy.
+
+Required:
+1. Move any remaining secrets/config out of code if needed
+2. Add/verify `.env.example`
+3. Identify all required env vars
+
+Likely examples:
+- DATABASE_URL
+- SESSION_SECRET
+- OPERATOR_EMAIL
+- OPERATOR_PASSWORD
+- APP_BASE_URL
+- any webhook config
+
+Do NOT commit real secrets.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — GITHUB CLEANUP
+━━━━━━━━━━━━━━━━━━━
+
+Prepare the repo for a clean GitHub push for EdgeOne deployment.
+
+Required:
+1. verify .gitignore
+2. no real secrets committed
+3. add/update README with EdgeOne deploy notes
+4. ensure no Docker/Portainer-specific instructions override EdgeOne deployment path
+5. keep repo clean and production-safe
+
+If Docker files remain, that is okay, but the README and deploy guidance must clearly identify EdgeOne as the current deployment target.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 7 — AUTH + ROUTE STABILITY CHECK
+━━━━━━━━━━━━━━━━━━━
+
+After adapting for EdgeOne, verify:
+
+1. operator login still works
+2. member login flow still works
+3. protected /command still works
+4. protected /portal still works
+5. request access intake still works
+6. no fake data exists
+7. no routes are broken by the EdgeOne adaptation
+
+Do not sacrifice real functionality for platform compatibility.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 8 — EDGEONE DEPLOY NOTES
+━━━━━━━━━━━━━━━━━━━
+
+At the end, provide exact EdgeOne deployment notes:
+
+1. GitHub repo push path
+2. EdgeOne project import from GitHub
+3. exact build command
+4. exact output directory
+5. whether any /cloud-functions setup is required
+6. exact env vars to configure in EdgeOne
+7. any post-deploy steps required
+
+Keep this concise and practical.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 9 — FINAL VERIFICATION
+━━━━━━━━━━━━━━━━━━━
+
+Before calling this ready, verify:
+
+- project builds cleanly
+- EdgeOne structure is coherent
+- function routing is prepared correctly
+- no secrets are committed
+- GitHub push is clean
+- deployment notes are exact
+
+Do NOT give vague hype.
+Be exact.
+
+━━━━━━━━━━━━━━━━━━━
+FINAL DELIVERABLE
+━━━━━━━━━━━━━━━━━━━
+
+Make RSR Press Corps specifically ready for EdgeOne Pages deployment.
+
+Then summarize:
+- what was changed
+- what the EdgeOne build command is
+- what the output directory is
+- how backend routes are handled for EdgeOne
+- what env vars are required
+- exact GitHub shell commands to push
+- exact EdgeOne settings to enter
+
+Execute.

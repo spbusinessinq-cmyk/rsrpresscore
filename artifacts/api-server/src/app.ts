@@ -54,10 +54,14 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      // COOKIE_SAME_SITE defaults to "none" in production for cross-origin support
+      // (EdgeOne frontend + separate API host). For same-origin nginx deployments
+      // override with COOKIE_SAME_SITE=strict.
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      sameSite: (process.env.COOKIE_SAME_SITE as "strict" | "lax" | "none") ??
+        (process.env.NODE_ENV === "production" ? "none" : "lax"),
     },
   }),
 );

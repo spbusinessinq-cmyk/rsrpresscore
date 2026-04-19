@@ -42,6 +42,8 @@ cp .env.example .env
 | `OPERATOR_EMAIL` | Yes | Login email for Command dashboard |
 | `OPERATOR_PASSWORD` | Yes | Login password for Command dashboard |
 | `DB_PASSWORD` | Yes (compose) | PostgreSQL password for the `db` service |
+| `COOKIE_SAME_SITE` | No | `none` (cross-origin / EdgeOne), `strict` (nginx same-origin), `lax` (dev) |
+| `VITE_API_BASE_URL` | No | External API base URL (EdgeOne only — e.g. `https://api.rsrpresscorps.com`) |
 | `BOOTSTRAP_OPERATOR_EMAIL` | No | Secondary operator login email |
 | `BOOTSTRAP_OPERATOR_PASSWORD` | No | Secondary operator login password |
 | `DISCORD_WEBHOOK_URL` | No | Discord webhook for application notifications |
@@ -155,11 +157,92 @@ git diff HEAD --name-only
 
 ---
 
+## EdgeOne Pages Deployment
+
+The frontend is a static React SPA. The backend is an Express.js + PostgreSQL server.
+EdgeOne Pages hosts the **static frontend** and routes `/api/*` through **EdgeOne Cloud Functions** backed by the pre-built Express handler.
+
+### Architecture
+
+```
+EdgeOne Pages CDN → static frontend (artifacts/rsr-press-corps/dist/public)
+EdgeOne Cloud Functions → /api/* → cloud-functions/api/index.js → Express handler
+```
+
+### Step 1 — GitHub Push
+
+```bash
+git remote add origin https://github.com/YOUR_ORG/rsr-press-corps.git
+git add .
+git commit -m "Ready for EdgeOne Pages deployment"
+git push -u origin main
+```
+
+### Step 2 — EdgeOne Project Setup
+
+1. Log into EdgeOne Pages → **Create project** → **Import from GitHub**
+2. Select the repository
+
+### Step 3 — Build Settings (enter in EdgeOne dashboard)
+
+| Setting | Value |
+|---|---|
+| **Build command** | `pnpm install && pnpm --filter @workspace/api-server run build && BASE_PATH=/ PORT=3000 pnpm --filter @workspace/rsr-press-corps run build` |
+| **Output directory** | `artifacts/rsr-press-corps/dist/public` |
+| **Cloud functions directory** | `cloud-functions` |
+| **Node version** | `22` |
+
+### Step 4 — Environment Variables (set in EdgeOne project settings)
+
+Set all of these in the **EdgeOne environment variables** panel — do NOT commit real values:
+
+| Variable | Value |
+|---|---|
+| `DATABASE_URL` | `postgresql://USER:PASSWORD@HOST:5432/DBNAME` |
+| `SESSION_SECRET` | Output of `openssl rand -hex 64` |
+| `OPERATOR_EMAIL` | Your command dashboard email |
+| `OPERATOR_PASSWORD` | Your command dashboard password |
+| `COOKIE_SAME_SITE` | `none` |
+| `NODE_ENV` | `production` |
+| `VITE_API_BASE_URL` | Leave blank — API is handled by cloud functions on the same domain |
+
+> `VITE_API_BASE_URL` is only needed when the API runs on a **completely separate domain**
+> (e.g., Railway/Render). When using EdgeOne Cloud Functions, the API is served from the
+> same EdgeOne domain and the default relative `/api/*` routing works.
+
+### Step 5 — Database Setup (run once after first deploy)
+
+```bash
+# Push schema to your PostgreSQL database (run with DATABASE_URL set):
+pnpm --filter @workspace/db run push
+
+# Create session table (run once in your PostgreSQL database):
+CREATE TABLE IF NOT EXISTS "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL,
+  CONSTRAINT "session_pkey" PRIMARY KEY ("sid")
+);
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
+```
+
+### Cross-Origin API Deployment (alternative)
+
+If you prefer to run the API server on a separate Node.js host (Railway, Render, Fly.io):
+
+1. Deploy the API server to that host with all the same env vars above
+2. In EdgeOne, set `VITE_API_BASE_URL=https://your-api-host.com` as a build-time env var
+3. On the API host, set `COOKIE_SAME_SITE=none` and ensure HTTPS is enabled
+4. The frontend will automatically call the external API URL
+
+---
+
 ## Architecture Notes
 
-- **nginx** serves the React SPA and reverse-proxies `/api/*` to the Express API container
-- **Session cookies** are `httpOnly`, `secure` (in production), `sameSite: strict`
-- **CORS** is configured to allow credentials — the SPA and API share the same origin via nginx
+- **nginx** (Docker path) serves the React SPA and reverse-proxies `/api/*` to the Express API container
+- **EdgeOne** (EdgeOne path) serves the React SPA statically; cloud functions handle `/api/*`
+- **Session cookies** are `httpOnly`, `secure` in production. `sameSite` is controlled by `COOKIE_SAME_SITE` env var (`none` for cross-origin, `strict` for same-origin nginx, `lax` in dev)
+- **CORS** is configured to reflect the request origin with credentials — compatible with same-origin and cross-origin setups
 - **Discord notifications** are optional — the server starts and operates normally without a webhook URL
 - **Operator login** uses credential-based auth (no external identity provider)
 - **Member login** uses the access code issued when an application is accepted

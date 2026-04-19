@@ -1,0 +1,10 @@
+{
+  "name": "rsr-press-corps-cloud-functions",
+  "version": "0.0.0",
+  "private": true,
+  "description": "EdgeOne Pages / Tencent SCF cloud function entry for RSR Press Corps API",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  }
+}
