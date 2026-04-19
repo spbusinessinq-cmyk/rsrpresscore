@@ -58718,19 +58718,24 @@ var router2 = (0, import_express2.Router)();
 var OPERATOR_EMAIL = process.env.OPERATOR_EMAIL;
 var OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD;
 if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
-  throw new Error(
-    "OPERATOR_EMAIL and OPERATOR_PASSWORD environment variables are required. Set them in your environment configuration."
+  console.warn(
+    "[auth] WARNING: OPERATOR_EMAIL and OPERATOR_PASSWORD are not set. Operator login will return 503 until these are configured."
   );
 }
 var BOOTSTRAP_EMAIL = process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "";
 var BOOTSTRAP_PASSWORD = process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "";
 function isOperator(email3, password) {
+  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) return false;
   const normalizedEmail = email3.toLowerCase();
   if (normalizedEmail === OPERATOR_EMAIL.toLowerCase() && password === OPERATOR_PASSWORD) return true;
   if (BOOTSTRAP_EMAIL && normalizedEmail === BOOTSTRAP_EMAIL.toLowerCase() && password === BOOTSTRAP_PASSWORD) return true;
   return false;
 }
 router2.post("/auth/login", async (req, res) => {
+  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
+    res.status(503).json({ error: "Server not configured. Set OPERATOR_EMAIL and OPERATOR_PASSWORD." });
+    return;
+  }
   const { email: email3, password } = req.body;
   if (!email3 || !password) {
     res.status(400).json({ error: "Email and password are required" });
@@ -58750,7 +58755,15 @@ router2.post("/auth/login", async (req, res) => {
     res.json(req.session.user);
     return;
   }
-  const [application] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, email3.toLowerCase()));
+  let application;
+  try {
+    const [row] = await db.select().from(applicationsTable).where(eq(applicationsTable.email, email3.toLowerCase()));
+    application = row;
+  } catch (err) {
+    console.error("[auth] DB query failed during login:", err);
+    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
+    return;
+  }
   if (!application) {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
     return;
@@ -59169,21 +59182,24 @@ app.use(import_express10.default.json());
 app.use(import_express10.default.urlencoded({ extended: true }));
 var sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
-  throw new Error("SESSION_SECRET is required");
+  console.warn(
+    "[app] WARNING: SESSION_SECRET is not set. Sessions will not persist across restarts. Set SESSION_SECRET in production."
+  );
 }
+var resolvedSecret = sessionSecret ?? "dev-fallback-secret-not-for-production";
 app.use(
   (0, import_express_session.default)({
     store: new PgSession2({
       pool,
-      tableName: "session"
+      tableName: "session",
+      errorLog: (err) => {
+        console.error("[session-store] Error:", err.message);
+      }
     }),
-    secret: sessionSecret,
+    secret: resolvedSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      // COOKIE_SAME_SITE defaults to "none" in production for cross-origin support
-      // (EdgeOne frontend + separate API host). For same-origin nginx deployments
-      // override with COOKIE_SAME_SITE=strict.
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1e3,
@@ -59192,6 +59208,13 @@ app.use(
   })
 );
 app.use("/api", routes_default);
+app.use((err, _req, res, _next) => {
+  console.error("[app] Unhandled error:", err);
+  res.status(500).json({
+    error: "Internal server error",
+    message: process.env.NODE_ENV !== "production" ? err.message : void 0
+  });
+});
 var app_default = app;
 
 // src/handler.ts

@@ -28,13 +28,18 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-[100dvh] w-full flex items-center justify-center bg-background text-foreground">
-          <div className="text-center space-y-4 px-6 max-w-md">
+        <div className="min-h-[100dvh] w-full flex items-center justify-center bg-background text-foreground p-6">
+          <div className="text-center space-y-4 max-w-lg w-full">
             <div className="font-mono text-[10px] text-destructive uppercase tracking-[0.3em]">System Error</div>
             <div className="font-display text-xl uppercase tracking-wide">RSR Press Corps</div>
             <p className="font-mono text-[11px] text-muted-foreground/60 uppercase tracking-widest">
-              An unexpected error occurred. Please reload the page.
+              An unexpected error occurred. Check the browser console for details.
             </p>
+            {this.state.message && (
+              <pre className="font-mono text-[10px] text-left bg-black/40 border border-destructive/20 p-3 rounded overflow-auto max-h-40 text-destructive/70 whitespace-pre-wrap break-all">
+                {this.state.message}
+              </pre>
+            )}
             <button
               onClick={() => window.location.reload()}
               className="font-mono text-[10px] uppercase tracking-[0.2em] border border-primary/30 text-primary/70 px-6 py-2 hover:bg-primary/10 transition-colors"

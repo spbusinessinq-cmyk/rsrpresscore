@@ -1,0 +1,143 @@
+SYSTEM CONTEXT:
+
+We are debugging a production runtime error on EdgeOne for:
+
+RSR PRESS CORPS
+
+Current state:
+- App loads
+- ErrorBoundary triggers ("SYSTEM ERROR")
+- This means React is crashing during runtime, NOT a blank screen anymore
+
+This is a FINAL RUNTIME STABILIZATION PASS.
+
+DO NOT redesign UI.
+DO NOT add features.
+ONLY stabilize runtime and eliminate crashes.
+
+━━━━━━━━━━━━━━━━━━━
+PRIMARY MISSION
+━━━━━━━━━━━━━━━━━━━
+
+Make the app NEVER crash on boot, even if:
+- database is not ready
+- session table missing
+- /api/auth/me fails
+- API returns non-JSON
+- network errors occur
+
+The app must always render UI.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 1 — HARDEN API CALLS
+━━━━━━━━━━━━━━━━━━━
+
+Audit ALL fetch calls, especially:
+
+- /api/auth/me
+- /api/applications
+- /api/bulletins
+- /api/assignments
+- /api/schedule
+- /api/messages
+
+Fix:
+
+1. Wrap ALL fetch calls in try/catch
+2. Validate response before parsing JSON
+
+Replace patterns like:
+  const data = await res.json()
+
+With:
+  let data = null
+  try {
+    if (res.ok) {
+      data = await res.json()
+    }
+  } catch (err) {
+    console.error("JSON parse failed", err)
+  }
+
+3. NEVER assume JSON is returned
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 2 — AUTH BOOTSTRAP FIX
+━━━━━━━━━━━━━━━━━━━
+
+Locate auth bootstrap (likely useEffect or provider)
+
+Fix:
+
+- If /api/auth/me fails → set user = null
+- DO NOT throw
+- DO NOT block render
+- DO NOT crash app
+
+Bad:
+  throw new Error()
+
+Good:
+  console.warn("Auth failed, continuing as guest")
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 3 — SAFE DEFAULT STATES
+━━━━━━━━━━━━━━━━━━━
+
+Ensure ALL state defaults are safe:
+
+arrays:
+  useState([])
+
+objects:
+  useState(null)
+
+Never:
+  undefined access like data.map if data is null
+
+Fix all:
+  data?.map(...)
+  data ?? []
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 4 — SESSION FAILURE TOLERANCE
+━━━━━━━━━━━━━━━━━━━
+
+If session table missing OR DB fails:
+
+- treat as logged out
+- DO NOT crash
+- DO NOT retry infinitely
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 5 — GLOBAL ERROR GUARD
+━━━━━━━━━━━━━━━━━━━
+
+In App.tsx (top level):
+
+Add:
+
+window.onerror = (msg, src, line, col, err) => {
+  console.error("GLOBAL ERROR:", err)
+}
+
+window.onunhandledrejection = (event) => {
+  console.error("UNHANDLED PROMISE:", event.reason)
+}
+
+This ensures logs show in production.
+
+━━━━━━━━━━━━━━━━━━━
+PHASE 6 — RETURN ONLY THIS
+━━━━━━━━━━━━━━━━━━━
+
+After fixes, return:
+
+1. What exact error was causing the crash
+2. What file(s) were fixed
+3. Confirmation app no longer crashes on boot
+4. Confirm safe behavior if DB is not ready
+
+No fluff.
+No redesign.
+Fix runtime stability only.

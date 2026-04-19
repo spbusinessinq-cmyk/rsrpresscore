@@ -8,9 +8,9 @@ const OPERATOR_EMAIL = process.env.OPERATOR_EMAIL;
 const OPERATOR_PASSWORD = process.env.OPERATOR_PASSWORD;
 
 if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
-  throw new Error(
-    "OPERATOR_EMAIL and OPERATOR_PASSWORD environment variables are required. " +
-    "Set them in your environment configuration."
+  console.warn(
+    "[auth] WARNING: OPERATOR_EMAIL and OPERATOR_PASSWORD are not set. " +
+    "Operator login will return 503 until these are configured."
   );
 }
 
@@ -18,6 +18,7 @@ const BOOTSTRAP_EMAIL = process.env.BOOTSTRAP_OPERATOR_EMAIL ?? "";
 const BOOTSTRAP_PASSWORD = process.env.BOOTSTRAP_OPERATOR_PASSWORD ?? "";
 
 function isOperator(email: string, password: string): boolean {
+  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) return false;
   const normalizedEmail = email.toLowerCase();
   if (normalizedEmail === OPERATOR_EMAIL.toLowerCase() && password === OPERATOR_PASSWORD) return true;
   if (BOOTSTRAP_EMAIL && normalizedEmail === BOOTSTRAP_EMAIL.toLowerCase() && password === BOOTSTRAP_PASSWORD) return true;
@@ -25,6 +26,11 @@ function isOperator(email: string, password: string): boolean {
 }
 
 router.post("/auth/login", async (req, res): Promise<void> => {
+  if (!OPERATOR_EMAIL || !OPERATOR_PASSWORD) {
+    res.status(503).json({ error: "Server not configured. Set OPERATOR_EMAIL and OPERATOR_PASSWORD." });
+    return;
+  }
+
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -47,10 +53,18 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  const [application] = await db
-    .select()
-    .from(applicationsTable)
-    .where(eq(applicationsTable.email, email.toLowerCase()));
+  let application;
+  try {
+    const [row] = await db
+      .select()
+      .from(applicationsTable)
+      .where(eq(applicationsTable.email, email.toLowerCase()));
+    application = row;
+  } catch (err) {
+    console.error("[auth] DB query failed during login:", err);
+    res.status(503).json({ error: "Service temporarily unavailable. Try again." });
+    return;
+  }
 
   if (!application) {
     res.status(401).json({ error: "Invalid credentials. Access denied." });
